@@ -15,8 +15,29 @@ import dk.itu.moapd.x9.nalm.databinding.FragmentTrafficBinding
 
 class TrafficFragment : Fragment(R.layout.fragment_traffic) {
     private val binding by viewBinding(FragmentTrafficBinding::bind)
-    fun setSeverity(view: View?) {
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = super.onCreateView(inflater, container, savedInstanceState)
+        setSeverity(view)
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.buttonBackToHome.setOnClickListener{
+            parentFragmentManager.beginTransaction().apply {
+                replace(R.id.fragment_dashboard, DashboardFragment())
+                commit()
+            }
+        }
+    }
+
+
+    fun setSeverity(view: View?) {
         val severity = resources.getStringArray(R.array.report_severity)
         // create an array adapter and pass the required parameter
         // in our case pass the context, drop down layout , and array.
@@ -24,6 +45,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic) {
         // get reference to the autocomplete text view
         val autocompleteTVSeverity = view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewSeverity)
         // set adapter to the autocomplete tv to the arrayAdapter
+
         autocompleteTVSeverity?.setAdapter(arrayAdapterSeverity)
 
     }
