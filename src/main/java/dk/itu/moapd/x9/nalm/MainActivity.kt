@@ -30,11 +30,11 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
+        
         //setupUI()
         val dashboard = DashboardFragment()
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.DashboardFragment, dashboard)
+            replace(R.id.fragment_dashboard, dashboard)
             commit()
         }
         Log.v("myTag", "onCreate was called")

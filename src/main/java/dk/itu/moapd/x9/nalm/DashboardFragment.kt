@@ -167,7 +167,10 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                 }
             }
             buttonTrafficReport.setOnClickListener {
-
+                parentFragmentManager.beginTransaction().apply {
+                    replace(R.id.fragment_dashboard, TrafficFragment())
+                    commit()
+                }
             }
 
         }}

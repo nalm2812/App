@@ -7,9 +7,11 @@
     android:layout_height="match_parent"><!--look idk what im doing-->
     <androidx.fragment.app.FragmentContainerView
         android:name="dk.itu.moapd.x9.nalm.DashboardFragment"
-        android:id="@+id/DashboardFragment"
+        android:id="@+id/fragment_dashboard"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
