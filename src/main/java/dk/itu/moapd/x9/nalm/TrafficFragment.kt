@@ -1,59 +1,30 @@
 package dk.itu.moapd.x9.nalm
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import dk.itu.moapd.x9.nalm.databinding.FragmentDashboardBinding
+import dk.itu.moapd.x9.nalm.databinding.FragmentDashboardBinding.bind
+import dk.itu.moapd.x9.nalm.databinding.FragmentTrafficBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [TrafficFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class TrafficFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class TrafficFragment : Fragment(R.layout.fragment_traffic) {
+    private val binding by viewBinding(FragmentTrafficBinding::bind)
+    fun setSeverity(view: View?) {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+        val severity = resources.getStringArray(R.array.report_severity)
+        // create an array adapter and pass the required parameter
+        // in our case pass the context, drop down layout , and array.
+        val arrayAdapterSeverity = ArrayAdapter(requireActivity(), R.layout.item_dropdown_type_report, severity)
+        // get reference to the autocomplete text view
+        val autocompleteTVSeverity = view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewSeverity)
+        // set adapter to the autocomplete tv to the arrayAdapter
+        autocompleteTVSeverity?.setAdapter(arrayAdapterSeverity)
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_traffic, container, false)
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment TrafficFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            TrafficFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
     }
 }

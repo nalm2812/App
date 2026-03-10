@@ -26,7 +26,7 @@ class TrafficReportActivity : AppCompatActivity() {
             insets
         }
 
-        binding.contentTrafficReport.buttonBackToHome.setOnClickListener{
+        /*binding.contentTrafficReport.buttonBackToHome.setOnClickListener{
             startActivity(intent)
         }
 
@@ -36,17 +36,7 @@ class TrafficReportActivity : AppCompatActivity() {
                 putExtra("trafficReportDesc", binding.contentTrafficReport.editTextTrafficReportDesc.text.toString())
                 putExtra("severity", binding.contentTrafficReport.autoCompleteTextViewTrafficSeverity.text.toString())
             }
-        }
-        setSeverity()
+        }*/
     }
-    fun setSeverity() {
-        val severity = resources.getStringArray(R.array.report_severity)
-        // create an array adapter and pass the required parameter
-        // in our case pass the context, drop down layout , and array.
-        val arrayAdapterSeverity = ArrayAdapter(this, R.layout.item_dropdown_type_report, severity)
-        // get reference to the autocomplete text view
-        val autocompleteTVSeverity = findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewTrafficSeverity)
-        // set adapter to the autocomplete tv to the arrayAdapter
-        autocompleteTVSeverity.setAdapter(arrayAdapterSeverity)
-    }
+
 }
