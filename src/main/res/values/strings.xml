@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">X9</string>
+    <string name="report_title">Report Title</string>
+    <string name="report_date">Report Date</string>
+    <string name="report_desc">Report Description</string>
+    <string name="report_location">Report location</string>
+    <string name="report_type">Report Type</string>
+    <string name="report_type_desc">Select report type</string>
+    <string-array name="report_types">
+        <item>Speed Camera</item>
+        <item>Heavy Traffic</item>
+        <item>Road Incidents</item>
+        <item>Broken Vehicles</item>
+        <item>Other</item>
+    </string-array>
+    <string name="report_severity_desc">Select severity</string>
+    <string-array name="report_severity">
+        <item>Minor</item>
+        <item>Moderate</item>
+        <item>Major</item>
+    </string-array>
+    <string name="send">Send</string>
+    <string name="traffic_report">Create Traffic Report</string>
+    <string name="traffic_report_type">Traffic Report Type</string>
+    <string name="traffic_report_desc">Traffic Report Description</string>
+    <string name="back_to_home">Back to Home Page</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

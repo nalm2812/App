@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_medium">5sp</dimen>
+    <dimen name="margin_extra_large">10sp</dimen>
+    <dimen name="large_box">200dp</dimen>
+
+
+</resources>
