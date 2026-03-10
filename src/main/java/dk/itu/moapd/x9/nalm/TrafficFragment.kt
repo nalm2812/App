@@ -34,6 +34,9 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic) {
                 commit()
             }
         }
+        binding.buttonSend.setOnClickListener {
+            showToast("Traffic Report Sent!")
+        }
     }
 
 

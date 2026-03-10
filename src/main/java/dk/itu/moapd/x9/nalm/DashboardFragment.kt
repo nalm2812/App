@@ -10,8 +10,10 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import dk.itu.moapd.x9.nalm.R
 import dk.itu.moapd.x9.nalm.databinding.FragmentDashboardBinding
+import dk.itu.moapd.x9.nalm.showToast
 import android.content.Intent
 import android.view.KeyEvent
+import android.widget.Toast
 
 
 /**
@@ -165,6 +167,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                 if (editTextReportDate.text.toString()!="" && editTextReportDesc.text.toString()!="" && editTextReportTitle.text.toString()!="" && editTextReportLocation.text.toString()!="" && autoCompleteTextViewReportType.text.toString()!="Select report type" && autoCompleteTextViewSeverity.text.toString() !="Select severity"){
                     Log.d("myTag", "Date: " + editTextReportDate.text.toString() + "; Desc: " + editTextReportDesc.text.toString() + "; Title: " + editTextReportTitle.text.toString() + "; Location: " + editTextReportLocation.text.toString() + "; Type: " + autoCompleteTextViewReportType.text.toString() + "; Severity: " + autoCompleteTextViewSeverity.text.toString())
                 }
+                showToast("Report Created!")
             }
             buttonTrafficReport.setOnClickListener {
                 parentFragmentManager.beginTransaction().apply {
@@ -174,5 +177,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
             }
 
         }}
+
+
 
 }
