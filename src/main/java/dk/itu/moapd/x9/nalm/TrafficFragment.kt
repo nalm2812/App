@@ -21,7 +21,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = super.onCreateView(inflater, container, savedInstanceState)
+        var view = super.onCreateView(inflater, container, savedInstanceState)
         setSeverity(view)
         return view
     }
@@ -43,7 +43,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic) {
         // in our case pass the context, drop down layout , and array.
         val arrayAdapterSeverity = ArrayAdapter(requireActivity(), R.layout.item_dropdown_type_report, severity)
         // get reference to the autocomplete text view
-        val autocompleteTVSeverity = view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewSeverity)
+        val autocompleteTVSeverity = view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewTrafficSeverity)
         // set adapter to the autocomplete tv to the arrayAdapter
 
         autocompleteTVSeverity?.setAdapter(arrayAdapterSeverity)
