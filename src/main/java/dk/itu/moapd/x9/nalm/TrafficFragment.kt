@@ -23,6 +23,8 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic) {
     ): View? {
         var view = super.onCreateView(inflater, container, savedInstanceState)
         setSeverity(view)
+        Log.v("myTag", "onCreateView Traffic was called")
+
         return view
     }
 
@@ -37,6 +39,55 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic) {
         binding.buttonSend.setOnClickListener {
             showToast("Traffic Report Sent!")
         }
+        Log.v("myTag", "onViewCreated Traffic was called")
+
+    }
+
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.v("myTag", "onCreate Traffic was called")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.v("myTag", "onStart Traffic was called")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.v("myTag", "onStop Traffic was called")
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.v("myTag", "onDestroyView Traffic was called")
+
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        Log.v("myTag", "onViewStateRestored Traffic was called")
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.v("myTag", "onResume Traffic was called")
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Log.v("myTag", "onSaveInstanceState Traffic was called")
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.v("myTag", "onDestroy Traffic was called")
+
     }
 
 

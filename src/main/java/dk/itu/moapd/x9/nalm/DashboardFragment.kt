@@ -34,12 +34,58 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         var view = super.onCreateView(inflater, container, savedInstanceState)
         setReportType(view)
         setSeverity(view)
+        Log.v("myTag", "onCreateView Dashboard was called")
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupUI()
+        Log.v("myTag", "onViewCreated Dashboard was called")
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.v("myTag", "onCreate Dashboard was called")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.v("myTag", "onStart Dashboard was called")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.v("myTag", "onStop Dashboard was called")
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.v("myTag", "onDestroyView Dashboard was called")
+
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        Log.v("myTag", "onViewStateRestored Dashboard was called")
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.v("myTag", "onResume Dashboard was called")
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Log.v("myTag", "onSaveInstanceState Dashboard was called")
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.v("myTag", "onDestroy Dashboard was called")
 
     }
     fun setReportType(view: View?)  {
