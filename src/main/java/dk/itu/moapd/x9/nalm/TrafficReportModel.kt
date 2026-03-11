@@ -1,6 +1,6 @@
 package dk.itu.moapd.x9.nalm
 
-data class TrafficReport(
+data class TrafficReportModel(
     val title: String,
     val location: String,
     val date: String,

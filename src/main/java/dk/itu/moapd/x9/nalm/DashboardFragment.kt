@@ -1,5 +1,6 @@
 package dk.itu.moapd.x9.nalm
 
+import android.R.attr.resource
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -14,6 +15,11 @@ import dk.itu.moapd.x9.nalm.showToast
 import android.content.Intent
 import android.view.KeyEvent
 import android.widget.Toast
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 
 /**
@@ -45,6 +51,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                 commit()
             }
         }
+        setupRecyclerView()
         Log.v("myTag", "onViewCreated Dashboard was called")
     }
 
@@ -92,6 +99,32 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         Log.v("myTag", "onDestroy Dashboard was called")
 
     }
+
+    private fun setupRecyclerView() =
+        with(binding.recyclerView) {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = CustomAdapter(createTrafficReport())
+
+            ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
+                val navBarHeight = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
+                view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                    bottomMargin = navBarHeight
+                }
+                insets
+            }
+        }
+
+    private fun createTrafficReport() : List<TrafficReportModel> =
+        (1..10).map { index ->
+            TrafficReportModel(
+                title = "title",
+                location = "location",
+                date = "date",
+                reportType = "report type",
+                severity = "severity",
+                desc = "description"
+            )
+        }
 
 
 
