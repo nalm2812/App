@@ -9,15 +9,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import dk.itu.moapd.x9.nalm.databinding.FragmentDashboardBinding
-import dk.itu.moapd.x9.nalm.databinding.FragmentDashboardBinding.bind
 import dk.itu.moapd.x9.nalm.databinding.FragmentTrafficBinding
 
 
 class TrafficFragment : Fragment(R.layout.fragment_traffic) {
     private val binding by viewBinding(FragmentTrafficBinding::bind)
+
     companion object {
-        private const val KEY_LAST_MESSAGE = "key_last_message"    }
+        private const val REPORT_TITLE = "report_title"
+        private const val REPORT_LOCATION = "report_location"
+        private const val REPORT_DATE = "report_date"
+        private const val REPORT_DESC = "report_desc"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,8 +28,6 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic) {
         savedInstanceState: Bundle?
     ): View? {
         var view = super.onCreateView(inflater, container, savedInstanceState)
-        setSeverity(view)
-        setReportType(view)
         Log.v("myTag", "onCreateView Traffic was called")
 
         return view
@@ -34,8 +35,9 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setupUI()
+        setSeverity(view)
+        setReportType(view)
         Log.v("myTag", "onViewCreated Traffic was called")
 
     }
@@ -45,9 +47,40 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.v("myTag", "onCreate Traffic was called")
-        val title = savedInstanceState?.getString(KEY_LAST_MESSAGE)
+        //restoreState(savedInstanceState)
+    }
+
+
+    private fun restoreState(savedInstanceState: Bundle?){
+        if (savedInstanceState==null) return
+        val title = savedInstanceState?.getString(REPORT_TITLE, null)
+        val location = savedInstanceState?.getString(REPORT_LOCATION, null)
+
+        val date = savedInstanceState?.getString(REPORT_DATE, null)
+        val desc = savedInstanceState?.getString(REPORT_DESC, null)
+
         if (title!=null){
-            Log.v("myTag", "is this saving???")
+            Log.v("myTag", "are you here1?: " + title)
+            binding.editTextReportTitle.setText(title)
+
+        }
+        if (location!=null){
+            Log.v("myTag", "are you here?2")
+
+            binding.editTextReportLocation.setText(location)
+
+        }
+        if (date!=null){
+            Log.v("myTag", "are you here?3")
+
+            binding.editTextReportDate.setText(date)
+
+        }
+        if (desc!=null){
+            Log.v("myTag", "are you here?4")
+
+            binding.editTextReportDesc.setText(desc)
+
         }
     }
 
@@ -81,7 +114,10 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic) {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString(KEY_LAST_MESSAGE, binding.editTextReportTitle.text.toString())
+        /*outState.putString(REPORT_TITLE, binding.editTextReportTitle.text.toString())
+        outState.putString(REPORT_DATE, binding.editTextReportDate.text.toString())
+        outState.putString(REPORT_LOCATION, binding.editTextReportLocation.text.toString())
+        outState.putString(REPORT_DESC, binding.editTextReportDesc.text.toString())*/
         Log.v("myTag", "onSaveInstanceState Traffic was called")
 
     }
@@ -94,6 +130,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic) {
 
 
     fun setReportType(view: View?)  {
+        Log.v("myTag", "reportType was called")
         val reportType = resources.getStringArray(R.array.report_types)
         // create an array adapter and pass the required parameter
         // in our case pass the context, drop down layout , and array.
@@ -110,7 +147,6 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic) {
     }
     fun setSeverity(view: View?) {
         val severityTraffic = arguments?.getString("severity")
-        Log.v("myTag", "idk what im doing: " + severityTraffic)
         val severity = resources.getStringArray(R.array.report_severity)
         // create an array adapter and pass the required parameter
         // in our case pass the context, drop down layout , and array.

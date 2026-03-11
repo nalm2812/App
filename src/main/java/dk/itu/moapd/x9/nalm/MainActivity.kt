@@ -13,11 +13,12 @@ import androidx.core.view.WindowInsetsCompat
 import dk.itu.moapd.x9.nalm.databinding.ActivityMainBinding
 import dk.itu.moapd.x9.nalm.DashboardFragment
 import android.content.res.Configuration
-
+import androidx.activity.viewModels
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
