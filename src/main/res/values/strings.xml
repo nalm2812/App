@@ -21,8 +21,7 @@
     </string-array>
     <string name="send">Send</string>
     <string name="traffic_report">Create Traffic Report</string>
-    <string name="traffic_report_type">Traffic Report Type</string>
-    <string name="traffic_report_desc">Traffic Report Description</string>
+    <string name="welcome">Welcome to X9!</string>
     <string name="back_to_home">Back to Home Page</string>
 
 </resources>
