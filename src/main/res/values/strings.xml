@@ -26,6 +26,7 @@
 
 
     <string name="report_severity_colon">Report Severity: </string>
+    <string name="report_severity_title">Report Severity</string>
     <string name="report_title_colon">Report Title: </string>
     <string name="report_date_colon">Report Date: </string>
     <string name="report_desc_colon">Report Description: </string>
