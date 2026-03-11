@@ -23,5 +23,6 @@
     <string name="traffic_report">Create Traffic Report</string>
     <string name="welcome">Welcome to X9!</string>
     <string name="back_to_home">Back to Home Page</string>
+    <string name="report_severity_title">Report Severity</string>
 
 </resources>
