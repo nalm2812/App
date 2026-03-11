@@ -15,53 +15,62 @@
         android:layout_height="wrap_content">
         <TextView
             android:id="@+id/traffic_title"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/report_title"
+            android:text="@string/report_title_colon"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_margin="5dp"
-
+            app:layout_constraintStart_toStartOf="parent"
             />
         <TextView
             android:id="@+id/traffic_location"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/report_location"
+            android:text="@string/report_location_colon"
             app:layout_constraintTop_toBottomOf="@id/traffic_title"
             android:layout_margin="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+
             />
         <TextView
             android:id="@+id/traffic_date"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/report_date"
+            android:text="@string/report_date_colon"
             app:layout_constraintTop_toBottomOf="@id/traffic_location"
             android:layout_margin="5dp"
+            app:layout_constraintStart_toStartOf="parent"
             />
         <TextView
             android:id="@+id/traffic_report_type"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/report_type"
+            android:text="@string/report_type_colon"
             app:layout_constraintTop_toBottomOf="@id/traffic_date"
             android:layout_margin="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+
             />
         <TextView
             android:id="@+id/traffic_severity"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/report_severity_title"
+            android:text="@string/report_severity_colon"
             app:layout_constraintTop_toBottomOf="@id/traffic_report_type"
             android:layout_margin="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+
             />
         <TextView
             android:id="@+id/traffic_desc"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/report_desc"
+            android:text="@string/report_desc_colon"
             app:layout_constraintTop_toBottomOf="@id/traffic_severity"
             android:layout_margin="5dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"            app:layout_constraintStart_toStartOf="parent"
+
+
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

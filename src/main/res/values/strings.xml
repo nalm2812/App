@@ -3,7 +3,7 @@
     <string name="report_title">Report Title</string>
     <string name="report_date">Report Date</string>
     <string name="report_desc">Report Description</string>
-    <string name="report_location">Report location</string>
+    <string name="report_location">Report Location</string>
     <string name="report_type">Report Type</string>
     <string name="report_type_desc">Select report type</string>
     <string-array name="report_types">
@@ -23,6 +23,12 @@
     <string name="traffic_report">Create Traffic Report</string>
     <string name="welcome">Welcome to X9!</string>
     <string name="back_to_home">Back to Home Page</string>
-    <string name="report_severity_title">Report Severity</string>
 
+
+    <string name="report_severity_colon">Report Severity: </string>
+    <string name="report_title_colon">Report Title: </string>
+    <string name="report_date_colon">Report Date: </string>
+    <string name="report_desc_colon">Report Description: </string>
+    <string name="report_location_colon">Report Location: </string>
+    <string name="report_type_colon">Report Type: </string>
 </resources>
