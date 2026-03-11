@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="8dp"
+
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
@@ -18,37 +19,50 @@
             android:layout_height="wrap_content"
             android:text="@string/report_title"
             app:layout_constraintTop_toTopOf="parent"
+            android:layout_margin="5dp"
+
             />
         <TextView
             android:id="@+id/traffic_location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/report_location"
-            app:layout_constraintTop_toBottomOf="@id/traffic_title"/>
+            app:layout_constraintTop_toBottomOf="@id/traffic_title"
+            android:layout_margin="5dp"
+            />
         <TextView
             android:id="@+id/traffic_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/report_date"
-            app:layout_constraintTop_toBottomOf="@id/traffic_location"/>
+            app:layout_constraintTop_toBottomOf="@id/traffic_location"
+            android:layout_margin="5dp"
+            />
         <TextView
             android:id="@+id/traffic_report_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/report_type"
-            app:layout_constraintTop_toBottomOf="@id/traffic_date"/>
+            app:layout_constraintTop_toBottomOf="@id/traffic_date"
+            android:layout_margin="5dp"
+            />
         <TextView
             android:id="@+id/traffic_severity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/report_severity_title"
-            app:layout_constraintTop_toBottomOf="@id/traffic_report_type"/>
+            app:layout_constraintTop_toBottomOf="@id/traffic_report_type"
+            android:layout_margin="5dp"
+            />
         <TextView
             android:id="@+id/traffic_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/report_desc"
-            app:layout_constraintTop_toBottomOf="@id/traffic_severity"/>
+            app:layout_constraintTop_toBottomOf="@id/traffic_severity"
+            android:layout_margin="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>
