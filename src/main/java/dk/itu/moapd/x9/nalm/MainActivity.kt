@@ -32,11 +32,14 @@ class MainActivity : AppCompatActivity() {
         }
         
         //setupUI()
-        val dashboard = DashboardFragment()
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fragment_dashboard, dashboard)
-            commit()
+        if (savedInstanceState==null){
+            val dashboard = DashboardFragment()
+            supportFragmentManager.beginTransaction().apply {
+                replace(R.id.fragment_dashboard, dashboard)
+                commit()
+            }
         }
+
         Log.v("myTag", "onCreate was called")
 
     }

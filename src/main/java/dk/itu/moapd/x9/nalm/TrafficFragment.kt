@@ -16,6 +16,8 @@ import dk.itu.moapd.x9.nalm.databinding.FragmentTrafficBinding
 
 class TrafficFragment : Fragment(R.layout.fragment_traffic) {
     private val binding by viewBinding(FragmentTrafficBinding::bind)
+    companion object {
+        private const val KEY_LAST_MESSAGE = "key_last_message"    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,6 +45,10 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.v("myTag", "onCreate Traffic was called")
+        val title = savedInstanceState?.getString(KEY_LAST_MESSAGE)
+        if (title!=null){
+            Log.v("myTag", "is this saving???")
+        }
     }
 
     override fun onStart() {
@@ -75,6 +81,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic) {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
+        outState.putString(KEY_LAST_MESSAGE, binding.editTextReportTitle.text.toString())
         Log.v("myTag", "onSaveInstanceState Traffic was called")
 
     }

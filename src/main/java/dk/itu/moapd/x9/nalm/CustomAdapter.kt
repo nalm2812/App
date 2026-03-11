@@ -23,7 +23,6 @@ class CustomAdapter(
     override fun onBindViewHolder(holder: ViewHolder,
                                   position: Int) {
         Log.d("myTag", "Populate an item at position: $position")
-// Bind the view holder with the selected `DummyModel` data.
         items[position].let(holder::bind)
     }
     override fun getItemCount() = items.size
