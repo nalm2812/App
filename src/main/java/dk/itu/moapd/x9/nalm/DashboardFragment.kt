@@ -51,7 +51,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                 commit()
             }
         }
-        setupRecyclerView()+
+        setupRecyclerView()
         Log.v("myTag", "onViewCreated Dashboard was called")
     }
 
