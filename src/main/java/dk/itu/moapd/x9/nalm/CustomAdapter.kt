@@ -32,12 +32,12 @@ class CustomAdapter(
     class ViewHolder(private val binding: ListItemTrafficReportBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(trafficReport: TrafficReportModel) {
-            binding.trafficTitle.text = trafficReport.title
-            binding.trafficLocation.text = trafficReport.location
-            binding.trafficDate.text = trafficReport.date
-            binding.trafficReportType.text = trafficReport.reportType
-            binding.trafficSeverity.text = trafficReport.severity
-            binding.trafficDesc.text = trafficReport.desc
+            binding.inputTrafficTitle.text = trafficReport.title
+            binding.inputTrafficLocation.text = trafficReport.location
+            binding.inputTrafficDate.text = trafficReport.date
+            binding.inputTrafficReportType.text = trafficReport.reportType
+            binding.inputTrafficSeverity.text = trafficReport.severity
+            binding.inputTrafficDesc.text = trafficReport.desc
         }
     }
 }
