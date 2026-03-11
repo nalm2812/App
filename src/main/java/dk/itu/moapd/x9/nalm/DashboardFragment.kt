@@ -32,8 +32,7 @@ import kotlin.getValue
  */
 class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
-    private var _binding: FragmentDashboardBinding? = null
-    private val binding get() = _binding!!
+    private val binding by viewBinding(FragmentDashboardBinding::bind)
     private val viewModel: MainViewModel by activityViewModels()
 
 
@@ -130,6 +129,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                 desc = "description"
             )
         }
+
 
 
 

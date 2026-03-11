@@ -8,19 +8,47 @@ class MainViewModel : ViewModel(){
     /**
      * The current text showing in the main activity.
      */
-    private val _message = MutableLiveData<String>()
+    private val _title = MutableLiveData<String>()
     /**
      * A `LiveData` which publicly exposes any update in the UI TextView.
      */
-    val message: LiveData<String>
-        get() = _message
+    val title: LiveData<String>
+        get() = _title
+
+
     /**
      * This method will be executed when the user interacts with any UI component and it is
      * necessary to update the text in the UI TextView. It sets the text into the LiveData instance.
      *
      * @param text A `String` to show in the UI TextView.
      */
-    fun setMessage(text: String) {
-        _message.value = text
+    fun setTitle(text: String) {
+        _title.value = text
     }
+    private val _items = MutableLiveData<List<TrafficReportModel>>(emptyList())
+
+    val items: LiveData<List<TrafficReportModel>> = _items
+    fun addItem(item: TrafficReportModel) {
+        val current = _items.value.orEmpty().toMutableList()
+        current.add(item)
+        _items.value = current
+    }
+
+    fun setItems(list: List<TrafficReportModel>) {
+        _items.value = list
+    }
+    fun getItems(): List<TrafficReportModel>? {
+        addItem(
+            TrafficReportModel(
+                title = "title",
+                location = "location",
+                date = "date",
+                reportType = "report type",
+                severity = "severity",
+                desc = "description"
+            )
+        )
+        return _items.value
+    }
+
 }

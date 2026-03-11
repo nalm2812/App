@@ -9,11 +9,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import androidx.fragment.app.activityViewModels
 import dk.itu.moapd.x9.nalm.databinding.FragmentTrafficBinding
+import kotlin.getValue
 
 
 class TrafficFragment : Fragment(R.layout.fragment_traffic) {
     private val binding by viewBinding(FragmentTrafficBinding::bind)
+    private val viewModel: MainViewModel by activityViewModels()
+
 
     companion object {
         private const val REPORT_TITLE = "report_title"
@@ -253,6 +257,15 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic) {
             buttonSend.setOnClickListener {
                 if (editTextReportDate.text.toString()!="" && editTextReportDesc.text.toString()!="" && editTextReportTitle.text.toString()!="" && editTextReportLocation.text.toString()!="" && autoCompleteTextViewReportType.text.toString()!="Select report type" && autoCompleteTextViewSeverity.text.toString() !="Select severity"){
                     Log.d("myTag", "Date: " + editTextReportDate.text.toString() + "; Desc: " + editTextReportDesc.text.toString() + "; Title: " + editTextReportTitle.text.toString() + "; Location: " + editTextReportLocation.text.toString() + "; Type: " + autoCompleteTextViewReportType.text.toString() + "; Severity: " + autoCompleteTextViewSeverity.text.toString())
+                    viewModel.setTitle(editTextReportTitle.text.toString())
+                    viewModel.addItem(TrafficReportModel(
+                        title = editTextReportTitle.text.toString(),
+                        location = editTextReportLocation.text.toString(),
+                        date = editTextReportDate.text.toString(),
+                        reportType = autoCompleteTextViewReportType.text.toString(),
+                        severity = autoCompleteTextViewSeverity.text.toString(),
+                        desc = editTextReportDesc.text.toString()
+                    ))
                     showToast("Traffic Report Created!")
                 }
                 showToast("Please fill out Traffic Report")
