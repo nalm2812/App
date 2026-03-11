@@ -2,8 +2,9 @@ package dk.itu.moapd.x9.nalm
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 
-class MainViewModel {
+class MainViewModel : ViewModel(){
     /**
      * The current text showing in the main activity.
      */

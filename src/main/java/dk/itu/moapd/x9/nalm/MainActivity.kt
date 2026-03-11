@@ -14,6 +14,7 @@ import dk.itu.moapd.x9.nalm.databinding.ActivityMainBinding
 import dk.itu.moapd.x9.nalm.DashboardFragment
 import android.content.res.Configuration
 import androidx.activity.viewModels
+import androidx.lifecycle.Observer
 
 
 class MainActivity : AppCompatActivity() {

@@ -15,11 +15,14 @@ import dk.itu.moapd.x9.nalm.showToast
 import android.content.Intent
 import android.view.KeyEvent
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlin.getValue
 
 
 /**
@@ -29,7 +32,9 @@ import androidx.recyclerview.widget.RecyclerView
  */
 class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
-    private val binding by viewBinding(FragmentDashboardBinding::bind)
+    private var _binding: FragmentDashboardBinding? = null
+    private val binding get() = _binding!!
+    private val viewModel: MainViewModel by activityViewModels()
 
 
     override fun onCreateView(
