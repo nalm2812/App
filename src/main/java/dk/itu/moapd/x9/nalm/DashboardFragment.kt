@@ -16,6 +16,16 @@ import android.content.Intent
 import android.view.KeyEvent
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
@@ -23,6 +33,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import dk.itu.moapd.x9.nalm.ui.theme.X9Theme
 import kotlin.getValue
 
 
@@ -52,7 +63,8 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupRecyclerView()
+        //setupRecyclerView()
+        setUpList()
         Log.v("myTag", "onViewCreated Dashboard was called")
     }
 
@@ -120,7 +132,48 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
         }
 
-    
+    private fun setUpList() {
+
+        binding.composeView.apply{
+            setContent {
+                X9Theme {
+                    ListScreen()
+                }
+            }
+        }
+    }
+    @Composable
+    fun ListScreen() {
+        var data = mutableListOf<TrafficReportModel>()
+        for (i in 1..10)
+            data.add(
+                TrafficReportModel(
+                    title = "title",
+                    location = "location",
+                    date = "date",
+                    reportType = "report type",
+                    severity = "severity",
+                    desc = "description"
+                )
+            )
+        data = remember { data }
+
+        Scaffold(
+        ) { innerPadding ->
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(innerPadding)
+            ) {
+                items(data) { item ->
+                    TrafficReportItem(item)
+                }
+            }
+        }
+    }
+
+
+
 
 
 
