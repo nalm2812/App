@@ -62,7 +62,7 @@ import com.composables.core.rememberMenuState
 import dk.itu.moapd.x9.nalm.ui.theme.X9Theme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DropdownMenu(list: List<String>, input: String, viewModel: MainViewModel, isReportType: Boolean
+fun DropdownMenu(list: List<String>, viewModel: MainViewModel, isReportType: Boolean
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     // State to track the expanded state and selected option

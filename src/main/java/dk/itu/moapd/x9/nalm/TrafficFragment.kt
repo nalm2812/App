@@ -160,7 +160,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic) {
             setContent {
                 X9Theme {
                     val list = listOf("Speed Camera", "Heavy Traffic", "Road Incidents", "Broken Vehicles", "Other")
-                    DropdownMenu(list, "Select Report Type", viewModel, true)
+                    DropdownMenu(list,  viewModel, true)
                 }
             }
         }
@@ -170,7 +170,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic) {
             setContent {
                 X9Theme {
                     val list = listOf("Minor", "Moderate", "Major")
-                    DropdownMenu(list, "Select Severity Type", viewModel, false)
+                    DropdownMenu(list,  viewModel, false)
                 }
             }
         }
