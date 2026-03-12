@@ -120,17 +120,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
         }
 
-    private fun createTrafficReport() : List<TrafficReportModel> =
-        (1..3).map { index ->
-            TrafficReportModel(
-                title = "title",
-                location = "location",
-                date = "date",
-                reportType = "report type",
-                severity = "severity",
-                desc = "description"
-            )
-        }
+    
 
 
 

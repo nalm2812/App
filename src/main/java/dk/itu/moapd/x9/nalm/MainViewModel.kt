@@ -25,7 +25,7 @@ class MainViewModel : ViewModel(){
     fun setTitle(text: String) {
         _title.value = text
     }
-    private val _items = MutableLiveData<List<TrafficReportModel>>(emptyList())
+    private val _items = MutableLiveData<List<TrafficReportModel>>(createTrafficReport())
 
     val items: LiveData<List<TrafficReportModel>> = _items
     fun addItem(item: TrafficReportModel) {
@@ -37,6 +37,16 @@ class MainViewModel : ViewModel(){
     fun setItems(list: List<TrafficReportModel>) {
         _items.value = list
     }
-
+    private fun createTrafficReport() : List<TrafficReportModel> =
+        (1..3).map { index ->
+            TrafficReportModel(
+                title = "title",
+                location = "location",
+                date = "date",
+                reportType = "report type",
+                severity = "severity",
+                desc = "description"
+            )
+        }
 
 }
