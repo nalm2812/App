@@ -34,6 +34,8 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
     private val binding by viewBinding(FragmentDashboardBinding::bind)
     private val viewModel: MainViewModel by activityViewModels()
+    private var trafficReportList: List<TrafficReportModel> = emptyList()
+
 
 
     override fun onCreateView(
@@ -50,6 +52,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
+        observeState()
         Log.v("myTag", "onViewCreated Dashboard was called")
     }
 
@@ -101,7 +104,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
     private fun setupRecyclerView() =
         with(binding.recyclerView) {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = CustomAdapter(createTrafficReport())
+            adapter = CustomAdapter(trafficReportList)
 
             ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
                 val navBarHeight = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
@@ -123,6 +126,21 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                 desc = "description"
             )
         }
+    private fun observeState(){
+        viewModel.items.observe(viewLifecycleOwner) {list ->
+            trafficReportList = list
+            trafficReportList.toMutableList().add(
+                TrafficReportModel(
+                    title = "title",
+                    location = "location",
+                    date = "date",
+                    reportType = "report type",
+                    severity = "severity",
+                    desc = "description"
+                )
+            )
+        }
+    }
 
 
 

@@ -267,8 +267,9 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic) {
                         desc = editTextReportDesc.text.toString()
                     ))
                     showToast("Traffic Report Created!")
+                }else{
+                    showToast("Please fill out the Traffic Report")
                 }
-                showToast("Please fill out Traffic Report")
 
             }
 
