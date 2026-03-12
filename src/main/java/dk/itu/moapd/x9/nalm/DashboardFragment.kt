@@ -48,7 +48,6 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
     private val binding by viewBinding(FragmentDashboardBinding::bind)
     private val viewModel: MainViewModel by activityViewModels()
-    private var trafficReportList: List<TrafficReportModel> = emptyList()
 
 
 
@@ -153,6 +152,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(innerPadding)
+
             ) {
                 items(data) { item ->
                     TrafficReportItem(item)
