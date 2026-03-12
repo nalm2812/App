@@ -113,7 +113,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
     }
 
-    private fun setupRecyclerView() =
+    /*private fun setupRecyclerView() =
         with(binding.recyclerView) {
             layoutManager = LinearLayoutManager(requireContext())
             //Log.v("myTag", "size of traffic: " + trafficReportList.size)
@@ -130,7 +130,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                 }
             })
 
-        }
+        }*/
 
     private fun setUpList() {
 
