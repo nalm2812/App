@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import dk.itu.moapd.x9.nalm.databinding.ListItemTrafficReportBinding
-import androidx.recyclerview.R
 class CustomAdapter(
     private val items: List<TrafficReportModel>,
 ) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {

@@ -150,16 +150,7 @@
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_medium"
             />
-        <Button
-            android:id="@+id/button_back_to_home"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/back_to_home"
-            app:layout_constraintTop_toBottomOf="@+id/button_send"
-            android:layout_marginEnd="@dimen/margin_medium"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="60dp"
-            />
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

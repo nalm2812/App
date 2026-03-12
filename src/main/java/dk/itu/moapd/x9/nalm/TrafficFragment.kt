@@ -271,12 +271,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic) {
                 showToast("Please fill out Traffic Report")
 
             }
-            buttonBackToHome.setOnClickListener {
-                parentFragmentManager.beginTransaction().apply {
-                    replace(R.id.fragment_dashboard, DashboardFragment())
-                    commit()
-                }
-            }
+
 
         }}
 }

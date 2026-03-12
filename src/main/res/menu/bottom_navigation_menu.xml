@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/fragment_dashboard"
+        android:enabled="true"
+
+        android:title="@string/fragment_dashboard"/>
+    <item
+        android:id="@+id/fragment_traffic"
+        android:enabled="true"
+
+        android:title="@string/fragment_traffic"/>
+
+</menu>

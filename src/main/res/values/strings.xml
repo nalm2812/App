@@ -32,4 +32,7 @@
     <string name="report_desc_colon">Report Description: </string>
     <string name="report_location_colon">Report Location: </string>
     <string name="report_type_colon">Report Type: </string>
+
+    <string name="fragment_dashboard">Dashboard Fragment</string>
+    <string name="fragment_traffic">Traffic Fragment</string>
 </resources>

@@ -49,12 +49,6 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.buttonTrafficReport.setOnClickListener {
-            parentFragmentManager.beginTransaction().apply {
-                replace(R.id.fragment_dashboard, TrafficFragment())
-                commit()
-            }
-        }
         setupRecyclerView()
         Log.v("myTag", "onViewCreated Dashboard was called")
     }

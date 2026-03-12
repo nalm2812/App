@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:id="@+id/main"
+    android:fitsSystemWindows="true"
     >
 
     <androidx.core.widget.NestedScrollView
@@ -18,6 +19,7 @@
        <include
             android:id="@+id/content_main"
             layout="@layout/content_main" />
+
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.appbar.AppBarLayout
@@ -33,6 +35,12 @@
             android:layout_margin="12dp"
             android:text="@string/app_name"
             />
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize" />
+
     </com.google.android.material.appbar.AppBarLayout>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
