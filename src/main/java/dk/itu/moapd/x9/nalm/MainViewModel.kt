@@ -3,6 +3,10 @@ package dk.itu.moapd.x9.nalm
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 class MainViewModel : ViewModel(){
     /**
@@ -47,6 +51,24 @@ class MainViewModel : ViewModel(){
                 severity = "severity",
                 desc = "description"
             )
-        }
 
+        }
+    private val _uiState = MutableStateFlow(MainUiState())
+
+    /**
+     * A `StateFlow` which publicly exposes any update in the UI components.
+     */
+    val uiState: StateFlow<MainUiState> = _uiState.asStateFlow()
+
+    /**
+     * Updates the text to be displayed based on the selected text resource ID.
+     *
+     * @param textId The resource ID of the text to be displayed.
+     */
+    fun onReportTypeSelected(reportType: String) {
+        _uiState.update { it.copy(reportType = reportType) }
+    }
+    fun onSeveritySelected(severity: String) {
+        _uiState.update { it.copy(severity = severity) }
+    }
 }

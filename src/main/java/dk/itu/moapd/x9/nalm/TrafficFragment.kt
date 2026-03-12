@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.fragment.app.activityViewModels
 import dk.itu.moapd.x9.nalm.databinding.FragmentTrafficBinding
+import dk.itu.moapd.x9.nalm.ui.theme.X9Theme
 import kotlin.getValue
 
 
@@ -39,8 +40,10 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupUI()
-        setSeverity(view)
-        setReportType(view)
+        //setSeverity(view)
+        //setReportType(view)
+        setUpReportType()
+        setUpSeverity()
         Log.v("myTag", "onViewCreated Traffic was called")
 
     }
@@ -132,7 +135,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic) {
     }
 
 
-    fun setReportType(view: View?)  {
+    /*fun setReportType(view: View?)  {
         Log.v("myTag", "reportType was called")
         val reportType = resources.getStringArray(R.array.report_types)
         val arrayAdapterReportType = ArrayAdapter(requireActivity(), R.layout.item_dropdown_type_report, reportType)
@@ -150,16 +153,36 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic) {
         // set adapter to the autocomplete tv to the arrayAdapter
         autocompleteTVSeverity?.setAdapter(arrayAdapterSeverity)
 
-    }
+    }*/
 
+    private fun setUpReportType(){
+        binding.reportType.apply{
+            setContent {
+                X9Theme {
+                    val list = listOf("Speed Camera", "Heavy Traffic", "Road Incidents", "Broken Vehicles", "Other")
+                    DropdownMenu(list, "Select Report Type", viewModel, true)
+                }
+            }
+        }
+    }
+    private fun setUpSeverity(){
+        binding.severity.apply{
+            setContent {
+                X9Theme {
+                    val list = listOf("Minor", "Moderate", "Major")
+                    DropdownMenu(list, "Select Severity Type", viewModel, false)
+                }
+            }
+        }
+    }
     private fun setupUI() {
         with(binding){
-            autoCompleteTextViewReportType.setOnDismissListener {
+            /*autoCompleteTextViewReportType.setOnDismissListener {
                 Log.i("myTag", autoCompleteTextViewReportType.text.toString())
             }
             autoCompleteTextViewSeverity.setOnDismissListener {
                 Log.i("myTag", autoCompleteTextViewSeverity.text.toString())
-            }
+            }*/
             editTextReportDate.setOnKeyListener { v, keyCode, event ->
                 when {
 
@@ -242,15 +265,15 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic) {
 
             }
             buttonSend.setOnClickListener {
-                if (editTextReportDate.text.toString()!="" && editTextReportDesc.text.toString()!="" && editTextReportTitle.text.toString()!="" && editTextReportLocation.text.toString()!="" && autoCompleteTextViewReportType.text.toString()!="Select report type" && autoCompleteTextViewSeverity.text.toString() !="Select severity"){
-                    Log.d("myTag", "Date: " + editTextReportDate.text.toString() + "; Desc: " + editTextReportDesc.text.toString() + "; Title: " + editTextReportTitle.text.toString() + "; Location: " + editTextReportLocation.text.toString() + "; Type: " + autoCompleteTextViewReportType.text.toString() + "; Severity: " + autoCompleteTextViewSeverity.text.toString())
+                if (editTextReportDate.text.toString()!="" && editTextReportDesc.text.toString()!="" && editTextReportTitle.text.toString()!="" && editTextReportLocation.text.toString()!="" && viewModel.uiState.value.reportType!="Select report type" && viewModel.uiState.value.severity !="Select severity"){
+                    Log.d("myTag", "Date: " + editTextReportDate.text.toString() + "; Desc: " + editTextReportDesc.text.toString() + "; Title: " + editTextReportTitle.text.toString() + "; Location: " + editTextReportLocation.text.toString() + "; Type: " + viewModel.uiState.value.reportType + "; Severity: " + viewModel.uiState.value.severity)
                     viewModel.setTitle(editTextReportTitle.text.toString())
                     viewModel.addItem(TrafficReportModel(
                         title = editTextReportTitle.text.toString(),
                         location = editTextReportLocation.text.toString(),
                         date = editTextReportDate.text.toString(),
-                        reportType = autoCompleteTextViewReportType.text.toString(),
-                        severity = autoCompleteTextViewSeverity.text.toString(),
+                        reportType = viewModel.uiState.value.reportType,
+                        severity = viewModel.uiState.value.severity,
                         desc = editTextReportDesc.text.toString()
                     ))
                     showToast("Traffic Report Created!")

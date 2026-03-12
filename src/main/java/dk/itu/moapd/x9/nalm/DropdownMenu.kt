@@ -52,6 +52,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.composables.core.Menu
 import com.composables.core.MenuButton
 import com.composables.core.MenuContent
@@ -60,7 +61,9 @@ import com.composables.core.rememberMenuState
 import dk.itu.moapd.x9.nalm.ui.theme.X9Theme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DropdownMenu(list: List<String>, input: String) {
+fun DropdownMenu(list: List<String>, input: String, viewModel: MainViewModel, isReportType: Boolean
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     // State to track the expanded state and selected option
     var expanded by remember { mutableStateOf(false) }
     var selectedOption by remember { mutableStateOf(input) }
@@ -102,6 +105,11 @@ fun DropdownMenu(list: List<String>, input: String) {
                             text = { Text(option, color = MaterialTheme.colorScheme.onSurface) },
                             onClick = {
                                 selectedOption = option
+                                if (isReportType){
+                                    viewModel.onReportTypeSelected(option)
+                                }else{
+                                    viewModel.onSeveritySelected(option)
+                                }
                                 expanded = false
                             },
                             contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
@@ -113,8 +121,3 @@ fun DropdownMenu(list: List<String>, input: String) {
     }
 }
 
-@Preview
-@Composable
-fun PreviewDropdownMenu(){
-    DropdownMenu(listOf("hello", "hi"), "Select Something")
-}
