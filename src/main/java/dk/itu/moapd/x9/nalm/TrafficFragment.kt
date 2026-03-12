@@ -31,10 +31,9 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var view = super.onCreateView(inflater, container, savedInstanceState)
+        return super.onCreateView(inflater, container, savedInstanceState)
         Log.v("myTag", "onCreateView Traffic was called")
 
-        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -136,21 +135,12 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic) {
     fun setReportType(view: View?)  {
         Log.v("myTag", "reportType was called")
         val reportType = resources.getStringArray(R.array.report_types)
-        // create an array adapter and pass the required parameter
-        // in our case pass the context, drop down layout , and array.
         val arrayAdapterReportType = ArrayAdapter(requireActivity(), R.layout.item_dropdown_type_report, reportType)
-        // get reference to the autocomplete text view
         val autocompleteTVReportType = view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewReportType)
-        // set adapter to the autocomplete tv to the arrayAdapter
-        val trafficType = arguments?.getString("trafficType")
-        if (trafficType!=null){
-            autocompleteTVReportType?.setText(trafficType)
-        }
         autocompleteTVReportType?.setAdapter(arrayAdapterReportType)
 
     }
     fun setSeverity(view: View?) {
-        val severityTraffic = arguments?.getString("severity")
         val severity = resources.getStringArray(R.array.report_severity)
         // create an array adapter and pass the required parameter
         // in our case pass the context, drop down layout , and array.
@@ -158,9 +148,6 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic) {
         // get reference to the autocomplete text view
         val autocompleteTVSeverity = view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewSeverity)
         // set adapter to the autocomplete tv to the arrayAdapter
-        if (severityTraffic!=null){
-            autocompleteTVSeverity?.setText(severityTraffic)
-        }
         autocompleteTVSeverity?.setAdapter(arrayAdapterSeverity)
 
     }

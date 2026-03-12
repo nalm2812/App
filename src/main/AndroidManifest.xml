@@ -11,7 +11,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.X9">
         <activity
-            android:name="dk.itu.moapd.x9.nalm.TrafficReportActivity"
+            android:name=".TrafficReportItem"
+            android:exported="false"
+            android:label="@string/title_activity_traffic_report_item"
+            android:theme="@style/Theme.X9" />
+        <activity
+            android:name=".TrafficReportActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
