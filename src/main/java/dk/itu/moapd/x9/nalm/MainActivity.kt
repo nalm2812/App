@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
 
         // Setup the bottom navigation (portrait) and the navigation rail (landscape).
-        setupActionBarIfPortrait(navController)
+        //setupActionBarIfPortrait(navController)
         setupNavigation(navController)
         // Setup the action bar only in the portrait mode.
 
@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupActionBarIfPortrait(navController: androidx.navigation.NavController) {
         if (resources.configuration.orientation != Configuration.ORIENTATION_PORTRAIT) return
 
-        setSupportActionBar(binding.toolbar)
+        //setSupportActionBar(binding.toolbar)
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
 

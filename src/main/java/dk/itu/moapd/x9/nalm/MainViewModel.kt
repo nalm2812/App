@@ -37,18 +37,6 @@ class MainViewModel : ViewModel(){
     fun setItems(list: List<TrafficReportModel>) {
         _items.value = list
     }
-    fun getItems(): List<TrafficReportModel>? {
-        addItem(
-            TrafficReportModel(
-                title = "title",
-                location = "location",
-                date = "date",
-                reportType = "report type",
-                severity = "severity",
-                desc = "description"
-            )
-        )
-        return _items.value
-    }
+
 
 }

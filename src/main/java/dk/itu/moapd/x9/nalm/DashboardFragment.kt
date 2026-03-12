@@ -20,6 +20,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlin.getValue
@@ -52,7 +53,6 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
-        observeState()
         Log.v("myTag", "onViewCreated Dashboard was called")
     }
 
@@ -104,19 +104,24 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
     private fun setupRecyclerView() =
         with(binding.recyclerView) {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = CustomAdapter(trafficReportList)
+            //Log.v("myTag", "size of traffic: " + trafficReportList.size)
+            viewModel.items.observe(viewLifecycleOwner, Observer { list ->
+                trafficReportList = list
+                adapter = CustomAdapter(trafficReportList)
 
-            ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
-                val navBarHeight = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
-                view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                    bottomMargin = navBarHeight
+                ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
+                    val navBarHeight = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
+                    view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                        bottomMargin = navBarHeight
+                    }
+                    insets
                 }
-                insets
-            }
+            })
+
         }
 
     private fun createTrafficReport() : List<TrafficReportModel> =
-        (1..10).map { index ->
+        (1..3).map { index ->
             TrafficReportModel(
                 title = "title",
                 location = "location",
@@ -126,21 +131,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                 desc = "description"
             )
         }
-    private fun observeState(){
-        viewModel.items.observe(viewLifecycleOwner) {list ->
-            trafficReportList = list
-            trafficReportList.toMutableList().add(
-                TrafficReportModel(
-                    title = "title",
-                    location = "location",
-                    date = "date",
-                    reportType = "report type",
-                    severity = "severity",
-                    desc = "description"
-                )
-            )
-        }
-    }
+
 
 
 
