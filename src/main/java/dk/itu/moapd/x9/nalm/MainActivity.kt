@@ -206,7 +206,7 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
 
-             fun setReportType(view: View?)  {
+             fun setReportType(view: View?)  { //got the code from here: https://www.geeksforgeeks.org/kotlin/exposed-drop-down-menu-in-android/
         val reportType = resources.getStringArray(R.array.report_types)
         // create an array adapter and pass the required parameter
         // in our case pass the context, drop down layout , and array.
@@ -221,7 +221,7 @@ class MainActivity : AppCompatActivity() {
         autocompleteTVReportType?.setAdapter(arrayAdapterReportType)
 
     }
-    fun setSeverity(view: View?) {
+    fun setSeverity(view: View?) { //got the code from here: https://www.geeksforgeeks.org/kotlin/exposed-drop-down-menu-in-android/
         val severityTraffic = arguments?.getString("severity")
         Log.v("myTag", "idk what im doing: " + severityTraffic)
         val severity = resources.getStringArray(R.array.report_severity)

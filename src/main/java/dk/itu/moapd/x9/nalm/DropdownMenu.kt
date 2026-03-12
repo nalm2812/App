@@ -64,6 +64,7 @@ import dk.itu.moapd.x9.nalm.ui.theme.X9Theme
 @Composable
 fun DropdownMenu(list: List<String>, viewModel: MainViewModel, isReportType: Boolean
 ) {
+    //got the code from here: https://kotlinlang.org/api/compose-multiplatform/material3/androidx.compose.material3/-exposed-dropdown-menu-box.html
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     // State to track the expanded state and selected option
     var expanded by remember { mutableStateOf(false) }
