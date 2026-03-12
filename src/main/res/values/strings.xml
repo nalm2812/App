@@ -36,4 +36,5 @@
     <string name="fragment_dashboard">Dashboard Fragment</string>
     <string name="fragment_traffic">Traffic Fragment</string>
     <string name="title_activity_traffic_report_item">TrafficReportItem</string>
+    <string name="title_activity_dropdown_menu">DropdownMenu</string>
 </resources>

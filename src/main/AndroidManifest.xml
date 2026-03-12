@@ -11,6 +11,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.X9">
         <activity
+            android:name=".DropdownMenu"
+            android:exported="false"
+            android:label="@string/title_activity_dropdown_menu"
+            android:theme="@style/Theme.X9" />
+        <activity
             android:name=".TrafficReportItem"
             android:exported="false"
             android:label="@string/title_activity_traffic_report_item"
