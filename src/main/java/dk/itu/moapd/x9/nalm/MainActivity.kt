@@ -206,6 +206,38 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
 
+             fun setReportType(view: View?)  {
+        val reportType = resources.getStringArray(R.array.report_types)
+        // create an array adapter and pass the required parameter
+        // in our case pass the context, drop down layout , and array.
+        val arrayAdapterReportType = ArrayAdapter(requireActivity(), R.layout.item_dropdown_type_report, reportType)
+        // get reference to the autocomplete text view
+        val autocompleteTVReportType = view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewReportType)
+        // set adapter to the autocomplete tv to the arrayAdapter
+        val trafficType = arguments?.getString("trafficType")
+        if (trafficType!=null){
+            autocompleteTVReportType?.setText(trafficType)
+        }
+        autocompleteTVReportType?.setAdapter(arrayAdapterReportType)
+
+    }
+    fun setSeverity(view: View?) {
+        val severityTraffic = arguments?.getString("severity")
+        Log.v("myTag", "idk what im doing: " + severityTraffic)
+        val severity = resources.getStringArray(R.array.report_severity)
+        // create an array adapter and pass the required parameter
+        // in our case pass the context, drop down layout , and array.
+        val arrayAdapterSeverity = ArrayAdapter(requireActivity(), R.layout.item_dropdown_type_report, severity)
+        // get reference to the autocomplete text view
+        val autocompleteTVSeverity = view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewSeverity)
+        // set adapter to the autocomplete tv to the arrayAdapter
+        if (severityTraffic!=null){
+            autocompleteTVSeverity?.setText(severityTraffic)
+        }
+        autocompleteTVSeverity?.setAdapter(arrayAdapterSeverity)
+
+    }
+
     }}*/
 
     override fun onStart(){
