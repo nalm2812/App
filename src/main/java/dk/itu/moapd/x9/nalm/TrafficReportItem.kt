@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -35,48 +36,60 @@ fun TrafficReportItem(trafficReport: TrafficReportModel, modifier: Modifier = Mo
                 Text(
                     text = "Title:",
                     fontSize = 15.sp,
-                    fontWeight = FontWeight.Bold)
+                    fontWeight = FontWeight.Bold,
+                    overflow = TextOverflow.Ellipsis)
                 Text(
                     text = "Location:",
                     fontSize = 15.sp,
-                    fontWeight = FontWeight.Bold)
+                    fontWeight = FontWeight.Bold,
+                    overflow = TextOverflow.Ellipsis)
                 Text(
                     text = "Date:",
                     fontSize = 15.sp,
-                    fontWeight = FontWeight.Bold)
+                    fontWeight = FontWeight.Bold,
+                    overflow = TextOverflow.Ellipsis)
                 Text(
                     text = "Report Type:",
                     fontSize = 15.sp,
-                    fontWeight = FontWeight.Bold)
+                    fontWeight = FontWeight.Bold,
+                    overflow = TextOverflow.Ellipsis)
                 Text(
                     text = "Severity:",
                     fontSize = 15.sp,
-                    fontWeight = FontWeight.Bold)
+                    fontWeight = FontWeight.Bold,
+                    overflow = TextOverflow.Ellipsis)
                 Text(
                     text = "Report Description:",
                     fontSize = 15.sp,
-                    fontWeight = FontWeight.Bold)
+                    fontWeight = FontWeight.Bold,
+                    overflow = TextOverflow.Ellipsis)
             }
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
                     text = trafficReport.title,
-                    fontSize = 15.sp
+                    fontSize = 15.sp,
+                    overflow = TextOverflow.Ellipsis
                     )
                 Text(
                     text = trafficReport.location,
-                    fontSize = 15.sp)
+                    fontSize = 15.sp,
+                    overflow = TextOverflow.Ellipsis)
                 Text(
                     text = trafficReport.date,
-                    fontSize = 15.sp)
+                    fontSize = 15.sp,
+                    overflow = TextOverflow.Ellipsis)
                 Text(
                     text = trafficReport.reportType,
-                    fontSize = 15.sp)
+                    fontSize = 15.sp,
+                    overflow = TextOverflow.Ellipsis)
                 Text(
                     text = trafficReport.severity,
-                    fontSize = 15.sp)
+                    fontSize = 15.sp,
+                    overflow = TextOverflow.Ellipsis)
                 Text(
                     text = trafficReport.desc,
-                    fontSize = 15.sp)
+                    fontSize = 15.sp,
+                    overflow = TextOverflow.Ellipsis)
             }
         }
 
@@ -94,6 +107,6 @@ fun TrafficReportItemPreview() {
         date = "date",
         reportType = "reportType",
         severity = "severity",
-        desc = "desc"
+        desc = "hello"
     ))
 }
