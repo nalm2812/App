@@ -47,6 +47,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.Key.Companion.Menu
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -66,7 +67,7 @@ fun DropdownMenu(list: List<String>, input: String, viewModel: MainViewModel, is
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     // State to track the expanded state and selected option
     var expanded by remember { mutableStateOf(false) }
-    var selectedOption by remember { mutableStateOf(input) }
+    var selectedOption by remember { mutableStateOf(if (isReportType) viewModel.uiState.value.reportType else viewModel.uiState.value.severity) }
 
 // List of options for the dropdown menu
     val options = list
