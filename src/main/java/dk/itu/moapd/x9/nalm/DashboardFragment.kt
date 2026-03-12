@@ -24,6 +24,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.core.view.ViewCompat
@@ -144,20 +146,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
     }
     @Composable
     fun ListScreen() {
-        var data = mutableListOf<TrafficReportModel>()
-        for (i in 1..10)
-            data.add(
-                TrafficReportModel(
-                    title = "title",
-                    location = "location",
-                    date = "date",
-                    reportType = "report type",
-                    severity = "severity",
-                    desc = "description"
-                )
-            )
-        data = remember { data }
-
+        val data by viewModel.items.observeAsState(emptyList())
         Scaffold(
         ) { innerPadding ->
             LazyColumn(
