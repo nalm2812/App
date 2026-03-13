@@ -13,7 +13,6 @@ import androidx.core.view.WindowInsetsCompat
 import dk.itu.moapd.x9.nalm.databinding.ActivityMainBinding
 import dk.itu.moapd.x9.nalm.DashboardFragment
 import android.content.res.Configuration
-import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
@@ -21,35 +20,16 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.google.firebase.auth.FirebaseAuth
-import dk.itu.moapd.firebaseauthentication.ui.main.MainScaffold
-import dk.itu.moapd.x9.nalm.ui.theme.FirebaseAuthenticationTheme
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
     private val viewModel: MainViewModel by viewModels()
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
-        auth = FirebaseAuth.getInstance()
-
-        setContent {
-            FirebaseAuthenticationTheme {
-                MainScaffold(
-                    auth = auth,
-                    onLogout = {
-                        auth.signOut()
-                        startLoginActivity()
-                    }
-                )
-            }
-        }
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -262,7 +242,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart(){
         super.onStart()
-        auth.currentUser ?: startLoginActivity()
         Log.v("myTag", "onStart was called")
     }
 
@@ -279,12 +258,6 @@ class MainActivity : AppCompatActivity() {
     override fun onStop(){
         super.onStop()
         Log.v("myTag", "onStop was called")
-    }
-    private fun startLoginActivity() {
-        Intent(this, LoginActivity::class.java).apply {
-            // Alternative to calling finish(): clears the back stack.
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        }.let(::startActivity)
     }
 
 
