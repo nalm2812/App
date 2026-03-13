@@ -37,4 +37,9 @@
     <string name="fragment_traffic">Traffic Fragment</string>
     <string name="title_activity_traffic_report_item">TrafficReportItem</string>
     <string name="title_activity_dropdown_menu">DropdownMenu</string>
+
+
+    <string name="screen_articles">Articles</string>
+    <string name="screen_contacts">Contacts</string>
+    <string name="screen_albums">Albums</string>
 </resources>
