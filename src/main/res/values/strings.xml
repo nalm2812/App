@@ -37,4 +37,12 @@
     <string name="fragment_traffic">Traffic Fragment</string>
     <string name="title_activity_traffic_report_item">TrafficReportItem</string>
     <string name="title_activity_dropdown_menu">DropdownMenu</string>
+
+    <string name="user_info_title">User Info</string>
+    <string name="action_logout">Logout</string>
+    <string name="user_photo_description">The user\'s photo from Google Account</string>
+    <string name="unknown_user">Unknown User</string>
+
+
+
 </resources>

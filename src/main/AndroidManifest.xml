@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.X9">
         <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
             android:name=".DropdownMenu"
             android:exported="false"
             android:label="@string/title_activity_dropdown_menu"

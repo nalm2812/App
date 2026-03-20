@@ -13,6 +13,8 @@ import androidx.core.view.WindowInsetsCompat
 import dk.itu.moapd.x9.nalm.databinding.ActivityMainBinding
 import dk.itu.moapd.x9.nalm.DashboardFragment
 import android.content.res.Configuration
+import android.view.Menu
+import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
@@ -20,12 +22,14 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.firebase.auth.FirebaseAuth
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
     private val viewModel: MainViewModel by viewModels()
     private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +65,7 @@ class MainActivity : AppCompatActivity() {
         setupNavigation(navController)
         // Setup the action bar only in the portrait mode.
 
-
+        auth = FirebaseAuth.getInstance()
         Log.v("myTag", "onCreate was called")
 
     }
@@ -107,6 +111,8 @@ class MainActivity : AppCompatActivity() {
                     ).navController
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
+
+
     /*private fun setupUI() {
         with(binding){
             contentMain.autoCompleteTextViewReportType.setOnDismissListener {
@@ -242,6 +248,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart(){
         super.onStart()
+        auth.currentUser ?: startLoginActivity()
         Log.v("myTag", "onStart was called")
     }
 
@@ -258,6 +265,37 @@ class MainActivity : AppCompatActivity() {
     override fun onStop(){
         super.onStop()
         Log.v("myTag", "onStop was called")
+    }
+
+    private fun startLoginActivity() {
+        Intent(this, LoginActivity::class.java).apply {
+            // An alternative to instead of calling finish() method.
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }.let(::startActivity)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.top_app_bar, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        // Handle top app bar menu item clicks.
+        R.id.action_user_info -> {
+            UserInfoDialogFragment().apply {
+                isCancelable = false
+            }.also { dialogFragment ->
+                dialogFragment.show(supportFragmentManager, "UserInfoDialogFragment")
+            }
+            true
+        }
+        R.id.action_logout -> {
+            auth.signOut()
+            startLoginActivity()
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
     }
 
 
