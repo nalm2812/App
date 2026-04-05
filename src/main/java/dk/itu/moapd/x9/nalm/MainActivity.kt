@@ -63,10 +63,14 @@ class MainActivity : AppCompatActivity() {
 
         // Setup the bottom navigation (portrait) and the navigation rail (landscape).
         setupActionBarIfPortrait(navController)
-        setupNavigation(navController)
+        auth = FirebaseAuth.getInstance()
+        if (auth.currentUser!=null){
+            setupNavigation(navController)
+        }
+        //setupNavigation(navController)
+
         // Setup the action bar only in the portrait mode.
 
-        auth = FirebaseAuth.getInstance()
         Log.v("myTag", "onCreate was called")
 
     }
@@ -242,7 +246,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart(){
         super.onStart()
-        auth.currentUser ?: startLoginActivity()
+        //auth.currentUser ?: startLoginActivity()
         Log.v("myTag", "onStart was called")
     }
 
