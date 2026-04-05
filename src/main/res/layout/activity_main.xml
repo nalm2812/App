@@ -1,43 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:id="@+id/main"
     android:fitsSystemWindows="true"
+    android:background="@color/background_purple"
+
     >
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/background_purple"
-        android:fillViewport="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-       <include
-            android:id="@+id/content_main"
-            layout="@layout/content_main" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <com.google.android.material.appbar.AppBarLayout
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:background="@color/background_purple"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
 
-        >
-        <TextView
-            android:id="@+id/top_app_bar"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="12dp"
-            android:text="@string/app_name"
-            />
-
-
+            android:layout_height="?attr/actionBarSize" />
     </com.google.android.material.appbar.AppBarLayout>
+
+
+
+    <include
+        android:id="@+id/content_main"
+        layout="@layout/content_main" />
+
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

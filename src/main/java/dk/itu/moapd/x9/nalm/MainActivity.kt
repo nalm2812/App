@@ -17,6 +17,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -37,11 +38,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        /*ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
-        }
+        }*/
         
         //setupUI()
         /*if (savedInstanceState==null){
@@ -61,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
 
         // Setup the bottom navigation (portrait) and the navigation rail (landscape).
-        //setupActionBarIfPortrait(navController)
+        setupActionBarIfPortrait(navController)
         setupNavigation(navController)
         // Setup the action bar only in the portrait mode.
 
@@ -73,7 +74,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupActionBarIfPortrait(navController: androidx.navigation.NavController) {
         if (resources.configuration.orientation != Configuration.ORIENTATION_PORTRAIT) return
 
-        //setSupportActionBar(binding.toolbar)
+        setSupportActionBar(binding.toolbar)
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
@@ -103,14 +104,7 @@ class MainActivity : AppCompatActivity() {
      * @return `true` if Up navigation completed successfully and this `Activity` was finished,
      *      `false` otherwise.
      */
-    override fun onSupportNavigateUp(): Boolean {
-        val navController =
-            (
-                    supportFragmentManager.findFragmentById(R.id.fragment_container_view)
-                            as NavHostFragment
-                    ).navController
-        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
-    }
+
 
 
     /*private fun setupUI() {
@@ -297,6 +291,9 @@ class MainActivity : AppCompatActivity() {
         }
         else -> super.onOptionsItemSelected(item)
     }
-
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = findNavController(R.id.fragment_container_view)
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
 
 }
