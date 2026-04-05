@@ -274,7 +274,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.top_app_bar, menu)
+        if (auth.currentUser!=null){
+            menuInflater.inflate(R.menu.top_app_bar, menu)
+        }else{
+            menuInflater.inflate(R.menu.top_app_bar_logged_out, menu)
+
+        }
         return true
     }
 
@@ -290,6 +295,11 @@ class MainActivity : AppCompatActivity() {
         }
         R.id.action_logout -> {
             auth.signOut()
+            startActivity(Intent(this@MainActivity, MainActivity::class.java))
+            //startLoginActivity()
+            true
+        }
+        R.id.action_login -> {
             startLoginActivity()
             true
         }

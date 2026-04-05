@@ -40,6 +40,7 @@
 
     <string name="user_info_title">User Info</string>
     <string name="action_logout">Logout</string>
+    <string name="action_login">Login</string>
     <string name="user_photo_description">The user\'s photo from Google Account</string>
     <string name="unknown_user">Unknown User</string>
 
