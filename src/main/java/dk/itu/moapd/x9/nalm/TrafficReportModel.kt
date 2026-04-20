@@ -6,5 +6,7 @@ data class TrafficReportModel(
     val date: String,
     val reportType: String,
     val severity: String,
-    val desc: String
+    val desc: String,
+    val createdAt: Long? = null,
+    val updatedAt: Long? = null
 )
