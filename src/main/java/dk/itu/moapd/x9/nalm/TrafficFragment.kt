@@ -20,6 +20,10 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic) {
     private val viewModel: MainViewModel by activityViewModels()
 
 
+    private val repository by lazy { TrafficReportRepository() }
+
+
+
     companion object {
         private const val REPORT_TITLE = "report_title"
         private const val REPORT_LOCATION = "report_location"
@@ -268,14 +272,27 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic) {
                 if (editTextReportDate.text.toString()!="" && editTextReportDesc.text.toString()!="" && editTextReportTitle.text.toString()!="" && editTextReportLocation.text.toString()!="" && viewModel.uiState.value.reportType!="Select report type" && viewModel.uiState.value.severity !="Select severity"){
                     Log.d("myTag", "Date: " + editTextReportDate.text.toString() + "; Desc: " + editTextReportDesc.text.toString() + "; Title: " + editTextReportTitle.text.toString() + "; Location: " + editTextReportLocation.text.toString() + "; Type: " + viewModel.uiState.value.reportType + "; Severity: " + viewModel.uiState.value.severity)
                     viewModel.setTitle(editTextReportTitle.text.toString())
-                    viewModel.addItem(TrafficReportModel(
+                    var currentUserId = repository.currentUserId()
+                    if (editTextReportTitle.text.toString().trim().isNotEmpty() && currentUserId != null) {
+                        repository.addTrafficReport(
+                            userId = currentUserId,
+                            title = editTextReportTitle.text.toString(),
+                            location = editTextReportLocation.text.toString(),
+                            date = editTextReportDate.text.toString(),
+                            reportType = viewModel.uiState.value.reportType,
+                            severity = viewModel.uiState.value.severity,
+                            desc = editTextReportDesc.text.toString()
+                        )
+                    }
+
+                    /*viewModel.addItem(TrafficReportModel(
                         title = editTextReportTitle.text.toString(),
                         location = editTextReportLocation.text.toString(),
                         date = editTextReportDate.text.toString(),
                         reportType = viewModel.uiState.value.reportType,
                         severity = viewModel.uiState.value.severity,
                         desc = editTextReportDesc.text.toString()
-                    ))
+                    ))*/
                     showToast("Traffic Report Created!")
                 }else{
                     showToast("Please fill out the Traffic Report")

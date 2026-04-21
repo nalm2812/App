@@ -4,6 +4,7 @@
     <dimen name="margin_extra_large">10sp</dimen>
     <dimen name="large_box">200dp</dimen>
     <dimen name="margin_standard">8dp</dimen>
+    <dimen name="margin_xlarge">48dp</dimen>
 
 
 </resources>

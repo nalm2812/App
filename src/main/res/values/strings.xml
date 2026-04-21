@@ -43,6 +43,9 @@
     <string name="action_login">Login</string>
     <string name="user_photo_description">The user\'s photo from Google Account</string>
     <string name="unknown_user">Unknown User</string>
+    <string name="item_deleted">Item deleted successfully</string>
+    <string name="edit_name">Enter the name</string>
+    <string name="content_description_image">Image</string>
 
 
 
