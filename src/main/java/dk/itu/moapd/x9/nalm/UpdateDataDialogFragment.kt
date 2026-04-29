@@ -31,6 +31,11 @@ class UpdateDataDialogFragment : DialogFragment() {
          */
         private const val ARG_CREATED_AT = "arg_created_at"
 
+        private const val ARG_LOCATION = "arg_location"
+        private const val ARG_DATE = "arg_date"
+        private const val ARG_DESC = "arg_desc"
+
+
         /**
          * Creates a new instance of a [UpdateDataDialogFragment].
          *
@@ -43,17 +48,24 @@ class UpdateDataDialogFragment : DialogFragment() {
         fun createInstance(
             key: String,
             currentName: String,
-            createdAt: Long?,
-            currentSeverity: String,
+            currentLocation: String,
+            currentDate: String,
             currentReportType: String,
+            currentSeverity: String,
+            currentDesc: String,
+            createdAt: Long?,
+
         ): UpdateDataDialogFragment {
             return UpdateDataDialogFragment().apply {
                 arguments = bundleOf(
                     ARG_KEY to key,
                     ARG_NAME to currentName,
-                    ARG_CREATED_AT to (createdAt ?: Long.MIN_VALUE),
+                    ARG_LOCATION to currentLocation,
+                    ARG_DATE to currentDate,
+                    ARG_REPORT_TYPE to currentReportType,
                     ARG_SEVERITY to currentSeverity,
-                    ARG_REPORT_TYPE to currentReportType
+                    ARG_DESC to currentDesc,
+                    ARG_CREATED_AT to (createdAt ?: Long.MIN_VALUE),
                 )
             }
         }
@@ -75,12 +87,19 @@ class UpdateDataDialogFragment : DialogFragment() {
         // Get the arguments from the bundle.
         val key = requireArguments().getString(ARG_KEY)
         val currentName = requireArguments().getString(ARG_NAME).orEmpty()
+        val currentSeverity = requireArguments().getString(ARG_SEVERITY).orEmpty()
+        val currentReportType = requireArguments().getString(ARG_REPORT_TYPE).orEmpty()
+        val currentLocation = requireArguments().getString(ARG_LOCATION).orEmpty()
+        val currentDate = requireArguments().getString(ARG_DATE).orEmpty()
+        val currentDesc = requireArguments().getString(ARG_DESC).orEmpty()
         val createdAt = requireArguments().getLong(ARG_CREATED_AT, Long.MIN_VALUE)
             .let { if (it == Long.MIN_VALUE) null else it }
         _binding = FragmentTrafficBinding.inflate(layoutInflater)
         binding.editTextReportTitle.setText(currentName)
-        val currentSeverity = requireArguments().getString(ARG_SEVERITY).orEmpty()
-        val currentReportType = requireArguments().getString(ARG_REPORT_TYPE).orEmpty()
+        binding.editTextReportLocation.setText(currentLocation)
+        binding.editTextReportDate.setText(currentDate)
+        binding.editTextReportDesc.setText(currentDesc)
+
 
 
         // Create a lambda for positive button click handling.
