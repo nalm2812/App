@@ -33,8 +33,14 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.database
 import dk.itu.moapd.x9.nalm.ui.theme.X9Theme
 import kotlin.getValue
 
@@ -49,6 +55,10 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
     private val binding by viewBinding(FragmentDashboardBinding::bind)
     private val viewModel: MainViewModel by activityViewModels()
     private var trafficReportList: List<TrafficReportModel> = emptyList()
+
+    private val repository by lazy { TrafficReportRepository() }
+
+    private var adapter: TrafficReportAdapter? = null
 
 
 
@@ -65,7 +75,67 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupRecyclerView()
+
+        val userId = repository.currentUserId() ?: return
+
+        val query = Firebase.database(DATABASE_URL).reference
+            .child("trafficreport")
+            .child(userId)
+            .orderByChild("createdAt")
+
+        val options = FirebaseRecyclerOptions.Builder<TrafficReportModel>()
+            .setQuery(query, TrafficReportModel::class.java)
+            .setLifecycleOwner(viewLifecycleOwner)
+            .build()
+
+        adapter = TrafficReportAdapter(
+            longClickListener = TrafficReportModelLongClickListener { trafficReport, position ->
+                val key = adapter?.getRef(position)?.key ?: return@TrafficReportModelLongClickListener
+                UpdateDataDialogFragment
+                    .createInstance(key=key, currentName = trafficReport.title, createdAt = trafficReport.createdAt)
+                    .apply {isCancelable = false}
+                    .show(parentFragmentManager, tag())
+            },
+            options = options,
+        )
+        //val adapter = TrafficReportAdapter(this, options)
+
+        setupRecyclerView(requireNotNull(adapter))
+
+
+        /*FirebaseAuth.getInstance().currentUser?.let { user ->
+            val query = Firebase.database(DATABASE_URL).reference
+                .child("trafficreport")
+                .child(user.uid)
+                .orderByChild("createdAt")
+            val options = FirebaseRecyclerOptions.Builder<TrafficReportModel>()
+                .setQuery(query, TrafficReportModel::class.java)
+                .setLifecycleOwner(this)
+                .build()
+            val adapter = TrafficReportAdapter(
+                longClickListener = TrafficReportModelLongClickListener { trafficReport, position ->
+                    val key = adapter?.getRef(position)?.key ?: return@TrafficReportModelLongClickListener
+                    UpdateDataDialogFragment
+                        .createInstance(key=key, currentName = trafficReport.title, createdAt = trafficReport.createdAt)
+                        .apply {isCancelable = false}
+                        .show(parentFragmentManager, tag())
+                },
+                options = options,
+            )
+            binding.recyclerView.apply {
+                layoutManager = LinearLayoutManager(requireContext())
+                itemAnimator = null
+                addItemDecoration(
+                    DividerItemDecoration(
+                        requireContext(),
+                        DividerItemDecoration.VERTICAL
+                    )
+                )
+                this.adapter = adapter
+            }
+        }*/
+
+
         //setUpList()
         Log.v("myTag", "onViewCreated Dashboard was called")
     }
@@ -88,6 +158,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        adapter = null
         Log.v("myTag", "onDestroyView Dashboard was called")
 
     }
@@ -115,11 +186,25 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
     }
 
-    private fun setupRecyclerView() =
-        with(binding.recyclerView) {
+    private fun setupRecyclerView(adapter: TrafficReportAdapter) =
+        binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
+            itemAnimator = null
+            addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
+            this.adapter = adapter
+            val swipeHandler = object : SwipeToDeleteCallback() {
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    super.onSwiped(viewHolder, direction)
+                    val userId = repository.currentUserId() ?: return
+                    val pos = viewHolder.bindingAdapterPosition
+                    val key = adapter.getRef(pos).key ?: return
+                    repository.deleteTrafficReport(userId = userId, key = key)
+                }
+            }
+
+            ItemTouchHelper(swipeHandler).attachToRecyclerView(this)
             //Log.v("myTag", "size of traffic: " + trafficReportList.size)
-            viewModel.items.observe(viewLifecycleOwner, Observer { list ->
+            /*viewModel.items.observe(viewLifecycleOwner, Observer { list ->
                 trafficReportList = list
                 adapter = CustomAdapter(trafficReportList)
 
@@ -130,9 +215,20 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                     }
                     insets
                 }
-            })
+            })*/
+            /*val swipeHandler = object : SwipeToDeleteCallback() {
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    super.onSwiped(viewHolder, direction)
+                    val userId = repository.currentUserId() ?: return
+                    val pos = viewHolder.bindingAdapterPosition
+                    val key = adapter.getRef(pos).key ?: return
+                    repository.deleteTrafficReport(userId = userId, key = key)
+                }
+            }
 
+            ItemTouchHelper(swipeHandler).attachToRecyclerView(this)*/
         }
+
 
     /*private fun setUpList() {
 

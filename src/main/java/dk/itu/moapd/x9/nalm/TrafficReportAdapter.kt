@@ -13,9 +13,17 @@ class TrafficReportAdapter (
     private val longClickListener: TrafficReportModelLongClickListener,
     options: FirebaseRecyclerOptions<TrafficReportModel>,
 ) : FirebaseRecyclerAdapter<TrafficReportModel, TrafficReportAdapter.ViewHolder>(options) {
+
+
+
     class ViewHolder(private val binding: ListItemTrafficReportBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(trafficReport : TrafficReportModel) {
-            binding.trafficTitle.text = trafficReport.title
+            binding.inputTrafficTitle.text = trafficReport.title
+            binding.inputTrafficDate.text = trafficReport.date
+            binding.inputTrafficSeverity.text = trafficReport.severity
+            binding.inputTrafficReportType.text = trafficReport.reportType
+            binding.inputTrafficDesc.text = trafficReport.desc
+            binding.inputTrafficLocation.text = trafficReport.location
         }
     }
 
