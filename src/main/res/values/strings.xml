@@ -51,6 +51,8 @@
     <string name="button_add">Add</string>
     <string name="button_update">Update</string>
     <string name="button_cancel">Cancel</string>
+    <string name="dialog_update_title">Update an entry</string>
+    <string name="dialog_update_message">Update a selected data from the database</string>
 
 
 

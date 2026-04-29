@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dk.itu.moapd.x9.nalm.databinding.FragmentTrafficBinding
 import dk.itu.moapd.x9.nalm.databinding.ListItemTrafficReportBinding
 
 
@@ -21,6 +22,9 @@ class UpdateDataDialogFragment : DialogFragment() {
          * The argument key for the name of the dummy.
          */
         private const val ARG_NAME = "arg_name"
+
+        private const val ARG_SEVERITY = "arg_severity"
+        private const val ARG_REPORT_TYPE = "arg_report_type"
 
         /**
          * The argument key for the creation time of the dummy.
@@ -39,19 +43,23 @@ class UpdateDataDialogFragment : DialogFragment() {
         fun createInstance(
             key: String,
             currentName: String,
-            createdAt: Long?
+            createdAt: Long?,
+            currentSeverity: String,
+            currentReportType: String,
         ): UpdateDataDialogFragment {
             return UpdateDataDialogFragment().apply {
                 arguments = bundleOf(
                     ARG_KEY to key,
                     ARG_NAME to currentName,
                     ARG_CREATED_AT to (createdAt ?: Long.MIN_VALUE),
+                    ARG_SEVERITY to currentSeverity,
+                    ARG_REPORT_TYPE to currentReportType
                 )
             }
         }
     }
 
-    private var _binding: ListItemTrafficReportBinding? = null
+    private var _binding: FragmentTrafficBinding? = null
 
     val binding
         get() =
@@ -69,16 +77,19 @@ class UpdateDataDialogFragment : DialogFragment() {
         val currentName = requireArguments().getString(ARG_NAME).orEmpty()
         val createdAt = requireArguments().getLong(ARG_CREATED_AT, Long.MIN_VALUE)
             .let { if (it == Long.MIN_VALUE) null else it }
-        _binding = ListItemTrafficReportBinding.inflate(layoutInflater)
+        _binding = FragmentTrafficBinding.inflate(layoutInflater)
+        binding.editTextReportTitle.setText(currentName)
+        val currentSeverity = requireArguments().getString(ARG_SEVERITY).orEmpty()
+        val currentReportType = requireArguments().getString(ARG_REPORT_TYPE).orEmpty()
+
+
         // Create a lambda for positive button click handling.
         val onPositiveButtonClick: (DialogInterface, Int) -> Unit = { dialog, _ ->
-            val name = binding.inputTrafficTitle.text.toString().trim()
+            val name = binding.editTextReportTitle.text.toString().trim()
             val userId = repository.currentUserId()
-            val desc = binding.inputTrafficDesc.text.toString().trim()
-            val severity = binding.inputTrafficSeverity.text.toString().trim()
-            val location = binding.inputTrafficLocation.text.toString().trim()
-            val date = binding.inputTrafficDate.text.toString().trim()
-            val reportType = binding.inputTrafficReportType.text.toString().trim()
+            val desc = binding.editTextReportDesc.text.toString().trim()
+            val location = binding.editTextReportLocation.text.toString().trim()
+            val date = binding.editTextReportDate.text.toString().trim()
 
             if (name.isNotEmpty() && userId != null && key != null) {
                 repository.updateTrafficReport(
@@ -87,18 +98,28 @@ class UpdateDataDialogFragment : DialogFragment() {
                     title = name,
                     location = location,
                     date = date,
-                    reportType = reportType,
-                    severity = severity,
+                    reportType = currentReportType,
+                    severity = currentSeverity,
                     desc = desc,
                     createdAt = createdAt,
                 )
             }
+
         }
-        // Create and return a new instance of MaterialAlertDialogBuilder.
         return MaterialAlertDialogBuilder(requireContext()).apply {
             setView(binding.root)
-
+            setTitle(getString(R.string.dialog_update_title))
+            setMessage(getString(R.string.dialog_update_message))
+            setPositiveButton(getString(R.string.button_update), onPositiveButtonClick)
+            setNegativeButton(getString(R.string.button_cancel)) { dialog, _ -> dialog.dismiss() }
         }.create()
+        // Create and return a new instance of MaterialAlertDialogBuilder.
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
 

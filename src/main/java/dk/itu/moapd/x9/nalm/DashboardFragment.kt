@@ -92,7 +92,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
             longClickListener = TrafficReportModelLongClickListener { trafficReport, position ->
                 val key = adapter?.getRef(position)?.key ?: return@TrafficReportModelLongClickListener
                 UpdateDataDialogFragment
-                    .createInstance(key=key, currentName = trafficReport.title, createdAt = trafficReport.createdAt)
+                    .createInstance(key=key, currentName = trafficReport.title, createdAt = trafficReport.createdAt, currentSeverity = trafficReport.severity, currentReportType = trafficReport.reportType)
                     .apply {isCancelable = false}
                     .show(parentFragmentManager, tag())
             },
