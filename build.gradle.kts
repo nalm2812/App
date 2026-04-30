@@ -72,4 +72,5 @@ dependencies {
     implementation(libs.picasso)
     implementation(libs.firebase.database.ktx)
     implementation(libs.firebase.ui.database)
+    implementation(libs.google.play.services.location)
 }

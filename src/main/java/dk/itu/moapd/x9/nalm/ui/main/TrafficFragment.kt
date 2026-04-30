@@ -1,19 +1,21 @@
-package dk.itu.moapd.x9.nalm
+package dk.itu.moapd.x9.nalm.ui.main
 
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import dk.itu.moapd.x9.nalm.DropdownMenu
+import dk.itu.moapd.x9.nalm.MainViewModel
+import dk.itu.moapd.x9.nalm.R
+import dk.itu.moapd.x9.nalm.data.repository.TrafficReportRepository
 import dk.itu.moapd.x9.nalm.databinding.FragmentTrafficBinding
+import dk.itu.moapd.x9.nalm.ui.common.showToast
 import dk.itu.moapd.x9.nalm.ui.theme.X9Theme
-import kotlin.getValue
-
+import dk.itu.moapd.x9.nalm.ui.utils.viewBinding
 
 class TrafficFragment : Fragment(R.layout.fragment_traffic) {
     private val binding by viewBinding(FragmentTrafficBinding::bind)
@@ -163,8 +165,14 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic) {
         binding.reportType.apply{
             setContent {
                 X9Theme {
-                    val list = listOf("Speed Camera", "Heavy Traffic", "Road Incidents", "Broken Vehicles", "Other")
-                    DropdownMenu(list,  viewModel, true)
+                    val list = listOf(
+                        "Speed Camera",
+                        "Heavy Traffic",
+                        "Road Incidents",
+                        "Broken Vehicles",
+                        "Other"
+                    )
+                    DropdownMenu(list, viewModel, true)
                 }
             }
         }
@@ -174,7 +182,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic) {
             setContent {
                 X9Theme {
                     val list = listOf("Minor", "Moderate", "Major")
-                    DropdownMenu(list,  viewModel, false)
+                    DropdownMenu(list, viewModel, false)
                 }
             }
         }

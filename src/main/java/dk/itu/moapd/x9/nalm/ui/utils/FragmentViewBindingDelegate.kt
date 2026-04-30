@@ -1,8 +1,9 @@
-package dk.itu.moapd.x9.nalm
+package dk.itu.moapd.x9.nalm.ui.utils
 
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.viewbinding.ViewBinding
 import kotlin.properties.ReadOnlyProperty
@@ -57,7 +58,7 @@ class FragmentViewBindingDelegate<T : ViewBinding>(
         if (binding != null) return binding
 
         val lifecycle = fragment.viewLifecycleOwner.lifecycle
-        if (!lifecycle.currentState.isAtLeast(androidx.lifecycle.Lifecycle.State.INITIALIZED)) {
+        if (!lifecycle.currentState.isAtLeast(Lifecycle.State.INITIALIZED)) {
             throw IllegalStateException(
                 "Should not attempt to get bindings when Fragment views are destroyed.",
             )

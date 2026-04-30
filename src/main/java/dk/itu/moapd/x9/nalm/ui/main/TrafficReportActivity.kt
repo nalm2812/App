@@ -1,15 +1,12 @@
-package dk.itu.moapd.x9.nalm
+package dk.itu.moapd.x9.nalm.ui.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import dk.itu.moapd.x9.nalm.R
-import dk.itu.moapd.x9.nalm.databinding.ActivityMainBinding
 import dk.itu.moapd.x9.nalm.databinding.ActivityTrafficReportBinding
 
 class TrafficReportActivity : AppCompatActivity() {

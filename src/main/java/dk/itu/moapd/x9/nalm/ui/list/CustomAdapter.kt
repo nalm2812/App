@@ -1,11 +1,12 @@
-package dk.itu.moapd.x9.nalm
+package dk.itu.moapd.x9.nalm.ui.list
 
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import dk.itu.moapd.x9.nalm.databinding.ListItemTrafficReportBinding
+import dk.itu.moapd.x9.nalm.domain.model.TrafficReportModel
+
 class CustomAdapter(
     private val items: List<TrafficReportModel>,
 ) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
@@ -39,5 +40,3 @@ class CustomAdapter(
         }
     }
 }
-
-

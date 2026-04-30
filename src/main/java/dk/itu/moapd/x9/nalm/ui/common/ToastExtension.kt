@@ -1,4 +1,4 @@
-package dk.itu.moapd.x9.nalm
+package dk.itu.moapd.x9.nalm.ui.common
 
 import android.view.View
 import android.widget.Toast

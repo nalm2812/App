@@ -1,8 +1,10 @@
-package dk.itu.moapd.x9.nalm
+package dk.itu.moapd.x9.nalm.ui.list
 
-import androidx.core.content.ContextCompat.getString
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import dk.itu.moapd.x9.nalm.R
+import dk.itu.moapd.x9.nalm.ui.common.showSnackBar
 
 open class SwipeToDeleteCallback : ItemTouchHelper.SimpleCallback(
     0,
@@ -53,7 +55,7 @@ open class SwipeToDeleteCallback : ItemTouchHelper.SimpleCallback(
         direction: Int
     ) {
         viewHolder.itemView.showSnackBar(
-            getString(viewHolder.itemView.context, R.string.item_deleted)
+            ContextCompat.getString(viewHolder.itemView.context, R.string.item_deleted)
         )
     }
 }

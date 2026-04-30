@@ -1,11 +1,12 @@
-package dk.itu.moapd.x9.nalm
+package dk.itu.moapd.x9.nalm.ui.dialogs
 
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import dk.itu.moapd.x9.nalm.databinding.FragmentTrafficBinding
+import dk.itu.moapd.x9.nalm.R
+import dk.itu.moapd.x9.nalm.data.repository.TrafficReportRepository
 import dk.itu.moapd.x9.nalm.databinding.ListItemTrafficReportBinding
 
 class AddDataDialogFragment : DialogFragment() {

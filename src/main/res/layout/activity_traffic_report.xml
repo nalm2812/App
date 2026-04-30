@@ -4,7 +4,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-tools:context="dk.itu.moapd.x9.nalm.TrafficReportActivity"
+tools:context="dk.itu.moapd.x9.nalm.ui.main.TrafficReportActivity"
 android:id="@+id/main"
     >
 

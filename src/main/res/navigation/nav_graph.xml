@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/fragment_dashboard"
-        android:name="dk.itu.moapd.x9.nalm.DashboardFragment"
+        android:name="dk.itu.moapd.x9.nalm.ui.main.DashboardFragment"
         tools:layout="@layout/fragment_dashboard">
         <action
             android:id="@+id/action_main_to_report"
@@ -16,7 +16,7 @@
 
     <fragment
         android:id="@+id/fragment_traffic"
-        android:name="dk.itu.moapd.x9.nalm.TrafficFragment"
+        android:name="dk.itu.moapd.x9.nalm.ui.main.TrafficFragment"
         tools:layout="@layout/fragment_traffic">
         <action
             android:id="@+id/action_report_to_main"

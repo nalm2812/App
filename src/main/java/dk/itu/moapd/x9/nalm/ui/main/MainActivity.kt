@@ -1,22 +1,15 @@
-package dk.itu.moapd.x9.nalm
+package dk.itu.moapd.x9.nalm.ui.main
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
-import android.view.KeyEvent
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import dk.itu.moapd.x9.nalm.databinding.ActivityMainBinding
-import dk.itu.moapd.x9.nalm.DashboardFragment
-import android.content.res.Configuration
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.lifecycle.Observer
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -24,7 +17,11 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.auth.FirebaseAuth
-
+import dk.itu.moapd.x9.nalm.ui.auth.LoginActivity
+import dk.itu.moapd.x9.nalm.MainViewModel
+import dk.itu.moapd.x9.nalm.R
+import dk.itu.moapd.x9.nalm.ui.dialogs.UserInfoDialogFragment
+import dk.itu.moapd.x9.nalm.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
@@ -43,7 +40,7 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }*/
-        
+
         //setupUI()
         /*if (savedInstanceState==null){
             val dashboard = DashboardFragment()
@@ -75,7 +72,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun setupActionBarIfPortrait(navController: androidx.navigation.NavController) {
+    private fun setupActionBarIfPortrait(navController: NavController) {
         if (resources.configuration.orientation != Configuration.ORIENTATION_PORTRAIT) return
 
         setSupportActionBar(binding.toolbar)
@@ -88,7 +85,7 @@ class MainActivity : AppCompatActivity() {
      *
      * @param navController The NavController to be used for navigation.
      */
-    private fun setupNavigation(navController: androidx.navigation.NavController) {
+    private fun setupNavigation(navController: NavController) {
         // Portrait: bottom navigation. Landscape: navigation rail.
         binding.contentMain.bottomNavigation?.setupWithNavController(navController)
         //binding.navigationRail?.setupWithNavController(navController)

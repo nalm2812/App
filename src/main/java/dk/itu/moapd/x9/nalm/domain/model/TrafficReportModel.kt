@@ -1,4 +1,4 @@
-package dk.itu.moapd.x9.nalm
+package dk.itu.moapd.x9.nalm.domain.model
 
 import com.google.firebase.database.IgnoreExtraProperties
 

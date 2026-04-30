@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission
+        android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission
+        android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -11,23 +17,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.X9">
         <activity
-            android:name=".LoginActivity"
+            android:name=".ui.auth.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".DropdownMenu"
-            android:exported="false"
-            android:label="@string/title_activity_dropdown_menu"
-            android:theme="@style/Theme.X9" />
-        <activity
-            android:name=".TrafficReportItem"
-            android:exported="false"
-            android:label="@string/title_activity_traffic_report_item"
-            android:theme="@style/Theme.X9" />
-        <activity
-            android:name=".TrafficReportActivity"
+            android:name=".ui.main.TrafficReportActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.main.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.X9">
             <intent-filter>
