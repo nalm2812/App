@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission
-        android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission
-        android:name="android.permission.ACCESS_COARSE_LOCATION" />
+        android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
     <application
@@ -16,6 +16,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.X9">
+        <service
+            android:name=".service.LocationService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="location" />
         <activity
             android:name=".ui.auth.LoginActivity"
             android:exported="false" />
