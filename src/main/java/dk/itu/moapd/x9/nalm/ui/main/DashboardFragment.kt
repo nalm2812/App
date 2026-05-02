@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
@@ -25,6 +26,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Firebase
 import com.google.firebase.database.database
@@ -42,6 +44,8 @@ import dk.itu.moapd.x9.nalm.databinding.FragmentDashboardBinding
 import dk.itu.moapd.x9.nalm.service.LocationService
 import dk.itu.moapd.x9.nalm.core.tag
 import dk.itu.moapd.x9.nalm.ui.utils.viewBinding
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 
 
@@ -54,7 +58,6 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
     private val binding by viewBinding(FragmentDashboardBinding::bind)
     private val viewModel: MainViewModel by activityViewModels()
-    private var trafficReportList: List<TrafficReportModel> = emptyList()
 
     private val repository by lazy { TrafficReportRepository() }
 
@@ -65,6 +68,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
     private var locationServiceBound: Boolean = false
 
     private var locationService: LocationService? = null
+
 
 
 
@@ -80,6 +84,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                 Snackbar.LENGTH_LONG
             ).show()
         }
+
     }
 
     private fun startLocationTracking() {
@@ -143,7 +148,9 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                         currentReportType = trafficReport.reportType,
                         currentLocation = trafficReport.location,
                         currentDate = trafficReport.date,
-                        currentDesc = trafficReport.desc
+                        currentDesc = trafficReport.desc,
+                        latitude = trafficReport.latitude,
+                        longitude = trafficReport.longitude
                     )
                     .apply { isCancelable = false }
                     .show(parentFragmentManager, tag())
@@ -154,6 +161,8 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
         setupRecyclerView(requireNotNull(adapter))
         requestLocationPermission()
+        viewModel.setPermission(pendingStartTracking)
+
 
 
 

@@ -34,6 +34,8 @@ class UpdateDataDialogFragment : DialogFragment() {
         private const val ARG_LOCATION = "arg_location"
         private const val ARG_DATE = "arg_date"
         private const val ARG_DESC = "arg_desc"
+        private const val ARG_LATITUDE = "arg_latitude"
+        private const val ARG_LONGITUDE = "arg_longitude"
 
 
         /**
@@ -54,6 +56,8 @@ class UpdateDataDialogFragment : DialogFragment() {
             currentSeverity: String,
             currentDesc: String,
             createdAt: Long?,
+            latitude: Double?,
+            longitude: Double?
 
         ): UpdateDataDialogFragment {
             return UpdateDataDialogFragment().apply {
@@ -66,6 +70,8 @@ class UpdateDataDialogFragment : DialogFragment() {
                     ARG_SEVERITY to currentSeverity,
                     ARG_DESC to currentDesc,
                     ARG_CREATED_AT to (createdAt ?: Long.MIN_VALUE),
+                    ARG_LATITUDE to (latitude ?: Double.MIN_VALUE),
+                    ARG_LONGITUDE to (longitude ?: Double.MIN_VALUE)
                 )
             }
         }
@@ -94,6 +100,10 @@ class UpdateDataDialogFragment : DialogFragment() {
         val currentDesc = requireArguments().getString(ARG_DESC).orEmpty()
         val createdAt = requireArguments().getLong(ARG_CREATED_AT, Long.MIN_VALUE)
             .let { if (it == Long.MIN_VALUE) null else it }
+        val latitude = requireArguments().getDouble(ARG_LATITUDE, Double.MIN_VALUE)
+            .let { if (it == Double.MIN_VALUE) null else it }
+        val longitude = requireArguments().getDouble(ARG_LONGITUDE, Double.MIN_VALUE)
+            .let { if (it == Double.MIN_VALUE) null else it }
         _binding = FragmentTrafficBinding.inflate(layoutInflater)
         binding.editTextReportTitle.setText(currentName)
         binding.editTextReportLocation.setText(currentLocation)
@@ -121,6 +131,8 @@ class UpdateDataDialogFragment : DialogFragment() {
                     severity = currentSeverity,
                     desc = desc,
                     createdAt = createdAt,
+                    latitude = latitude,
+                    longitude = longitude
                 )
             }
 

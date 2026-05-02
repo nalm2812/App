@@ -21,7 +21,7 @@ class TrafficReportRepository(
         .child(PATH_TRAFFIC_REPORTS)
         .child(userId)
         .orderByChild(CHILD_CREATED_AT)
-    fun addTrafficReport(userId: String, title: String, location: String, date: String, reportType: String, severity: String, desc: String, now: Long = System.currentTimeMillis()) {
+    fun addTrafficReport(userId: String, title: String, location: String, date: String, reportType: String, severity: String, desc: String, now: Long = System.currentTimeMillis(), latitude: Double?, longitude: Double?) {
         val key = root
             .child(PATH_TRAFFIC_REPORTS)
             .child(userId)
@@ -34,7 +34,9 @@ class TrafficReportRepository(
             reportType = reportType,
             severity = severity,
             desc = desc,
-            createdAt = now
+            createdAt = now,
+            latitude = latitude,
+            longitude = longitude
         )
         root
             .child(PATH_TRAFFIC_REPORTS)
@@ -45,7 +47,7 @@ class TrafficReportRepository(
 
     }
 
-    fun updateTrafficReport(userId: String, key: String, title: String, location: String, date: String, reportType: String, severity: String, desc: String, now: Long = System.currentTimeMillis(), createdAt: Long?){
+    fun updateTrafficReport(userId: String, key: String, title: String, location: String, date: String, reportType: String, severity: String, desc: String, now: Long = System.currentTimeMillis(), createdAt: Long?, latitude: Double?, longitude: Double?){
         val trafficReport = TrafficReportModel(
             title = title,
             location = location,
@@ -54,7 +56,9 @@ class TrafficReportRepository(
             severity = severity,
             desc = desc,
             createdAt = createdAt,
-            updatedAt = now
+            updatedAt = now,
+            latitude = latitude,
+            longitude = longitude
         )
         root
             .child(PATH_TRAFFIC_REPORTS)

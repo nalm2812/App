@@ -1,5 +1,6 @@
 package dk.itu.moapd.x9.nalm
 
+import android.Manifest
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -41,6 +42,13 @@ class MainViewModel : ViewModel(){
 
     fun setItems(list: List<TrafficReportModel>) {
         _items.value = list
+    }
+
+    private val _permission = MutableLiveData<Boolean>(false)
+    val permission: LiveData<Boolean> = _permission
+
+    fun setPermission(permission: Boolean){
+        _permission.value = permission
     }
     private fun createTrafficReport() : List<TrafficReportModel> =
         (1..3).map { index ->
