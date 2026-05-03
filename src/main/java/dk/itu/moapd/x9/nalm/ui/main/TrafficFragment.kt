@@ -7,6 +7,7 @@ import android.content.ServiceConnection
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Location
+import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
@@ -14,7 +15,9 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -23,6 +26,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.material.snackbar.Snackbar
 import dk.itu.moapd.x9.nalm.DropdownMenu
 import dk.itu.moapd.x9.nalm.MainViewModel
 import dk.itu.moapd.x9.nalm.R
@@ -157,10 +161,42 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
                     requireContext(), LocationService::class.java
                 )
             )
+        } else {
+            if (hasLocationPermission()) {
+                startLocationTracking()
+            } else {
+                requestLocationPermission()
+            }
         }
         Log.v("myTag", "onViewCreated Traffic was called")
 
     }
+
+    private fun hasLocationPermission(): Boolean {
+        return ActivityCompat.checkSelfPermission(
+            requireContext(),
+            android.Manifest.permission.ACCESS_FINE_LOCATION,
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun requestLocationPermission() {
+        requestPermissionLauncher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION)
+    }
+
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            startLocationTracking()
+        } else {
+            Snackbar.make(
+                binding.root,
+                R.string.permission_denied_message,
+                Snackbar.LENGTH_LONG
+            ).show()
+        }
+    }
+
 
 
 
@@ -185,7 +221,24 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
             serviceConnection,
             Context.BIND_AUTO_CREATE
         )
+        val alreadyEnabled = LocationTrackingPreferences.isTrackingEnabled(requireContext())
+        if (alreadyEnabled) {
+            startLocationTracking()
+        }
         Log.v("myTag", "onStart Traffic was called")
+    }
+    private fun startLocationTracking() {
+        pendingStartTracking = true
+        val serviceIntent = Intent(requireContext(), LocationService::class.java)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            ContextCompat.startForegroundService(requireActivity(), serviceIntent)
+        } else {
+            requireActivity().startService(serviceIntent)
+        }
+        if (locationServiceBound) {
+            locationService?.subscribeToLocationUpdates()
+            pendingStartTracking = false
+        }
     }
 
     override fun onStop() {
