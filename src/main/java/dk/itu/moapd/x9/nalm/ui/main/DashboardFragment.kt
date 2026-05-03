@@ -63,47 +63,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
     private var adapter: TrafficReportAdapter? = null
 
-    private var pendingStartTracking: Boolean = false
 
-    private var locationServiceBound: Boolean = false
-
-    private var locationService: LocationService? = null
-
-
-
-
-    private val requestPermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted: Boolean ->
-        if (isGranted) {
-            startLocationTracking()
-        } else {
-            Snackbar.make(
-                binding.root,
-                R.string.permission_denied_message,
-                Snackbar.LENGTH_LONG
-            ).show()
-        }
-
-    }
-
-    private fun startLocationTracking() {
-        pendingStartTracking = true
-        val serviceIntent = Intent(requireContext(), LocationService::class.java)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            ContextCompat.startForegroundService(requireActivity(), serviceIntent)
-        } else {
-            requireActivity().startService(serviceIntent)
-        }
-        if (locationServiceBound) {
-            locationService?.subscribeToLocationUpdates()
-            pendingStartTracking = false
-        }
-    }
-
-    private fun requestLocationPermission() {
-        requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-    }
 
 
 
@@ -160,8 +120,6 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         //val adapter = TrafficReportAdapter(this, options)
 
         setupRecyclerView(requireNotNull(adapter))
-        requestLocationPermission()
-        viewModel.setPermission(pendingStartTracking)
 
 
 

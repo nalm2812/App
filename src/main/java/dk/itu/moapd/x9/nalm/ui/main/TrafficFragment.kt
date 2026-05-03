@@ -60,13 +60,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
 
 
 
-    private var pendingStartTracking: Boolean = false
 
-
-
-    private var locationServiceBound: Boolean = false
-
-    private var locationService: LocationService? = null
 
     private var longitude: Double? = null
     private var latitude: Double? = null
@@ -77,6 +71,16 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
         private const val REPORT_DATE = "report_date"
         private const val REPORT_DESC = "report_desc"
     }
+
+    private var pendingStartTracking: Boolean = false
+
+    private var locationServiceBound: Boolean = false
+
+    private var locationService: LocationService? = null
+
+
+
+
 
     private val serviceConnection = object : ServiceConnection {
 
@@ -145,14 +149,8 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupUI()
-        //setSeverity(view)
-        //setReportType(view)
-        setUpReportType()
-        setUpSeverity()
-        viewModel.permission.observe(viewLifecycleOwner, Observer { pending ->
-            pendingStartTracking = pending
-        })
+
+        //here!!!
         if (LocationTrackingPreferences.isTrackingEnabled(requireContext())) {
             locationService?.unsubscribeToLocationUpdates()
             pendingStartTracking = false
@@ -168,6 +166,11 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
                 requestLocationPermission()
             }
         }
+        setupUI()
+        //setSeverity(view)
+        //setReportType(view)
+        setUpReportType()
+        setUpSeverity()
         Log.v("myTag", "onViewCreated Traffic was called")
 
     }
