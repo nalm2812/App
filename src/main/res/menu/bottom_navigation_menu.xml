@@ -10,5 +10,10 @@
         android:enabled="true"
 
         android:title="@string/fragment_traffic"/>
+    <item
+        android:id="@+id/fragment_map"
+        android:enabled="true"
+
+        android:title="@string/fragment_map"/>
 
 </menu>

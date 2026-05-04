@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_main_to_report"
             app:destination="@id/fragment_traffic" />
+        <action
+            android:id="@+id/action_main_to_map"
+            app:destination="@id/fragment_map" />
     </fragment>
 
     <fragment
@@ -21,6 +24,24 @@
         <action
             android:id="@+id/action_report_to_main"
             app:destination="@id/fragment_dashboard" />
+        <action
+            android:id="@+id/action_report_to_map"
+            app:destination="@id/fragment_map" />
     </fragment>
+
+    <fragment
+        android:id="@+id/fragment_map"
+        android:name="dk.itu.moapd.x9.nalm.ui.main.MapFragment"
+        tools:layout="@layout/fragment_map">
+        <action
+            android:id="@+id/action_map_to_main"
+            app:destination="@id/fragment_dashboard" />
+        <action
+            android:id="@+id/action_map_to_traffic"
+            app:destination="@id/fragment_traffic" />
+    </fragment>
+
+
+
 
 </navigation>
