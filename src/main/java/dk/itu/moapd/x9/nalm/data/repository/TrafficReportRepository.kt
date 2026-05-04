@@ -21,23 +21,13 @@ class TrafficReportRepository(
         .child(PATH_TRAFFIC_REPORTS)
         .child(userId)
         .orderByChild(CHILD_CREATED_AT)
-    fun addTrafficReport(userId: String, title: String, location: String, date: String, reportType: String, severity: String, desc: String, now: Long = System.currentTimeMillis(), latitude: Double?, longitude: Double?) {
+    fun addTrafficReport(trafficReport: TrafficReportModel, userId: String) {
         val key = root
             .child(PATH_TRAFFIC_REPORTS)
             .child(userId)
             .push()
             .key ?: return
-        val trafficReport = TrafficReportModel(
-            title = title,
-            location = location,
-            date = date,
-            reportType = reportType,
-            severity = severity,
-            desc = desc,
-            createdAt = now,
-            latitude = latitude,
-            longitude = longitude
-        )
+
         root
             .child(PATH_TRAFFIC_REPORTS)
             .child(userId)

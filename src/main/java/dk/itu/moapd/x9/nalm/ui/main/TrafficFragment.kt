@@ -33,6 +33,7 @@ import dk.itu.moapd.x9.nalm.R
 import dk.itu.moapd.x9.nalm.core.preferences.LocationTrackingPreferences
 import dk.itu.moapd.x9.nalm.data.repository.TrafficReportRepository
 import dk.itu.moapd.x9.nalm.databinding.FragmentTrafficBinding
+import dk.itu.moapd.x9.nalm.domain.model.TrafficReportModel
 import dk.itu.moapd.x9.nalm.service.LocationService
 import dk.itu.moapd.x9.nalm.ui.common.showToast
 import dk.itu.moapd.x9.nalm.ui.theme.X9Theme
@@ -438,17 +439,33 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
                     var currentUserId = repository.currentUserId()
                     Log.v("myTag", "latitude: " + latitude)
                     if (editTextReportTitle.text.toString().trim().isNotEmpty() && currentUserId != null) {
-                        repository. addTrafficReport(
-                            userId = currentUserId,
+                        val model = TrafficReportModel(
                             title = editTextReportTitle.text.toString(),
                             location = editTextReportLocation.text.toString(),
                             date = editTextReportDate.text.toString(),
                             reportType = viewModel.uiState.value.reportType,
                             severity = viewModel.uiState.value.severity,
                             desc = editTextReportDesc.text.toString(),
+                            createdAt = System.currentTimeMillis(),
                             latitude = latitude,
                             longitude = longitude
                         )
+                        repository. addTrafficReport(
+                            trafficReport = model,
+                            userId = currentUserId
+                        )
+                        /*viewModel.addItem(
+                            TrafficReportModel(
+                                title = editTextReportTitle.text.toString(),
+                                location = editTextReportLocation.text.toString(),
+                                date = editTextReportDate.text.toString(),
+                                reportType = viewModel.uiState.value.reportType,
+                                severity = viewModel.uiState.value.severity,
+                                desc = editTextReportDesc.text.toString(),
+                                latitude = latitude,
+                                longitude = longitude
+                            )
+                        )*/
                     }
 
                     /*viewModel.addItem(TrafficReportModel(
