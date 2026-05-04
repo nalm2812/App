@@ -454,18 +454,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
                             trafficReport = model,
                             userId = currentUserId
                         )
-                        /*viewModel.addItem(
-                            TrafficReportModel(
-                                title = editTextReportTitle.text.toString(),
-                                location = editTextReportLocation.text.toString(),
-                                date = editTextReportDate.text.toString(),
-                                reportType = viewModel.uiState.value.reportType,
-                                severity = viewModel.uiState.value.severity,
-                                desc = editTextReportDesc.text.toString(),
-                                latitude = latitude,
-                                longitude = longitude
-                            )
-                        )*/
+                        viewModel.addItem(model)
                     }
 
                     /*viewModel.addItem(TrafficReportModel(

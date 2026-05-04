@@ -44,12 +44,7 @@ class MainViewModel : ViewModel(){
         _items.value = list
     }
 
-    private val _permission = MutableLiveData<Boolean>(false)
-    val permission: LiveData<Boolean> = _permission
 
-    fun setPermission(permission: Boolean){
-        _permission.value = permission
-    }
     private fun createTrafficReport() : List<TrafficReportModel> =
         (1..3).map { index ->
             TrafficReportModel(

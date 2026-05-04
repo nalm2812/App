@@ -10,6 +10,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -18,13 +19,17 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
+import dk.itu.moapd.x9.nalm.MainViewModel
 import dk.itu.moapd.x9.nalm.R
 import dk.itu.moapd.x9.nalm.core.tag
 import dk.itu.moapd.x9.nalm.databinding.FragmentMapBinding
 import dk.itu.moapd.x9.nalm.ui.utils.viewBinding
+import kotlin.getValue
 
 class MapFragment : Fragment(R.layout.fragment_map){
     private val binding by viewBinding(FragmentMapBinding::bind)
+    private val viewModel: MainViewModel by activityViewModels()
+
 
     /**
      * The Google Maps object.
@@ -80,10 +85,16 @@ class MapFragment : Fragment(R.layout.fragment_map){
         }
 
         // Add a marker in IT University of Copenhagen and move the camera.
+        val list = viewModel.items.value
+        if (list != null) {
+            for (report in list) {
+                if (report.latitude!=null && report.longitude!=null)
+                googleMap.addMarker(
+                    MarkerOptions().position(LatLng(report.latitude, report.longitude)).title(report.title)
+                )
+            }
+        }
         val itu = LatLng(55.6596, 12.5910)
-        googleMap.addMarker(
-            MarkerOptions().position(itu).title(getString(R.string.itu_title))
-        )
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(itu))
 
         // Set the Google Maps style.
