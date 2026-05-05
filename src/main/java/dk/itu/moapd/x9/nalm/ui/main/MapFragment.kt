@@ -42,6 +42,7 @@ class MapFragment : Fragment(R.layout.fragment_map){
      * Activity Result API launcher for requesting location permission.
      * When permission is granted, immediately starts location tracking.
      */
+
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
@@ -94,9 +95,10 @@ class MapFragment : Fragment(R.layout.fragment_map){
         if (list != null) {
             for (report in list) {
                 if (report.latitude!=null && report.longitude!=null){
-                    googleMap.addMarker(
+                    val marker = googleMap.addMarker(
                         MarkerOptions().position(LatLng(report.latitude, report.longitude)).title(report.title)
                     )
+                    marker?.tag = report
                 }
 
             }
@@ -117,6 +119,7 @@ class MapFragment : Fragment(R.layout.fragment_map){
         } else {
             requestUserPermissions()
         }
+
     }
 
     /**
@@ -173,6 +176,7 @@ class MapFragment : Fragment(R.layout.fragment_map){
         super.onCreate(savedInstanceState)
         viewModel.updateReportList()
     }
+
 
 
 }
