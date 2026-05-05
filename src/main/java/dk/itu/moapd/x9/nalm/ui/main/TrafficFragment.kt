@@ -312,7 +312,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
     }*/
 
     private fun setUpReportType(){
-        binding.reportType.apply{
+        binding.editableBoxesTrafficReport.reportType.apply{
             setContent {
                 X9Theme {
                     val list = listOf(
@@ -328,7 +328,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
         }
     }
     private fun setUpSeverity(){
-        binding.severity.apply{
+        binding.editableBoxesTrafficReport.severity.apply{
             setContent {
                 X9Theme {
                     val list = listOf("Minor", "Moderate", "Major")
@@ -351,7 +351,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
             autoCompleteTextViewSeverity.setOnDismissListener {
                 Log.i("myTag", autoCompleteTextViewSeverity.text.toString())
             }*/
-            editTextReportDate.setOnKeyListener { v, keyCode, event ->
+            editableBoxesTrafficReport.editTextReportDate.setOnKeyListener { v, keyCode, event ->
                 when {
 
                     //Check if it is the Enter-Key,      Check if the Enter Key was pressed down
@@ -359,7 +359,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
 
 
                         //perform an action here e.g. a send message button click
-                        Log.v("myTag", editTextReportDate.text.toString())
+                        Log.v("myTag", editableBoxesTrafficReport.editTextReportDate.text.toString())
 
                         //return true
                         return@setOnKeyListener true
@@ -375,7 +375,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
                 editTextReportDesc.setText(desc)
             }*/
 
-            editTextReportDesc.setOnKeyListener { v, keyCode, event ->
+            editableBoxesTrafficReport.editTextReportDesc.setOnKeyListener { v, keyCode, event ->
                 when {
 
                     //Check if it is the Enter-Key,      Check if the Enter Key was pressed down
@@ -383,7 +383,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
 
 
                         //perform an action here e.g. a send message button click
-                        Log.v("myTag", editTextReportDesc.text.toString())
+                        Log.v("myTag", editableBoxesTrafficReport.editTextReportDesc.text.toString())
 
                         //return true
                         return@setOnKeyListener true
@@ -394,7 +394,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
 
 
             }
-            editTextReportTitle.setOnKeyListener { v, keyCode, event ->
+            editableBoxesTrafficReport.editTextReportTitle.setOnKeyListener { v, keyCode, event ->
                 when {
 
                     //Check if it is the Enter-Key,      Check if the Enter Key was pressed down
@@ -402,7 +402,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
 
 
                         //perform an action here e.g. a send message button click
-                        Log.v("myTag", editTextReportTitle.text.toString())
+                        Log.v("myTag", editableBoxesTrafficReport.editTextReportTitle.text.toString())
 
                         //return true
                         return@setOnKeyListener true
@@ -413,7 +413,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
 
 
             }
-            editTextReportLocation.setOnKeyListener { v, keyCode, event ->
+            editableBoxesTrafficReport.editTextReportLocation.setOnKeyListener { v, keyCode, event ->
                 when {
 
                     //Check if it is the Enter-Key,      Check if the Enter Key was pressed down
@@ -421,7 +421,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
 
 
                         //perform an action here e.g. a send message button click
-                        Log.v("myTag", editTextReportLocation.text.toString())
+                        Log.v("myTag", editableBoxesTrafficReport.editTextReportLocation.text.toString())
 
                         //return true
                         return@setOnKeyListener true
@@ -433,19 +433,19 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
 
             }
             buttonSend.setOnClickListener {
-                if (editTextReportDate.text.toString()!="" && editTextReportDesc.text.toString()!="" && editTextReportTitle.text.toString()!="" && editTextReportLocation.text.toString()!="" && viewModel.uiState.value.reportType!="Select report type" && viewModel.uiState.value.severity !="Select severity"){
-                    Log.d("myTag", "Date: " + editTextReportDate.text.toString() + "; Desc: " + editTextReportDesc.text.toString() + "; Title: " + editTextReportTitle.text.toString() + "; Location: " + editTextReportLocation.text.toString() + "; Type: " + viewModel.uiState.value.reportType + "; Severity: " + viewModel.uiState.value.severity)
-                    viewModel.setTitle(editTextReportTitle.text.toString())
+                if (editableBoxesTrafficReport.editTextReportDate.text.toString()!="" && editableBoxesTrafficReport.editTextReportDesc.text.toString()!="" && editableBoxesTrafficReport.editTextReportTitle.text.toString()!="" && editableBoxesTrafficReport.editTextReportLocation.text.toString()!="" && viewModel.uiState.value.reportType!="Select report type" && viewModel.uiState.value.severity !="Select severity"){
+                    Log.d("myTag", "Date: " + editableBoxesTrafficReport.editTextReportDate.text.toString() + "; Desc: " + editableBoxesTrafficReport.editTextReportDesc.text.toString() + "; Title: " + editableBoxesTrafficReport.editTextReportTitle.text.toString() + "; Location: " + editableBoxesTrafficReport.editTextReportLocation.text.toString() + "; Type: " + viewModel.uiState.value.reportType + "; Severity: " + viewModel.uiState.value.severity)
+                    viewModel.setTitle(editableBoxesTrafficReport.editTextReportTitle.text.toString())
                     var currentUserId = repository.currentUserId()
                     Log.v("myTag", "latitude: " + latitude)
-                    if (editTextReportTitle.text.toString().trim().isNotEmpty() && currentUserId != null) {
+                    if (editableBoxesTrafficReport.editTextReportTitle.text.toString().trim().isNotEmpty() && currentUserId != null) {
                         val model = TrafficReportModel(
-                            title = editTextReportTitle.text.toString(),
-                            location = editTextReportLocation.text.toString(),
-                            date = editTextReportDate.text.toString(),
+                            title = editableBoxesTrafficReport.editTextReportTitle.text.toString(),
+                            location = editableBoxesTrafficReport.editTextReportLocation.text.toString(),
+                            date = editableBoxesTrafficReport.editTextReportDate.text.toString(),
                             reportType = viewModel.uiState.value.reportType,
                             severity = viewModel.uiState.value.severity,
-                            desc = editTextReportDesc.text.toString(),
+                            desc = editableBoxesTrafficReport.editTextReportDesc.text.toString(),
                             createdAt = System.currentTimeMillis(),
                             latitude = latitude,
                             longitude = longitude

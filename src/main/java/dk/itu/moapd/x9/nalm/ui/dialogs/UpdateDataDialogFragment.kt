@@ -8,6 +8,7 @@ import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dk.itu.moapd.x9.nalm.R
 import dk.itu.moapd.x9.nalm.data.repository.TrafficReportRepository
+import dk.itu.moapd.x9.nalm.databinding.EditableBoxesTrafficReportBinding
 import dk.itu.moapd.x9.nalm.databinding.FragmentTrafficBinding
 
 class UpdateDataDialogFragment : DialogFragment() {
@@ -77,7 +78,7 @@ class UpdateDataDialogFragment : DialogFragment() {
         }
     }
 
-    private var _binding: FragmentTrafficBinding? = null
+    private var _binding: EditableBoxesTrafficReportBinding? = null
 
     val binding
         get() =
@@ -104,7 +105,7 @@ class UpdateDataDialogFragment : DialogFragment() {
             .let { if (it == Double.MIN_VALUE) null else it }
         val longitude = requireArguments().getDouble(ARG_LONGITUDE, Double.MIN_VALUE)
             .let { if (it == Double.MIN_VALUE) null else it }
-        _binding = FragmentTrafficBinding.inflate(layoutInflater)
+        _binding = EditableBoxesTrafficReportBinding.inflate(layoutInflater)
         binding.editTextReportTitle.setText(currentName)
         binding.editTextReportLocation.setText(currentLocation)
         binding.editTextReportDate.setText(currentDate)
