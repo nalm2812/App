@@ -31,6 +31,8 @@ class MapFragment : Fragment(R.layout.fragment_map){
     private val viewModel: MainViewModel by activityViewModels()
 
 
+
+
     /**
      * The Google Maps object.
      */
@@ -84,14 +86,19 @@ class MapFragment : Fragment(R.layout.fragment_map){
             ViewCompat.requestApplyInsets(fragmentView)
         }
 
-        // Add a marker in IT University of Copenhagen and move the camera.
+
+
         val list = viewModel.items.value
+        Log.v("testing", "list size: " + list?.size)
+
         if (list != null) {
             for (report in list) {
-                if (report.latitude!=null && report.longitude!=null)
-                googleMap.addMarker(
-                    MarkerOptions().position(LatLng(report.latitude, report.longitude)).title(report.title)
-                )
+                if (report.latitude!=null && report.longitude!=null){
+                    googleMap.addMarker(
+                        MarkerOptions().position(LatLng(report.latitude, report.longitude)).title(report.title)
+                    )
+                }
+
             }
         }
         val itu = LatLng(55.6596, 12.5910)
@@ -161,4 +168,11 @@ class MapFragment : Fragment(R.layout.fragment_map){
             Log.e(tag(), "Cannot enable location: ${e.message}")
         }
     }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.updateReportList()
+    }
+
+
 }

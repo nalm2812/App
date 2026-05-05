@@ -1,9 +1,14 @@
 package dk.itu.moapd.x9.nalm
 
 import android.Manifest
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import dk.itu.moapd.x9.nalm.data.repository.TrafficReportRepository
 import dk.itu.moapd.x9.nalm.domain.model.TrafficReportModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,6 +25,9 @@ class MainViewModel : ViewModel(){
      */
     val title: LiveData<String>
         get() = _title
+    private val repository by lazy { TrafficReportRepository() }
+    private var listener: ValueEventListener? = null
+
 
 
     /**
@@ -31,7 +39,7 @@ class MainViewModel : ViewModel(){
     fun setTitle(text: String) {
         _title.value = text
     }
-    private val _items = MutableLiveData<List<TrafficReportModel>>(createTrafficReport())
+    private val _items = MutableLiveData<List<TrafficReportModel>>(emptyList())
 
     val items: LiveData<List<TrafficReportModel>> = _items
     fun addItem(item: TrafficReportModel) {
@@ -74,5 +82,29 @@ class MainViewModel : ViewModel(){
     }
     fun onSeveritySelected(severity: String) {
         _uiState.update { it.copy(severity = severity) }
+    }
+
+
+
+    fun updateReportList(){
+        val userId = repository.currentUserId() ?: return
+
+        val query = repository.trafficReportQuery(userId)
+        query.get()
+            .addOnSuccessListener { list ->
+                for (child in list.children) {
+                    Log.v("testing", "do we get here?")
+                    val report = child.getValue(TrafficReportModel::class.java)
+                    if (report != null) {
+                        Log.v("testing", "title: " + report.title)
+                        addItem(report)
+                    }
+                }
+            }
+            .addOnFailureListener { error ->
+                Log.e("myTag", "Error: ${error.message}")
+            }
+
+
     }
 }

@@ -454,7 +454,6 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
                             trafficReport = model,
                             userId = currentUserId
                         )
-                        viewModel.addItem(model)
                     }
 
                     /*viewModel.addItem(TrafficReportModel(
