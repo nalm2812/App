@@ -1,13 +1,11 @@
-package dk.itu.moapd.x9.nalm
+package dk.itu.moapd.x9.nalm.ui.main
 
-import android.Manifest
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import dk.itu.moapd.x9.nalm.ui.main.MainUiState
 import dk.itu.moapd.x9.nalm.data.repository.TrafficReportRepository
 import dk.itu.moapd.x9.nalm.domain.model.TrafficReportModel
 import kotlinx.coroutines.flow.MutableStateFlow

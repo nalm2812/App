@@ -18,7 +18,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.x9.nalm.ui.auth.LoginActivity
-import dk.itu.moapd.x9.nalm.MainViewModel
+import dk.itu.moapd.x9.nalm.ui.main.MainViewModel
 import dk.itu.moapd.x9.nalm.R
 import dk.itu.moapd.x9.nalm.ui.dialogs.UserInfoDialogFragment
 import dk.itu.moapd.x9.nalm.databinding.ActivityMainBinding

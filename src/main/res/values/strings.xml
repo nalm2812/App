@@ -63,6 +63,8 @@
     <string name="fragment_map">Map Fragment</string>
     <string name="insert_image">Insert Image</string>
     <string name="take_photo">Take Photo</string>
+    <string name="image_view_description">Last taken image</string>
+    <string name="button_back_description">Back</string>
 
 
 

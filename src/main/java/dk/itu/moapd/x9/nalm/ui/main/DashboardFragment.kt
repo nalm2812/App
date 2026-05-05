@@ -31,7 +31,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Firebase
 import com.google.firebase.database.database
 import dk.itu.moapd.x9.nalm.core.DATABASE_URL
-import dk.itu.moapd.x9.nalm.MainViewModel
+import dk.itu.moapd.x9.nalm.ui.main.MainViewModel
 import dk.itu.moapd.x9.nalm.R
 import dk.itu.moapd.x9.nalm.ui.list.SwipeToDeleteCallback
 import dk.itu.moapd.x9.nalm.ui.list.TrafficReportAdapter

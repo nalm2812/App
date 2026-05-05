@@ -28,7 +28,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
 import dk.itu.moapd.x9.nalm.DropdownMenu
-import dk.itu.moapd.x9.nalm.MainViewModel
+import dk.itu.moapd.x9.nalm.ui.main.MainViewModel
 import dk.itu.moapd.x9.nalm.R
 import dk.itu.moapd.x9.nalm.core.preferences.LocationTrackingPreferences
 import dk.itu.moapd.x9.nalm.data.repository.TrafficReportRepository

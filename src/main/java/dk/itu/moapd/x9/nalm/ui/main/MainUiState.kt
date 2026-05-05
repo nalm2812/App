@@ -1,4 +1,4 @@
-package dk.itu.moapd.x9.nalm
+package dk.itu.moapd.x9.nalm.ui.main
 
 data class MainUiState(
     val reportType: String = "Select Report Type",

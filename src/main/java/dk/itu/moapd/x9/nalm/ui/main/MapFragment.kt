@@ -19,7 +19,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
-import dk.itu.moapd.x9.nalm.MainViewModel
+import dk.itu.moapd.x9.nalm.ui.main.MainViewModel
 import dk.itu.moapd.x9.nalm.R
 import dk.itu.moapd.x9.nalm.core.tag
 import dk.itu.moapd.x9.nalm.databinding.FragmentMapBinding
