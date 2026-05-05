@@ -61,7 +61,8 @@
     <string name="permission_denied_message">Location permission is required to track your location</string>
     <string name="itu_title">IT University of Copenhagen</string>
     <string name="fragment_map">Map Fragment</string>
-
+    <string name="insert_image">Insert Image</string>
+    <string name="take_photo">Take Photo</string>
 
 
 
