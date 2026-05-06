@@ -46,6 +46,9 @@
         <activity
             android:name=".ui.main.MapActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.main.CameraActivity"
+            android:exported="false" />
 
     </application>
 

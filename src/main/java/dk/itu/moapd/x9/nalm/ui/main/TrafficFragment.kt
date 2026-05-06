@@ -24,16 +24,19 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
 import dk.itu.moapd.x9.nalm.DropdownMenu
 import dk.itu.moapd.x9.nalm.ui.main.MainViewModel
 import dk.itu.moapd.x9.nalm.R
+import dk.itu.moapd.x9.nalm.camerax.CameraXController
 import dk.itu.moapd.x9.nalm.core.preferences.LocationTrackingPreferences
 import dk.itu.moapd.x9.nalm.data.repository.TrafficReportRepository
 import dk.itu.moapd.x9.nalm.databinding.FragmentTrafficBinding
 import dk.itu.moapd.x9.nalm.domain.model.TrafficReportModel
+import dk.itu.moapd.x9.nalm.permission.CameraPermissionHelper
 import dk.itu.moapd.x9.nalm.service.LocationService
 import dk.itu.moapd.x9.nalm.ui.common.showToast
 import dk.itu.moapd.x9.nalm.ui.theme.X9Theme
@@ -57,6 +60,12 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
         )
     }
 
+    /*private val requestPermissionLauncherCamera = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        if (granted)                     Log.v("testing", "accepted permission")
+        else requireActivity().finish()
+    }*/
 
 
 
@@ -470,7 +479,14 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
                 }
 
             }
+            editableBoxesTrafficReport.buttonTakePhoto.setOnClickListener {
+                findNavController().navigate(
+                    R.id.action_report_to_camera
+                )
+            }
 
 
         }}
+
+
 }

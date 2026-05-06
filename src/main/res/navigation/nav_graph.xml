@@ -27,6 +27,9 @@
         <action
             android:id="@+id/action_report_to_map"
             app:destination="@id/fragment_map" />
+        <action
+            android:id="@+id/action_report_to_camera"
+            app:destination="@id/fragment_camera" />
     </fragment>
 
     <fragment
@@ -37,9 +40,25 @@
             android:id="@+id/action_map_to_main"
             app:destination="@id/fragment_dashboard" />
         <action
-            android:id="@+id/action_map_to_traffic"
+            android:id="@+id/action_map_to_report"
             app:destination="@id/fragment_traffic" />
     </fragment>
+
+    <fragment
+        android:id="@+id/fragment_camera"
+        android:name="dk.itu.moapd.x9.nalm.ui.main.CameraFragment"
+        tools:layout="@layout/fragment_camera">
+        <action
+            android:id="@+id/action_camera_to_image"
+            app:destination="@id/fragment_image" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_image"
+        android:name="dk.itu.moapd.x9.nalm.ui.viewer.ImageFragment"
+        android:label="fragment_image"
+        tools:layout="@layout/fragment_image"  />
 
 
 
