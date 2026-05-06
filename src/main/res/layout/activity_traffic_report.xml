@@ -13,7 +13,7 @@ android:id="@+id/main"
     android:layout_height="match_parent"
     android:background="@color/background_purple"
     android:fillViewport="true"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"><!--do better than this-->
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
     <include
         android:id="@+id/content_traffic_report"
         layout="@layout/content_traffic_report" />
