@@ -12,11 +12,21 @@
             android:id="@+id/editable_boxes_traffic_report"
             layout="@layout/editable_boxes_traffic_report" />
         <Button
+            android:id="@+id/button_take_photo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/take_photo"
+            app:layout_constraintTop_toBottomOf="@+id/editable_boxes_traffic_report"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_medium"
+            />
+        <Button
             android:id="@+id/button_send"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/send"
-            app:layout_constraintTop_toBottomOf="@+id/editable_boxes_traffic_report"
+            app:layout_constraintTop_toBottomOf="@+id/button_take_photo"
             android:layout_marginEnd="@dimen/margin_medium"
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_medium"

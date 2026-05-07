@@ -69,11 +69,11 @@ class MainViewModel : ViewModel(){
         _imageUri.value = uri
     }
 
-    fun onFilenameChanged(filename: String) {
+    fun onFilenameChanged(filename: String?) {
         _filename.value = filename
     }
 
-    fun onLandscapeChanged(landscape: Boolean){
+    fun onLandscapeChanged(landscape: Boolean?){
         _isLandscape.value = landscape
     }
 

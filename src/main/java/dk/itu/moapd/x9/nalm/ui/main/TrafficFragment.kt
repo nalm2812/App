@@ -468,6 +468,8 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
                             filename = viewModel.filename.value
                         )
                         viewModel.onImageUriChanged(null)
+                        viewModel.onLandscapeChanged(null)
+                        viewModel.onFilenameChanged(null)
                     }
 
                     /*viewModel.addItem(TrafficReportModel(
@@ -484,7 +486,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
                 }
 
             }
-            editableBoxesTrafficReport.buttonTakePhoto.setOnClickListener {
+            buttonTakePhoto.setOnClickListener {
                 findNavController().navigate(
                     R.id.action_report_to_camera
                 )
