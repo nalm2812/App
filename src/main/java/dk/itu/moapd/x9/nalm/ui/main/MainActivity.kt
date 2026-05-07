@@ -72,7 +72,6 @@ class MainActivity : AppCompatActivity() {
         //setupNavigation(navController)
 
         // Setup the action bar only in the portrait mode.
-        getAirQuality()
 
         Log.v("myTag", "onCreate was called")
 
@@ -317,8 +316,8 @@ class MainActivity : AppCompatActivity() {
         val requestQueue = Volley.newRequestQueue(this)
 
         val postdata2 = JSONObject()
-        postdata2.put("latitude", "37.419734")
-        postdata2.put("longitude", "-122.0827784")
+        postdata2.put("latitude", viewModel.latitude)
+        postdata2.put("longitude", viewModel.longitude)
         val postdata = JSONObject()
         postdata.put("location", postdata2)
 

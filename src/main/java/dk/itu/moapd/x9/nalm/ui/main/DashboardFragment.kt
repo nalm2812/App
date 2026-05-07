@@ -27,6 +27,10 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Request.Method
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.material.snackbar.Snackbar
@@ -35,6 +39,7 @@ import com.google.firebase.database.database
 import dk.itu.moapd.x9.nalm.core.DATABASE_URL
 import dk.itu.moapd.x9.nalm.ui.main.MainViewModel
 import dk.itu.moapd.x9.nalm.R
+import dk.itu.moapd.x9.nalm.core.API_KEY
 import dk.itu.moapd.x9.nalm.ui.list.SwipeToDeleteCallback
 import dk.itu.moapd.x9.nalm.ui.list.TrafficReportAdapter
 import dk.itu.moapd.x9.nalm.domain.model.TrafficReportModel
@@ -49,6 +54,7 @@ import dk.itu.moapd.x9.nalm.ui.utils.viewBinding
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 
 
 /**
@@ -66,8 +72,8 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
     private var adapter: TrafficReportAdapter? = null
 
 
-    private var longitude: Double? = null
-    private var latitude: Double? = null
+    private var latitude: String? = null
+    private var longitude: String? = null
     private var pendingStartTracking: Boolean = false
 
     private var locationServiceBound: Boolean = false
@@ -133,9 +139,9 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
         }
     }
     private fun updateLocationDetails(location: Location) {
-        latitude = location.latitude
-        longitude = location.longitude
-
+        latitude = location.latitude.toString()
+        longitude = location.longitude.toString()
+        getAirQuality()
     }
 
 
@@ -217,7 +223,6 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
 
 
 
-
         //setUpList()
         Log.v("myTag", "onViewCreated Dashboard was called")
     }
@@ -280,7 +285,6 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
         if (alreadyEnabled) {
             startLocationTracking()
         }
-
         Log.v("myTag", "onStart Dashboard was called")
 
     }
@@ -294,6 +298,8 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
         }
 
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
+        viewModel.setLatitude(null)
+        viewModel.setLongitude(null)
         Log.v("myTag", "onStop Dashboard was called")
 
     }
@@ -411,7 +417,40 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
         }
     }*/
 
+    private fun getAirQuality(){
+        val url = "https://airquality.googleapis.com/v1/currentConditions:lookup?key=${API_KEY}"
+        val requestQueue = Volley.newRequestQueue(context)
 
+        val postdata2 = JSONObject()
+        postdata2.put("latitude", latitude)
+        postdata2.put("longitude", longitude)
+        val postdata = JSONObject()
+        postdata.put("location", postdata2)
+
+
+
+
+        val stringRequest = object : JsonObjectRequest(Method.POST, url,
+            postdata, Response.Listener { response ->
+                try {
+                    val indexes = response.getJSONArray("indexes")
+                    val item = indexes.getJSONObject(0)
+                    val aqi = item.getString("aqi")
+                    Log.v("testing", aqi)
+                } catch (e: Exception) {
+                    Log.v("testing", "ERROR ERROR 2")
+                }
+
+            },
+            Response.ErrorListener { error ->
+                Log.v("testing", "ERROR ERROR 1")
+                error.printStackTrace()
+            }) {
+
+        }
+
+        requestQueue.add(stringRequest)
+    }
 
 
 

@@ -89,7 +89,7 @@ class MainViewModel : ViewModel(){
     val title: LiveData<String>
         get() = _title
     private val repository by lazy { TrafficReportRepository() }
-    private var listener: ValueEventListener? = null
+
 
 
 
@@ -113,6 +113,20 @@ class MainViewModel : ViewModel(){
 
     fun setItems(list: List<TrafficReportModel>) {
         _items.value = list
+    }
+
+    private val _latitude = MutableLiveData<String?>()
+    val latitude : LiveData<String?>
+        get() = _latitude
+    private val _longitude = MutableLiveData<String?>()
+    val longitude : LiveData<String?>
+        get() = _longitude
+
+    fun setLatitude(latitude: String?) {
+        _latitude.value = latitude
+    }
+    fun setLongitude(longitude: String?) {
+        _longitude.value = longitude
     }
 
 
