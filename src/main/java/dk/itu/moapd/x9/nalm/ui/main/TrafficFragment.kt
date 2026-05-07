@@ -25,6 +25,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
@@ -45,6 +47,9 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import java.util.jar.Manifest
+import com.android.volley.Request
+import dk.itu.moapd.x9.nalm.core.API_KEY
+import org.json.JSONObject
 
 class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.OnSharedPreferenceChangeListener {
     private val binding by viewBinding(FragmentTrafficBinding::bind)
@@ -184,6 +189,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
         Log.v("myTag", "onViewCreated Traffic was called")
 
     }
+
 
     private fun hasLocationPermission(): Boolean {
         return ActivityCompat.checkSelfPermission(

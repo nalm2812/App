@@ -2,12 +2,18 @@ package dk.itu.moapd.x9.nalm.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.android.volley.Request
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import dk.itu.moapd.x9.nalm.R
+import dk.itu.moapd.x9.nalm.core.API_KEY
 import dk.itu.moapd.x9.nalm.databinding.ActivityTrafficReportBinding
+import org.json.JSONObject
 
 class TrafficReportActivity : AppCompatActivity() {
     private lateinit var binding : ActivityTrafficReportBinding
@@ -22,7 +28,6 @@ class TrafficReportActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
         /*binding.contentTrafficReport.buttonBackToHome.setOnClickListener{
             startActivity(intent)
         }
@@ -35,5 +40,6 @@ class TrafficReportActivity : AppCompatActivity() {
             }
         }*/
     }
+
 
 }

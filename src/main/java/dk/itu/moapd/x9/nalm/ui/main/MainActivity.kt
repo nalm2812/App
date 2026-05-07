@@ -16,12 +16,19 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.x9.nalm.ui.auth.LoginActivity
 import dk.itu.moapd.x9.nalm.ui.main.MainViewModel
 import dk.itu.moapd.x9.nalm.R
+import dk.itu.moapd.x9.nalm.core.API_KEY
 import dk.itu.moapd.x9.nalm.ui.dialogs.UserInfoDialogFragment
 import dk.itu.moapd.x9.nalm.databinding.ActivityMainBinding
+import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
@@ -67,6 +74,7 @@ class MainActivity : AppCompatActivity() {
         //setupNavigation(navController)
 
         // Setup the action bar only in the portrait mode.
+        getAirQuality()
 
         Log.v("myTag", "onCreate was called")
 
@@ -305,6 +313,40 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.fragment_container_view)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+    private fun getAirQuality(){
+        val url = "https://airquality.googleapis.com/v1/currentConditions:lookup?key=${API_KEY}"
+        val requestQueue = Volley.newRequestQueue(this)
+
+        val postdata2 = JSONObject()
+        postdata2.put("latitude", "37.419734")
+        postdata2.put("longitude", "-122.0827784")
+        val postdata = JSONObject()
+        postdata.put("location", postdata2)
+
+
+
+
+        val stringRequest = object : JsonObjectRequest(Request.Method.POST, url,
+            postdata, Response.Listener { response ->
+                try {
+                    val indexes = response.getJSONArray("indexes")
+                    val item = indexes.getJSONObject(0)
+                    val aqi = item.getString("aqi")
+                    Log.v("testing", aqi)
+                } catch (e: Exception) {
+                    Log.v("testing", "ERROR ERROR 2")
+                }
+
+            },
+            Response.ErrorListener { error ->
+                Log.v("testing", "ERROR ERROR 1")
+                error.printStackTrace()
+            }) {
+
+        }
+
+        requestQueue.add(stringRequest)
     }
 
 }
