@@ -34,27 +34,7 @@
             />
 
 
-        <TextView
-            android:id="@+id/traffic_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/report_location_colon"
-            app:layout_constraintTop_toBottomOf="@id/traffic_title"
-            android:layout_margin="5dp"
-            app:layout_constraintStart_toStartOf="parent"
-            android:textStyle="bold"
 
-            />
-        <TextView
-            android:id="@+id/input_traffic_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/report_location"
-            app:layout_constraintTop_toBottomOf="@id/traffic_title"
-            android:layout_margin="5dp"
-            app:layout_constraintStart_toEndOf="@id/traffic_location"
-
-            />
 
 
         <TextView
@@ -62,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/report_date_colon"
-            app:layout_constraintTop_toBottomOf="@id/traffic_location"
+            app:layout_constraintTop_toBottomOf="@id/traffic_title"
             android:layout_margin="5dp"
             app:layout_constraintStart_toStartOf="parent"
             android:textStyle="bold"
@@ -72,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/report_date"
-            app:layout_constraintTop_toBottomOf="@id/traffic_location"
+            app:layout_constraintTop_toBottomOf="@id/traffic_title"
             android:layout_margin="5dp"
             app:layout_constraintStart_toEndOf="@id/traffic_date"
             />

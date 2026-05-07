@@ -32,7 +32,6 @@ class CustomAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(trafficReport: TrafficReportModel) {
             binding.inputTrafficTitle.text = trafficReport.title
-            binding.inputTrafficLocation.text = trafficReport.location
             binding.inputTrafficDate.text = trafficReport.date
             binding.inputTrafficReportType.text = trafficReport.reportType
             binding.inputTrafficSeverity.text = trafficReport.severity

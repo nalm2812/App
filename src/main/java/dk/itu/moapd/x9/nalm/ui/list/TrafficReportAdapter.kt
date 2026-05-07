@@ -28,7 +28,6 @@ class TrafficReportAdapter (
             binding.inputTrafficSeverity.text = trafficReport.severity
             binding.inputTrafficReportType.text = trafficReport.reportType
             binding.inputTrafficDesc.text = trafficReport.desc
-            binding.inputTrafficLocation.text = trafficReport.location
 
             Picasso.get().cancelRequest(binding.imageView)
             binding.imageView.setImageDrawable(null)

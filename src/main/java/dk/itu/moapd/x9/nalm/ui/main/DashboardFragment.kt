@@ -199,7 +199,6 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
                         createdAt = trafficReport.createdAt,
                         currentSeverity = trafficReport.severity,
                         currentReportType = trafficReport.reportType,
-                        currentLocation = trafficReport.location,
                         currentDate = trafficReport.date,
                         currentDesc = trafficReport.desc,
                         latitude = trafficReport.latitude,

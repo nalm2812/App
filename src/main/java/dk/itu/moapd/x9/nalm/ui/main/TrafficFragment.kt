@@ -422,35 +422,16 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
 
 
             }
-            editableBoxesTrafficReport.editTextReportLocation.setOnKeyListener { v, keyCode, event ->
-                when {
 
-                    //Check if it is the Enter-Key,      Check if the Enter Key was pressed down
-                    ((keyCode == KeyEvent.KEYCODE_ENTER) && (event.action == KeyEvent.ACTION_DOWN)) -> {
-
-
-                        //perform an action here e.g. a send message button click
-                        Log.v("myTag", editableBoxesTrafficReport.editTextReportLocation.text.toString())
-
-                        //return true
-                        return@setOnKeyListener true
-                    }
-                    else -> false
-                }
-
-
-
-            }
             buttonSend.setOnClickListener {
-                if (editableBoxesTrafficReport.editTextReportDate.text.toString()!="" && editableBoxesTrafficReport.editTextReportDesc.text.toString()!="" && editableBoxesTrafficReport.editTextReportTitle.text.toString()!="" && editableBoxesTrafficReport.editTextReportLocation.text.toString()!="" && viewModel.uiState.value.reportType!="Select report type" && viewModel.uiState.value.severity !="Select severity"){
-                    Log.d("myTag", "Date: " + editableBoxesTrafficReport.editTextReportDate.text.toString() + "; Desc: " + editableBoxesTrafficReport.editTextReportDesc.text.toString() + "; Title: " + editableBoxesTrafficReport.editTextReportTitle.text.toString() + "; Location: " + editableBoxesTrafficReport.editTextReportLocation.text.toString() + "; Type: " + viewModel.uiState.value.reportType + "; Severity: " + viewModel.uiState.value.severity)
+                if (editableBoxesTrafficReport.editTextReportDate.text.toString()!="" && editableBoxesTrafficReport.editTextReportDesc.text.toString()!="" && editableBoxesTrafficReport.editTextReportTitle.text.toString()!="" &&  viewModel.uiState.value.reportType!="Select report type" && viewModel.uiState.value.severity !="Select severity"){
+                    Log.d("myTag", "Date: " + editableBoxesTrafficReport.editTextReportDate.text.toString() + "; Desc: " + editableBoxesTrafficReport.editTextReportDesc.text.toString() + "; Title: " + editableBoxesTrafficReport.editTextReportTitle.text.toString() + "; Type: " + viewModel.uiState.value.reportType + "; Severity: " + viewModel.uiState.value.severity)
                     viewModel.setTitle(editableBoxesTrafficReport.editTextReportTitle.text.toString())
                     var currentUserId = repository.currentUserId()
                     Log.v("myTag", "latitude: " + latitude)
                     if (editableBoxesTrafficReport.editTextReportTitle.text.toString().trim().isNotEmpty() && currentUserId != null) {
                         val model = TrafficReportModel(
                             title = editableBoxesTrafficReport.editTextReportTitle.text.toString(),
-                            location = editableBoxesTrafficReport.editTextReportLocation.text.toString(),
                             date = editableBoxesTrafficReport.editTextReportDate.text.toString(),
                             reportType = viewModel.uiState.value.reportType,
                             severity = viewModel.uiState.value.severity,

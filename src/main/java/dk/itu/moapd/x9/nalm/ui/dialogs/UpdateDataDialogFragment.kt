@@ -32,7 +32,6 @@ class UpdateDataDialogFragment : DialogFragment() {
          */
         private const val ARG_CREATED_AT = "arg_created_at"
 
-        private const val ARG_LOCATION = "arg_location"
         private const val ARG_DATE = "arg_date"
         private const val ARG_DESC = "arg_desc"
         private const val ARG_LATITUDE = "arg_latitude"
@@ -53,7 +52,6 @@ class UpdateDataDialogFragment : DialogFragment() {
         fun createInstance(
             key: String,
             currentName: String,
-            currentLocation: String,
             currentDate: String,
             currentReportType: String,
             currentSeverity: String,
@@ -69,7 +67,6 @@ class UpdateDataDialogFragment : DialogFragment() {
                 arguments = bundleOf(
                     ARG_KEY to key,
                     ARG_NAME to currentName,
-                    ARG_LOCATION to currentLocation,
                     ARG_DATE to currentDate,
                     ARG_REPORT_TYPE to currentReportType,
                     ARG_SEVERITY to currentSeverity,
@@ -102,7 +99,6 @@ class UpdateDataDialogFragment : DialogFragment() {
         val currentName = requireArguments().getString(ARG_NAME).orEmpty()
         val currentSeverity = requireArguments().getString(ARG_SEVERITY).orEmpty()
         val currentReportType = requireArguments().getString(ARG_REPORT_TYPE).orEmpty()
-        val currentLocation = requireArguments().getString(ARG_LOCATION).orEmpty()
         val currentDate = requireArguments().getString(ARG_DATE).orEmpty()
         val currentDesc = requireArguments().getString(ARG_DESC).orEmpty()
         val createdAt = requireArguments().getLong(ARG_CREATED_AT, Long.MIN_VALUE)
@@ -116,7 +112,6 @@ class UpdateDataDialogFragment : DialogFragment() {
         var landscape: Boolean? = requireArguments().getBoolean(ARG_IMAGE,false)
         _binding = EditableBoxesTrafficReportBinding.inflate(layoutInflater)
         binding.editTextReportTitle.setText(currentName)
-        binding.editTextReportLocation.setText(currentLocation)
         binding.editTextReportDate.setText(currentDate)
         binding.editTextReportDesc.setText(currentDesc)
 
@@ -127,7 +122,6 @@ class UpdateDataDialogFragment : DialogFragment() {
             val name = binding.editTextReportTitle.text.toString().trim()
             val userId = repository.currentUserId()
             val desc = binding.editTextReportDesc.text.toString().trim()
-            val location = binding.editTextReportLocation.text.toString().trim()
             val date = binding.editTextReportDate.text.toString().trim()
 
             if (name.isNotEmpty() && userId != null && key != null) {
@@ -138,7 +132,6 @@ class UpdateDataDialogFragment : DialogFragment() {
                     userId = userId,
                     key = key,
                     title = name,
-                    location = location,
                     date = date,
                     reportType = currentReportType,
                     severity = currentSeverity,

@@ -21,25 +21,8 @@
             />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/text_report_location"
-        android:layout_marginEnd="@dimen/margin_medium"
-        android:layout_marginStart="@dimen/margin_medium"
-        android:layout_marginTop="@dimen/margin_medium"
-        android:hint="@string/report_location"
-        app:layout_constraintTop_toBottomOf="@+id/text_report_title"
-
-        >
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_text_report_location"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
 
 
-    </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,7 +31,7 @@
         android:layout_marginStart="@dimen/margin_medium"
         android:layout_marginTop="@dimen/margin_medium"
         android:hint="@string/report_date"
-        app:layout_constraintTop_toBottomOf="@+id/text_report_location"
+        app:layout_constraintTop_toBottomOf="@+id/text_report_title"
 
         >
         <com.google.android.material.textfield.TextInputEditText

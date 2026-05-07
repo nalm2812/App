@@ -56,10 +56,9 @@ class TrafficReportRepository(
 
     }
 
-    fun updateTrafficReport(userId: String, key: String, title: String, location: String, date: String, reportType: String, severity: String, desc: String, now: Long = System.currentTimeMillis(), createdAt: Long?, latitude: Double?, longitude: Double?, image: String?, landscape: Boolean?){
+    fun updateTrafficReport(userId: String, key: String, title: String, date: String, reportType: String, severity: String, desc: String, now: Long = System.currentTimeMillis(), createdAt: Long?, latitude: Double?, longitude: Double?, image: String?, landscape: Boolean?){
         val trafficReport = TrafficReportModel(
             title = title,
-            location = location,
             date = date,
             reportType = reportType,
             severity = severity,

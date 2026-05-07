@@ -134,7 +134,6 @@ class MainViewModel : ViewModel(){
         (1..3).map { index ->
             TrafficReportModel(
                 title = "title",
-                location = "location",
                 date = "date",
                 reportType = "report type",
                 severity = "severity",
