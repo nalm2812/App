@@ -90,7 +90,6 @@ class MapFragment : Fragment(R.layout.fragment_map){
 
 
         val list = viewModel.items.value
-        Log.v("testing", "list size: " + list?.size)
 
         if (list != null) {
             for (report in list) {
@@ -175,6 +174,11 @@ class MapFragment : Fragment(R.layout.fragment_map){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.updateReportList()
+    }
+
+    override fun onStop(){
+        super.onStop()
+        viewModel.setItems(emptyList())
     }
 
 

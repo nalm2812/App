@@ -20,7 +20,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -54,7 +56,7 @@ import kotlinx.coroutines.launch
  * Use the [DashboardFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
+class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private val binding by viewBinding(FragmentDashboardBinding::bind)
     private val viewModel: MainViewModel by activityViewModels()
@@ -62,6 +64,79 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
     private val repository by lazy { TrafficReportRepository() }
 
     private var adapter: TrafficReportAdapter? = null
+
+
+    private var longitude: Double? = null
+    private var latitude: Double? = null
+    private var pendingStartTracking: Boolean = false
+
+    private var locationServiceBound: Boolean = false
+
+    private var locationService: LocationService? = null
+
+    private val sharedPreferences: SharedPreferences by lazy {
+        requireActivity().getSharedPreferences(
+            getString(R.string.preference_file_key),
+            Context.MODE_PRIVATE,
+        )
+    }
+
+
+
+
+
+    private val serviceConnection = object : ServiceConnection {
+
+        /**
+         * Called when a connection to the Service has been established, with the
+         * `android.os.IBinder` of the communication channel to the Service.
+         *
+         * If the system has started to bind your client app to a service, it's possible that your
+         * app will never receive this callback. Your app won't receive a callback if there's an
+         * issue with the service, such as the service crashing while being created.
+         *
+         * @param name The concrete component name of the service that has been connected.
+         * @param service The IBinder of the Service's communication channel, which you can now make
+         *      calls on.
+         */
+        override fun onServiceConnected(name: ComponentName, service: IBinder) {
+            val binder = service as LocationService.LocalBinder
+            locationService = binder.service
+            locationServiceBound = true
+
+            if (pendingStartTracking) {
+                locationService?.subscribeToLocationUpdates()
+                pendingStartTracking = false
+            }
+
+            locationService?.let { svc ->
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                        svc.locationUpdates.collect(::updateLocationDetails)
+
+                    }
+                }
+            }
+        }
+
+        /**
+         * Called when a connection to the Service has been lost. This typically happens when the
+         * process hosting the service has crashed or been killed. This does not remove the
+         * ServiceConnection itself -- this binding to the service will remain active, and you will
+         * receive a call to `onServiceConnected()` when the Service is next running.
+         *
+         * @param name The concrete component name of the service whose connection has been lost.
+         */
+        override fun onServiceDisconnected(name: ComponentName) {
+            locationService = null
+            locationServiceBound = false
+        }
+    }
+    private fun updateLocationDetails(location: Location) {
+        latitude = location.latitude
+        longitude = location.longitude
+
+    }
 
 
 
@@ -82,6 +157,22 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (LocationTrackingPreferences.isTrackingEnabled(requireContext())) {
+            locationService?.unsubscribeToLocationUpdates()
+            pendingStartTracking = false
+            requireActivity().stopService(
+                Intent(
+                    requireContext(), LocationService::class.java
+                )
+            )
+        } else {
+            if (hasLocationPermission()) {
+                startLocationTracking()
+            } else {
+                requestLocationPermission()
+            }
+        }
 
         val userId = repository.currentUserId() ?: return
 
@@ -131,6 +222,45 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         Log.v("myTag", "onViewCreated Dashboard was called")
     }
 
+    private fun hasLocationPermission(): Boolean {
+        return ActivityCompat.checkSelfPermission(
+            requireContext(),
+            android.Manifest.permission.ACCESS_FINE_LOCATION,
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun requestLocationPermission() {
+        requestPermissionLauncher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION)
+    }
+
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            startLocationTracking()
+        } else {
+            Snackbar.make(
+                binding.root,
+                R.string.permission_denied_message,
+                Snackbar.LENGTH_LONG
+            ).show()
+        }
+    }
+
+    private fun startLocationTracking() {
+        pendingStartTracking = true
+        val serviceIntent = Intent(requireContext(), LocationService::class.java)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            ContextCompat.startForegroundService(requireActivity(), serviceIntent)
+        } else {
+            requireActivity().startService(serviceIntent)
+        }
+        if (locationServiceBound) {
+            locationService?.subscribeToLocationUpdates()
+            pendingStartTracking = false
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.v("myTag", "onCreate Dashboard was called")
@@ -138,6 +268,18 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
     override fun onStart() {
         super.onStart()
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+
+        val serviceIntent = Intent(requireContext(), LocationService::class.java)
+        requireActivity().bindService(
+            serviceIntent,
+            serviceConnection,
+            Context.BIND_AUTO_CREATE
+        )
+        val alreadyEnabled = LocationTrackingPreferences.isTrackingEnabled(requireContext())
+        if (alreadyEnabled) {
+            startLocationTracking()
+        }
 
         Log.v("myTag", "onStart Dashboard was called")
 
@@ -145,10 +287,21 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
 
     override fun onStop() {
-
         super.onStop()
+        if (locationServiceBound) {
+            requireActivity().unbindService(serviceConnection)
+            locationServiceBound = false
+        }
+
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
         Log.v("myTag", "onStop Dashboard was called")
 
+    }
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
+        if (key == LocationTrackingPreferences.KEY_TRACKING_ENABLED) {
+            LocationTrackingPreferences.isTrackingEnabled(requireContext())
+
+        }
     }
 
     override fun onDestroyView() {
