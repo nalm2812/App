@@ -81,6 +81,8 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
         )
     }
 
+    private val unknown: String = "Unknown Value"
+
 
 
 
@@ -436,16 +438,16 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
                     Log.v("testing", aqi)
                 } catch (e: Exception) {
                     Log.v("testing", "ERROR ERROR 2")
-                    binding.inputAirQualityIndex.text = "Unknown Value"
-                    binding.inputAirQualityCategory.text = "Unknown Value"
+                    binding.inputAirQualityIndex.text = unknown
+                    binding.inputAirQualityCategory.text = unknown
                 }
 
             },
             Response.ErrorListener { error ->
                 Log.v("testing", "ERROR ERROR 1")
                 error.printStackTrace()
-                binding.inputAirQualityIndex.text = "Unknown Value"
-                binding.inputAirQualityCategory.text = "Unknown Value"
+                binding.inputAirQualityIndex.text = unknown
+                binding.inputAirQualityCategory.text = unknown
             }) {
 
         }
