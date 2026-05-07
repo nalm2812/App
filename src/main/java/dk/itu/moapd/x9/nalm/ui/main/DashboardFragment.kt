@@ -1,6 +1,5 @@
 package dk.itu.moapd.x9.nalm.ui.main
 
-import android.Manifest
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -27,17 +26,14 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.Request.Method
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.firebase.ui.database.FirebaseRecyclerOptions
-import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Firebase
 import com.google.firebase.database.database
 import dk.itu.moapd.x9.nalm.core.DATABASE_URL
-import dk.itu.moapd.x9.nalm.ui.main.MainViewModel
 import dk.itu.moapd.x9.nalm.R
 import dk.itu.moapd.x9.nalm.core.API_KEY
 import dk.itu.moapd.x9.nalm.ui.list.SwipeToDeleteCallback
@@ -51,8 +47,6 @@ import dk.itu.moapd.x9.nalm.databinding.FragmentDashboardBinding
 import dk.itu.moapd.x9.nalm.service.LocationService
 import dk.itu.moapd.x9.nalm.core.tag
 import dk.itu.moapd.x9.nalm.ui.utils.viewBinding
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
@@ -141,7 +135,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
     private fun updateLocationDetails(location: Location) {
         latitude = location.latitude.toString()
         longitude = location.longitude.toString()
-        getAirQuality()
+        getAndUpdateAirQuality()
     }
 
 
@@ -417,7 +411,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
         }
     }*/
 
-    private fun getAirQuality(){
+    private fun getAndUpdateAirQuality(){
         val url = "https://airquality.googleapis.com/v1/currentConditions:lookup?key=${API_KEY}"
         val requestQueue = Volley.newRequestQueue(context)
 
@@ -436,15 +430,22 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
                     val indexes = response.getJSONArray("indexes")
                     val item = indexes.getJSONObject(0)
                     val aqi = item.getString("aqi")
+                    val category = item.getString("category")
+                    binding.inputAirQualityIndex.text = aqi
+                    binding.inputAirQualityCategory.text = category
                     Log.v("testing", aqi)
                 } catch (e: Exception) {
                     Log.v("testing", "ERROR ERROR 2")
+                    binding.inputAirQualityIndex.text = "Unknown Value"
+                    binding.inputAirQualityCategory.text = "Unknown Value"
                 }
 
             },
             Response.ErrorListener { error ->
                 Log.v("testing", "ERROR ERROR 1")
                 error.printStackTrace()
+                binding.inputAirQualityIndex.text = "Unknown Value"
+                binding.inputAirQualityCategory.text = "Unknown Value"
             }) {
 
         }

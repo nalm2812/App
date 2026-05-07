@@ -68,6 +68,10 @@
     <string name="button_camera_switch_description">Switch camera</string>
     <string name="button_image_capture_description">Capture</string>
     <string name="button_image_viewer_description">Gallery</string>
+    <string name="air_quality_index_colon">Air Quality Index: </string>
+    <string name="unknown">Unknown value</string>
+    <string name="air_quality_category_colon">Air Quality Category: </string>
+
 
 
 

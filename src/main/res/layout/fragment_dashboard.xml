@@ -13,15 +13,68 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/header_purple"
+        android:id="@+id/header"
+        >
+        <TextView
+            android:id="@+id/air_quality_index"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/air_quality_index_colon"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_margin="5dp"
+            android:textSize="@dimen/header_size"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:id="@+id/input_air_quality_index"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/unknown"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_margin="5dp"
+            android:textSize="@dimen/header_size"
+            app:layout_constraintStart_toEndOf="@id/air_quality_index"
+            />
+        <TextView
+            android:id="@+id/air_quality_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/air_quality_category_colon"
+            android:layout_margin="5dp"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/air_quality_index"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:id="@+id/input_air_quality_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/unknown"
+            android:layout_margin="5dp"
+            android:textSize="20sp"
+            app:layout_constraintStart_toEndOf="@id/air_quality_category"
+            app:layout_constraintTop_toBottomOf="@id/input_air_quality_index"
+
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header"
         />
 
 
