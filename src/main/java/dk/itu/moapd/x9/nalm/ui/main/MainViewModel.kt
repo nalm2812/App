@@ -45,6 +45,11 @@ class MainViewModel : ViewModel(){
     val filename: LiveData<String?>
         get() = _filename
 
+    private var _isLandscape = MutableLiveData<Boolean?>()
+
+    val isLandscape: LiveData<Boolean?>
+        get() = _isLandscape
+
     /**
      * This method will be executed when the user interacts with the camera selector component. It
      * sets the selector into the LiveData instance.
@@ -66,6 +71,10 @@ class MainViewModel : ViewModel(){
 
     fun onFilenameChanged(filename: String) {
         _filename.value = filename
+    }
+
+    fun onLandscapeChanged(landscape: Boolean){
+        _isLandscape.value = landscape
     }
 
 

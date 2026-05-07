@@ -1,6 +1,7 @@
 package dk.itu.moapd.x9.nalm.ui.main
 
 import android.Manifest
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -162,6 +163,8 @@ class CameraFragment: Fragment(R.layout.fragment_camera) {
                 // Persist the captured Uri into the ViewModel so it survives rotation.
                 viewModel.onImageUriChanged(uri)
                 viewModel.onFilenameChanged(filename)
+                val landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE
+                viewModel.onLandscapeChanged(landscape)
                 showSnackBar("Photo capture succeeded: $filename")
             },
             onError = { message, _ ->

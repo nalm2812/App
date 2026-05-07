@@ -19,6 +19,8 @@ class TrafficReportAdapter (
 
 
 
+
+
     class ViewHolder(private val binding: ListItemTrafficReportBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(trafficReport : TrafficReportModel) {
             binding.inputTrafficTitle.text = trafficReport.title
@@ -32,7 +34,13 @@ class TrafficReportAdapter (
             binding.imageView.setImageDrawable(null)
             // Load the new image if URL is available
             trafficReport.image?.let { url ->
-                Picasso.get().load(url).rotate(90.toFloat()).into(binding.imageView)
+                if (trafficReport.landscape == true){
+                    Picasso.get().load(url).into(binding.imageView)
+
+                }else{
+                    Picasso.get().load(url).rotate(90f).into(binding.imageView)
+
+                }
             }
         }
     }

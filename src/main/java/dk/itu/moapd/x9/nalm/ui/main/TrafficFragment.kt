@@ -458,7 +458,8 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
                             createdAt = System.currentTimeMillis(),
                             latitude = latitude,
                             longitude = longitude,
-                            image = viewModel.imageUri.value.toString()
+                            image = viewModel.imageUri.value?.toString(),
+                            landscape = viewModel.isLandscape.value
                         )
                         repository.addTrafficReport(
                             trafficReport = model,

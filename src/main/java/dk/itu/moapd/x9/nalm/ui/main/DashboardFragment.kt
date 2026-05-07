@@ -111,7 +111,8 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                         currentDesc = trafficReport.desc,
                         latitude = trafficReport.latitude,
                         longitude = trafficReport.longitude,
-                        image = trafficReport.image
+                        image = trafficReport.image,
+                        landscape = trafficReport.landscape
                     )
                     .apply { isCancelable = false }
                     .show(parentFragmentManager, tag())

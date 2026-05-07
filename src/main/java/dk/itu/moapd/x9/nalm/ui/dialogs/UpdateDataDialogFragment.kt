@@ -38,6 +38,7 @@ class UpdateDataDialogFragment : DialogFragment() {
         private const val ARG_LATITUDE = "arg_latitude"
         private const val ARG_LONGITUDE = "arg_longitude"
         private const val ARG_IMAGE = "arg_image"
+        private const val ARG_LANDSCAPE = "arg_landscape"
 
 
         /**
@@ -60,7 +61,8 @@ class UpdateDataDialogFragment : DialogFragment() {
             createdAt: Long?,
             latitude: Double?,
             longitude: Double?,
-            image: String?
+            image: String?,
+            landscape: Boolean?
 
         ): UpdateDataDialogFragment {
             return UpdateDataDialogFragment().apply {
@@ -75,7 +77,8 @@ class UpdateDataDialogFragment : DialogFragment() {
                     ARG_CREATED_AT to (createdAt ?: Long.MIN_VALUE),
                     ARG_LATITUDE to (latitude ?: Double.MIN_VALUE),
                     ARG_LONGITUDE to (longitude ?: Double.MIN_VALUE),
-                    ARG_IMAGE to (image ?: "")
+                    ARG_IMAGE to (image ?: ""),
+                    ARG_LANDSCAPE to (landscape)
                 )
             }
         }
@@ -110,6 +113,7 @@ class UpdateDataDialogFragment : DialogFragment() {
             .let { if (it == Double.MIN_VALUE) null else it }
         val image = requireArguments().getString(ARG_IMAGE, "")
             .let { if (it == "") null else it }
+        var landscape: Boolean? = requireArguments().getBoolean(ARG_IMAGE,false)
         _binding = EditableBoxesTrafficReportBinding.inflate(layoutInflater)
         binding.editTextReportTitle.setText(currentName)
         binding.editTextReportLocation.setText(currentLocation)
@@ -127,6 +131,9 @@ class UpdateDataDialogFragment : DialogFragment() {
             val date = binding.editTextReportDate.text.toString().trim()
 
             if (name.isNotEmpty() && userId != null && key != null) {
+                if (image==null){
+                    landscape = null
+                }
                 repository.updateTrafficReport(
                     userId = userId,
                     key = key,
@@ -139,7 +146,8 @@ class UpdateDataDialogFragment : DialogFragment() {
                     createdAt = createdAt,
                     latitude = latitude,
                     longitude = longitude,
-                    image = image
+                    image = image,
+                    landscape = landscape
                 )
             }
 
