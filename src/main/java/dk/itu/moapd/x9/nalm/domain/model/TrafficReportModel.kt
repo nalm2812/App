@@ -14,5 +14,5 @@ data class TrafficReportModel(
     val updatedAt: Long? = null,
     val latitude: Double? = null,
     val longitude: Double? = null,
-    val image: String? = ""
+    val image: String? = null
 )

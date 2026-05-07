@@ -33,7 +33,7 @@ class TrafficReportRepository(
         .child(PATH_TRAFFIC_REPORTS)
         .child(userId)
         .orderByChild(CHILD_CREATED_AT)
-    fun addTrafficReport(trafficReport: TrafficReportModel, userId: String, image: Uri?) {
+    fun addTrafficReport(trafficReport: TrafficReportModel, userId: String, image: Uri?, filename: String?) {
         val key = root
             .child(PATH_TRAFFIC_REPORTS)
             .child(userId)
@@ -41,7 +41,6 @@ class TrafficReportRepository(
             .key ?: return
 
         if (image!=null){
-            val filename = UUID.randomUUID().toString()
             val remotePath = "images/$userId/$filename"
             uploadImage(image, remotePath)
         }

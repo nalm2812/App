@@ -161,6 +161,7 @@ class CameraFragment: Fragment(R.layout.fragment_camera) {
             onSaved = { uri, filename ->
                 // Persist the captured Uri into the ViewModel so it survives rotation.
                 viewModel.onImageUriChanged(uri)
+                viewModel.onFilenameChanged(filename)
                 showSnackBar("Photo capture succeeded: $filename")
             },
             onError = { message, _ ->

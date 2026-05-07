@@ -40,6 +40,11 @@ class MainViewModel : ViewModel(){
     val imageUri: LiveData<Uri?>
         get() = _imageUri
 
+    private var _filename = MutableLiveData<String?>()
+
+    val filename: LiveData<String?>
+        get() = _filename
+
     /**
      * This method will be executed when the user interacts with the camera selector component. It
      * sets the selector into the LiveData instance.
@@ -57,6 +62,10 @@ class MainViewModel : ViewModel(){
      */
     fun onImageUriChanged(uri: Uri?) {
         _imageUri.value = uri
+    }
+
+    fun onFilenameChanged(filename: String) {
+        _filename.value = filename
     }
 
 

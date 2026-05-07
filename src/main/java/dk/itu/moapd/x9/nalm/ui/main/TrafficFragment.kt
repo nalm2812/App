@@ -463,7 +463,8 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
                         repository.addTrafficReport(
                             trafficReport = model,
                             userId = currentUserId,
-                            image = viewModel.imageUri.value
+                            image = viewModel.imageUri.value,
+                            filename = viewModel.filename.value
                         )
                         viewModel.onImageUriChanged(null)
                     }

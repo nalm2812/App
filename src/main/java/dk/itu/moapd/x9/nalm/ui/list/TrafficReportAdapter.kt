@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.squareup.picasso.Picasso
 import dk.itu.moapd.x9.nalm.ui.list.TrafficReportModelLongClickListener
 import dk.itu.moapd.x9.nalm.core.tag
 import dk.itu.moapd.x9.nalm.databinding.ListItemTrafficReportBinding
@@ -26,6 +27,14 @@ class TrafficReportAdapter (
             binding.inputTrafficReportType.text = trafficReport.reportType
             binding.inputTrafficDesc.text = trafficReport.desc
             binding.inputTrafficLocation.text = trafficReport.location
+
+ 
+            Picasso.get().cancelRequest(binding.imageView)
+            binding.imageView.setImageDrawable(null)
+            // Load the new image if URL is available
+            trafficReport.image?.let { url ->
+                Picasso.get().load(url).into(binding.imageView)
+            }
         }
     }
 
