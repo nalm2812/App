@@ -1,6 +1,8 @@
 package dk.itu.moapd.x9.nalm.data.repository
 
+import android.net.Uri
 import android.util.Log
+import com.google.android.gms.tasks.Task
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -9,9 +11,13 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.Query
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.storage
+import dk.itu.moapd.x9.nalm.core.BUCKET_URL
 import dk.itu.moapd.x9.nalm.domain.model.TrafficReportModel
 import dk.itu.moapd.x9.nalm.core.DATABASE_URL
 import kotlinx.coroutines.flow.StateFlow
+import java.util.UUID
 import kotlin.jvm.java
 
 class TrafficReportRepository(
@@ -27,12 +33,20 @@ class TrafficReportRepository(
         .child(PATH_TRAFFIC_REPORTS)
         .child(userId)
         .orderByChild(CHILD_CREATED_AT)
-    fun addTrafficReport(trafficReport: TrafficReportModel, userId: String) {
+    fun addTrafficReport(trafficReport: TrafficReportModel, userId: String, image: Uri?) {
         val key = root
             .child(PATH_TRAFFIC_REPORTS)
             .child(userId)
             .push()
             .key ?: return
+
+        if (image!=null){
+            val filename = UUID.randomUUID().toString()
+            val remotePath = "images/$userId/$filename"
+            uploadImage(image, remotePath)
+        }
+
+
 
         root
             .child(PATH_TRAFFIC_REPORTS)
@@ -69,5 +83,16 @@ class TrafficReportRepository(
             .child(userId)
             .child(key)
             .removeValue()
+    }
+
+    private val storage = Firebase.storage(BUCKET_URL)
+    fun uploadImage(localUri: Uri, remotePath: String): Task<Uri> {
+        val ref: StorageReference = storage.reference.child(remotePath)
+        return ref.putFile(localUri).continueWithTask { task ->
+            if (!task.isSuccessful) {
+                throw (task.exception ?: Exception("Upload failed"))
+            }
+            ref.downloadUrl
+        }
     }
 }

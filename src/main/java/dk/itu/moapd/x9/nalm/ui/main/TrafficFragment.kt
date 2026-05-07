@@ -457,12 +457,15 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
                             desc = editableBoxesTrafficReport.editTextReportDesc.text.toString(),
                             createdAt = System.currentTimeMillis(),
                             latitude = latitude,
-                            longitude = longitude
+                            longitude = longitude,
+                            image = viewModel.imageUri.value.toString()
                         )
-                        repository. addTrafficReport(
+                        repository.addTrafficReport(
                             trafficReport = model,
-                            userId = currentUserId
+                            userId = currentUserId,
+                            image = viewModel.imageUri.value
                         )
+                        viewModel.onImageUriChanged(null)
                     }
 
                     /*viewModel.addItem(TrafficReportModel(

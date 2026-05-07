@@ -29,4 +29,5 @@ package dk.itu.moapd.x9.nalm.core
  * DATABASE_URL=https://xxxxxxxxxx-default-rtdb.europe-west1.firebasedatabase.app
  */
 val DATABASE_URL: String = "https://moapd-2026-28589-default-rtdb.europe-west1.firebasedatabase.app/"
+val BUCKET_URL: String = "gs://moapd-2026-28589.firebasestorage.app"
 
