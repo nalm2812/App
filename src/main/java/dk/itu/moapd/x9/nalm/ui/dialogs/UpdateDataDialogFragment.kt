@@ -37,6 +37,7 @@ class UpdateDataDialogFragment : DialogFragment() {
         private const val ARG_DESC = "arg_desc"
         private const val ARG_LATITUDE = "arg_latitude"
         private const val ARG_LONGITUDE = "arg_longitude"
+        private const val ARG_IMAGE = "arg_image"
 
 
         /**
@@ -58,7 +59,8 @@ class UpdateDataDialogFragment : DialogFragment() {
             currentDesc: String,
             createdAt: Long?,
             latitude: Double?,
-            longitude: Double?
+            longitude: Double?,
+            image: String?
 
         ): UpdateDataDialogFragment {
             return UpdateDataDialogFragment().apply {
@@ -72,7 +74,8 @@ class UpdateDataDialogFragment : DialogFragment() {
                     ARG_DESC to currentDesc,
                     ARG_CREATED_AT to (createdAt ?: Long.MIN_VALUE),
                     ARG_LATITUDE to (latitude ?: Double.MIN_VALUE),
-                    ARG_LONGITUDE to (longitude ?: Double.MIN_VALUE)
+                    ARG_LONGITUDE to (longitude ?: Double.MIN_VALUE),
+                    ARG_IMAGE to (image ?: "")
                 )
             }
         }
@@ -105,6 +108,8 @@ class UpdateDataDialogFragment : DialogFragment() {
             .let { if (it == Double.MIN_VALUE) null else it }
         val longitude = requireArguments().getDouble(ARG_LONGITUDE, Double.MIN_VALUE)
             .let { if (it == Double.MIN_VALUE) null else it }
+        val image = requireArguments().getString(ARG_IMAGE, "")
+            .let { if (it == "") null else it }
         _binding = EditableBoxesTrafficReportBinding.inflate(layoutInflater)
         binding.editTextReportTitle.setText(currentName)
         binding.editTextReportLocation.setText(currentLocation)
@@ -133,7 +138,8 @@ class UpdateDataDialogFragment : DialogFragment() {
                     desc = desc,
                     createdAt = createdAt,
                     latitude = latitude,
-                    longitude = longitude
+                    longitude = longitude,
+                    image = image
                 )
             }
 

@@ -57,7 +57,7 @@ class TrafficReportRepository(
 
     }
 
-    fun updateTrafficReport(userId: String, key: String, title: String, location: String, date: String, reportType: String, severity: String, desc: String, now: Long = System.currentTimeMillis(), createdAt: Long?, latitude: Double?, longitude: Double?){
+    fun updateTrafficReport(userId: String, key: String, title: String, location: String, date: String, reportType: String, severity: String, desc: String, now: Long = System.currentTimeMillis(), createdAt: Long?, latitude: Double?, longitude: Double?, image: String?){
         val trafficReport = TrafficReportModel(
             title = title,
             location = location,
@@ -68,7 +68,8 @@ class TrafficReportRepository(
             createdAt = createdAt,
             updatedAt = now,
             latitude = latitude,
-            longitude = longitude
+            longitude = longitude,
+            image = image
         )
         root
             .child(PATH_TRAFFIC_REPORTS)
@@ -94,5 +95,8 @@ class TrafficReportRepository(
             }
             ref.downloadUrl
         }
+    }
+    fun deleteImage(remotePath: String): Task<Void> {
+        return storage.reference.child(remotePath).delete()
     }
 }

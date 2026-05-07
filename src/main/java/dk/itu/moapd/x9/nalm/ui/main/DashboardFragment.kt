@@ -110,7 +110,8 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                         currentDate = trafficReport.date,
                         currentDesc = trafficReport.desc,
                         latitude = trafficReport.latitude,
-                        longitude = trafficReport.longitude
+                        longitude = trafficReport.longitude,
+                        image = trafficReport.image
                     )
                     .apply { isCancelable = false }
                     .show(parentFragmentManager, tag())
