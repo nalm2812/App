@@ -80,5 +80,4 @@ dependencies {
     implementation(libs.androidx.camera.lifecycle)
     implementation(libs.androidx.camera.view)
     implementation(libs.firebase.storage.ktx)
-    implementation("com.android.volley:volley:1.2.1")
 }
