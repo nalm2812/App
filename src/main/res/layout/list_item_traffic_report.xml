@@ -132,7 +132,6 @@
             android:text="@string/report_desc_colon"
             app:layout_constraintTop_toBottomOf="@id/traffic_severity"
             android:layout_margin="5dp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:textStyle="bold"
             />
@@ -143,21 +142,20 @@
             android:text="@string/report_desc"
             app:layout_constraintTop_toBottomOf="@id/traffic_severity"
             android:layout_margin="5dp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/traffic_desc"
             />
         <ImageView
             android:id="@+id/image_view"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="?attr/colorControlNormal"
-            android:scaleType="centerCrop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitCenter"
             android:contentDescription="@string/content_description_image"
+            app:layout_constraintTop_toBottomOf="@id/traffic_desc"
+            android:adjustViewBounds="true"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/input_traffic_desc"
-            app:layout_constraintDimensionRatio="H,3:1"
+            app:layout_constraintStart_toStartOf="@id/traffic_desc"
+
+
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -28,12 +28,11 @@ class TrafficReportAdapter (
             binding.inputTrafficDesc.text = trafficReport.desc
             binding.inputTrafficLocation.text = trafficReport.location
 
- 
             Picasso.get().cancelRequest(binding.imageView)
             binding.imageView.setImageDrawable(null)
             // Load the new image if URL is available
             trafficReport.image?.let { url ->
-                Picasso.get().load(url).into(binding.imageView)
+                Picasso.get().load(url).rotate(90.toFloat()).into(binding.imageView)
             }
         }
     }
