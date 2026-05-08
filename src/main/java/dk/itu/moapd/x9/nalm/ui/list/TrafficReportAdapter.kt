@@ -6,7 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.google.firebase.Firebase
+import com.google.firebase.storage.storage
 import com.squareup.picasso.Picasso
+import dk.itu.moapd.x9.nalm.core.BUCKET_URL
 import dk.itu.moapd.x9.nalm.core.tag
 import dk.itu.moapd.x9.nalm.databinding.ListItemTrafficReportBinding
 import dk.itu.moapd.x9.nalm.domain.model.TrafficReportModel
@@ -30,8 +33,23 @@ class TrafficReportAdapter (
 
             Picasso.get().cancelRequest(binding.imageView)
             binding.imageView.setImageDrawable(null)
+            if (trafficReport.image!=null){
+                Firebase.storage(BUCKET_URL).reference
+                    .child("images/${trafficReport.image}").downloadUrl
+                    .addOnSuccessListener { url ->
+                        if (trafficReport.landscape == true){
+                            Picasso.get().load(url).into(binding.imageView)
+
+                        }else{
+                            Picasso.get().load(url).rotate(90f).into(binding.imageView)
+
+                        } }
+
+            }
             // Load the new image if URL is available
+            /*Log.v("testing3", "idk here???")
             trafficReport.image?.let { url ->
+                Log.v("testing3", url)
                 if (trafficReport.landscape == true){
                     Picasso.get().load(url).into(binding.imageView)
 
@@ -39,7 +57,7 @@ class TrafficReportAdapter (
                     Picasso.get().load(url).rotate(90f).into(binding.imageView)
 
                 }
-            }
+            }*/
         }
     }
 

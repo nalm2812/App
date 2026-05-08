@@ -31,6 +31,7 @@ import com.android.volley.toolbox.Volley
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Firebase
+import com.google.firebase.database.childEvents
 import com.google.firebase.database.database
 import dk.itu.moapd.x9.nalm.core.DATABASE_URL
 import dk.itu.moapd.x9.nalm.R
@@ -182,6 +183,8 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
             .child(userId)
             .orderByChild("createdAt")
 
+
+
         val options = FirebaseRecyclerOptions.Builder<TrafficReportModel>()
             .setQuery(query, TrafficReportModel::class.java)
             .setLifecycleOwner(viewLifecycleOwner)
@@ -286,8 +289,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
         }
 
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
-        viewModel.setLatitude(null)
-        viewModel.setLongitude(null)
+
         Log.v("myTag", "onStop Dashboard was called")
 
     }

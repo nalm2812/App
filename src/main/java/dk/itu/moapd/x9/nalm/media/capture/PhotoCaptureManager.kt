@@ -6,6 +6,7 @@ import android.content.Context
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.core.content.ContextCompat
@@ -55,7 +56,6 @@ object PhotoCaptureManager {
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
             contentValues,
         ).build()
-
         imageCapture.takePicture(
             outputOptions,
             ContextCompat.getMainExecutor(context),

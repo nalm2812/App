@@ -113,19 +113,6 @@ class MainViewModel : ViewModel(){
         _items.value = list
     }
 
-    private val _latitude = MutableLiveData<String?>()
-    val latitude : LiveData<String?>
-        get() = _latitude
-    private val _longitude = MutableLiveData<String?>()
-    val longitude : LiveData<String?>
-        get() = _longitude
-
-    fun setLatitude(latitude: String?) {
-        _latitude.value = latitude
-    }
-    fun setLongitude(longitude: String?) {
-        _longitude.value = longitude
-    }
 
 
 
@@ -148,21 +135,26 @@ class MainViewModel : ViewModel(){
 
     fun updateReportList(){
         val userId = repository.currentUserId() ?: return
-
+        Log.v("testing2", "does this even run???")
         val query = repository.trafficReportQuery(userId)
         query.get()
             .addOnSuccessListener { list ->
-                for (child in list.children) {
-                    Log.v("testing", "do we get here?")
-                    val report = child.getValue(TrafficReportModel::class.java)
-                    if (report != null) {
-                        Log.v("testing", "title: " + report.title)
-                        addItem(report)
+                Log.v("testing", "huhh: " + list.childrenCount)
+                for (idk in list.children) {
+                    Log.v("testing2", "do we get here?")
+                    for (child in idk.children){
+                        Log.v("testing2", "do we get here?")
+                        val report = child.getValue(TrafficReportModel::class.java)
+                        if (report != null) {
+                            Log.v("testing2", "title: " + report.title)
+                            addItem(report)
+                        }
                     }
+
                 }
             }
             .addOnFailureListener { error ->
-                Log.e("myTag", "Error: ${error.message}")
+                Log.e("testing2", "Error: ${error.message}")
             }
 
 

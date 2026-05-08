@@ -4,10 +4,12 @@ import android.Manifest
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
+import androidx.core.net.toFile
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -169,6 +171,7 @@ class CameraFragment: Fragment(R.layout.fragment_camera) {
             },
             onError = { message, _ ->
                 showSnackBar("Photo capture failed: $message")
+                Log.v("testing3", "Photo capture failed: $message")
             },
         )
     }

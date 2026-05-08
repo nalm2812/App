@@ -25,8 +25,6 @@ class TrafficReportRepository(
     fun currentUserId(): String? = auth.currentUser?.uid
     fun trafficReportQuery(userId: String): Query = root
         .child(PATH_TRAFFIC_REPORTS)
-        .child(userId)
-        .orderByChild(CHILD_CREATED_AT)
     fun addTrafficReport(trafficReport: TrafficReportModel, userId: String, image: Uri?, filename: String?) {
         val key = root
             .child(PATH_TRAFFIC_REPORTS)
