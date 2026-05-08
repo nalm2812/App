@@ -81,5 +81,4 @@ dependencies {
     implementation(libs.androidx.camera.view)
     implementation(libs.firebase.storage.ktx)
     implementation("com.android.volley:volley:1.2.1")
-    implementation("io.github.cdimascio:java-dotenv:5.2.2")
-}
+    implementation(libs.dotenv.kotlin)}

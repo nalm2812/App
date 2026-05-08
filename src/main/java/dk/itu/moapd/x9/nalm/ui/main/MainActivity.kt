@@ -1,7 +1,6 @@
 package dk.itu.moapd.x9.nalm.ui.main
 
 import android.content.Intent
-import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -43,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
 
         // Setup the bottom navigation (portrait) and the navigation rail (landscape).
-        setupActionBarIfPortrait(navController)
+        setupActionBar(navController)
         auth = FirebaseAuth.getInstance()
         if (auth.currentUser!=null){
             setupNavigation(navController)
@@ -54,8 +53,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun setupActionBarIfPortrait(navController: NavController) {
-        if (resources.configuration.orientation != Configuration.ORIENTATION_PORTRAIT) return
+    private fun setupActionBar(navController: NavController) {
 
         setSupportActionBar(binding.toolbar)
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -69,8 +67,8 @@ class MainActivity : AppCompatActivity() {
      */
     private fun setupNavigation(navController: NavController) {
         // Portrait: bottom navigation. Landscape: navigation rail.
-        binding.contentMain.bottomNavigation.setupWithNavController(navController)
-    }
+        binding.contentMain.bottomNavigation?.setupWithNavController(navController)
+        binding.navigationRail?.setupWithNavController(navController)    }
 
     /**
      * This method is called whenever the user chooses to navigate Up within your application's

@@ -29,20 +29,17 @@ import io.github.cdimascio.dotenv.dotenv
  * Create an `env` file in `/app/src/main/assets` with:
  * DATABASE_URL=https://xxxxxxxxxx-default-rtdb.europe-west1.firebasedatabase.app
  */
-/*val DATABASE_URL: String = dotenv {
+val DATABASE_URL: String = dotenv {
     directory = "/assets"
     filename = "env"
 }["DATABASE_URL"]
-val BUCKET_URL: String? = dotenv {
+val BUCKET_URL: String = dotenv {
     directory = "/assets"
     filename = "env"
 }["BUCKET_URL"]
-val API_KEY: String? = dotenv {
+val API_KEY: String = dotenv {
     directory = "/assets"
     filename = "env"
-}["API_KEY"]*/
+}["API_KEY"]
 
-const val DATABASE_URL: String = "https://moapd-2026-28589-default-rtdb.europe-west1.firebasedatabase.app/"
-const val BUCKET_URL: String = "gs://moapd-2026-28589.firebasestorage.app"
-const val API_KEY:String ="AIzaSyDO8_z33LmAEejifVFaZPuisKLhz3IImhg"
 
