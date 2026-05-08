@@ -162,6 +162,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         if (LocationTrackingPreferences.isTrackingEnabled(requireContext())) {
             locationService?.unsubscribeToLocationUpdates()
             pendingStartTracking = false
@@ -194,6 +195,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
 
         adapter = TrafficReportAdapter(
             longClickListener = TrafficReportModelLongClickListener { trafficReport, position ->
+
                 val key =
                     adapter?.getRef(position)?.key ?: return@TrafficReportModelLongClickListener
                 UpdateDataDialogFragment

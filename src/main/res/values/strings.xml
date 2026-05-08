@@ -59,6 +59,7 @@
     <string name="notification_channel_name">Location Tracking</string>
     <string name="notification_channel_description">Notifications for location tracking service</string>
     <string name="permission_denied_message">Location permission is required to track your location</string>
+    <string name="permission_denied_message_camera">Camera permission is required to take pictures</string>
     <string name="itu_title">IT University of Copenhagen</string>
     <string name="fragment_map">Map Fragment</string>
     <string name="insert_image">Insert Image</string>

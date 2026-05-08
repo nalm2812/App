@@ -260,16 +260,18 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
 
     override fun onResume() {
         super.onResume()
+        setUpDropdownMenus()
+
+        Log.v("myTag", "onResume Traffic was called")
+    }
+    fun setUpDropdownMenus() {
         val severity = resources.getStringArray(R.array.report_severity)
         val adapter = context?.let { ArrayAdapter(it, R.layout.dropdown_list, severity) }
         binding.editableBoxesTrafficReport.severityTypes.setAdapter(adapter)
         val reportType = resources.getStringArray(R.array.report_types)
         val adapter2 = context?.let { ArrayAdapter(it, R.layout.dropdown_list, reportType) }
         binding.editableBoxesTrafficReport.reportTypeTypes.setAdapter(adapter2)
-
-        Log.v("myTag", "onResume Traffic was called")
     }
-
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         /*outState.putString(REPORT_TITLE, binding.editTextReportTitle.text.toString())

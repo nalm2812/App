@@ -55,7 +55,11 @@ class CameraFragment: Fragment(R.layout.fragment_camera) {
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { granted ->
-        if (granted) startCamera() else requireActivity().finish()
+        if (granted) startCamera() else Snackbar.make(
+            binding.root,
+            R.string.permission_denied_message_camera,
+            Snackbar.LENGTH_LONG
+        ).show()
     }
 
     /**

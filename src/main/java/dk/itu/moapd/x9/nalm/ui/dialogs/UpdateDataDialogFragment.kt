@@ -3,12 +3,16 @@ package dk.itu.moapd.x9.nalm.ui.dialogs
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.view.View
+import android.view.WindowManager
+import android.widget.ArrayAdapter
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dk.itu.moapd.x9.nalm.R
 import dk.itu.moapd.x9.nalm.data.repository.TrafficReportRepository
 import dk.itu.moapd.x9.nalm.databinding.EditableBoxesTrafficReportBinding
+import dk.itu.moapd.x9.nalm.ui.main.TrafficFragment
 
 class UpdateDataDialogFragment : DialogFragment() {
     companion object {
@@ -90,6 +94,16 @@ class UpdateDataDialogFragment : DialogFragment() {
 
     private val repository by lazy { TrafficReportRepository() }
 
+    fun setUpDropdownMenus() {
+        val severity = resources.getStringArray(R.array.report_severity)
+        val adapter = context?.let { ArrayAdapter(it, R.layout.dropdown_list, severity) }
+        binding.severityTypes.setAdapter(adapter)
+        val reportType = resources.getStringArray(R.array.report_types)
+        val adapter2 = context?.let { ArrayAdapter(it, R.layout.dropdown_list, reportType) }
+        binding.reportTypeTypes.setAdapter(adapter2)
+    }
+
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         super.onCreateDialog(savedInstanceState)
 
@@ -113,6 +127,9 @@ class UpdateDataDialogFragment : DialogFragment() {
         binding.editTextReportTitle.setText(currentName)
         binding.editTextReportDate.setText(currentDate)
         binding.editTextReportDesc.setText(currentDesc)
+        binding.severityTypes.setText(currentSeverity)
+        binding.reportTypeTypes.setText(currentReportType)
+        setUpDropdownMenus()
 
 
 
@@ -122,6 +139,8 @@ class UpdateDataDialogFragment : DialogFragment() {
             val userId = repository.currentUserId()
             val desc = binding.editTextReportDesc.text.toString().trim()
             val date = binding.editTextReportDate.text.toString().trim()
+            val severity = binding.severityTypes.text.toString().trim()
+            val reportType = binding.reportTypeTypes.text.toString().trim()
 
             if (name.isNotEmpty() && userId != null && key != null) {
                 if (image==null){
@@ -132,8 +151,8 @@ class UpdateDataDialogFragment : DialogFragment() {
                     key = key,
                     title = name,
                     date = date,
-                    reportType = currentReportType,
-                    severity = currentSeverity,
+                    reportType = reportType,
+                    severity = severity,
                     desc = desc,
                     createdAt = createdAt,
                     latitude = latitude,
@@ -142,6 +161,7 @@ class UpdateDataDialogFragment : DialogFragment() {
                     landscape = landscape
                 )
             }
+            dialog?.dismiss()
 
         }
         return MaterialAlertDialogBuilder(requireContext()).apply {
@@ -152,11 +172,16 @@ class UpdateDataDialogFragment : DialogFragment() {
             setNegativeButton(getString(R.string.button_cancel)) { dialog, _ -> dialog.dismiss() }
         }.create()
         // Create and return a new instance of MaterialAlertDialogBuilder.
-
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
+    override fun onStart() {
+        super.onStart()
+        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+    }
+
 }
