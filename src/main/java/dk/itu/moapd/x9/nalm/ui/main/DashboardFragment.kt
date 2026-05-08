@@ -137,6 +137,8 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
     private fun updateLocationDetails(location: Location) {
         latitude = location.latitude.toString()
         longitude = location.longitude.toString()
+        viewModel.setLatitude(location.latitude)
+        viewModel.setLongitude(location.longitude)
         getAndUpdateAirQuality()
     }
 
@@ -358,6 +360,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
 
 
     private fun getAndUpdateAirQuality(){
+
         val url = "https://airquality.googleapis.com/v1/currentConditions:lookup?key=${API_KEY}"
         val requestQueue = Volley.newRequestQueue(context)
 

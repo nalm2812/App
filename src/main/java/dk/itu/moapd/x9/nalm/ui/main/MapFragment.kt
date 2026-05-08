@@ -19,7 +19,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
-import dk.itu.moapd.x9.nalm.ui.main.MainViewModel
 import dk.itu.moapd.x9.nalm.R
 import dk.itu.moapd.x9.nalm.core.tag
 import dk.itu.moapd.x9.nalm.databinding.FragmentMapBinding
@@ -102,8 +101,15 @@ class MapFragment : Fragment(R.layout.fragment_map){
 
             }
         }
-        val itu = LatLng(55.6596, 12.5910)
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(itu))
+        var currentLocation = LatLng(55.6596, 12.5910)
+        var potentialLatitude = viewModel.latitude.value
+        var potentialLongitude = viewModel.longitude.value
+        if (potentialLatitude!=null && potentialLongitude!=null){
+            currentLocation = LatLng(potentialLatitude, potentialLongitude)
+
+        }
+
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation))
 
         // Set the Google Maps style.
         googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL

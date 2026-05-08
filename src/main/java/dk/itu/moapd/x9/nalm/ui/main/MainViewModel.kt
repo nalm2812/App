@@ -48,6 +48,19 @@ class MainViewModel : ViewModel(){
     val isLandscape: LiveData<Boolean?>
         get() = _isLandscape
 
+    private val _latitude = MutableLiveData<Double?>()
+    val latitude : LiveData<Double?>
+        get() = _latitude
+    private val _longitude = MutableLiveData<Double?>()
+    val longitude : LiveData<Double?>
+        get() = _longitude
+
+    fun setLatitude(latitude: Double?) {
+        _latitude.value = latitude
+    }
+    fun setLongitude(longitude: Double?) {
+        _longitude.value = longitude
+    }
     /**
      * This method will be executed when the user interacts with the camera selector component. It
      * sets the selector into the LiveData instance.

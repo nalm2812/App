@@ -46,18 +46,7 @@ class TrafficReportAdapter (
                         } }
 
             }
-            // Load the new image if URL is available
-            /*Log.v("testing3", "idk here???")
-            trafficReport.image?.let { url ->
-                Log.v("testing3", url)
-                if (trafficReport.landscape == true){
-                    Picasso.get().load(url).into(binding.imageView)
 
-                }else{
-                    Picasso.get().load(url).rotate(90f).into(binding.imageView)
-
-                }
-            }*/
         }
     }
 

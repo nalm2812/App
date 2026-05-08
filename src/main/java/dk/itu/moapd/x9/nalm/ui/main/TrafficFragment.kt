@@ -122,6 +122,8 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
     private fun updateLocationDetails(location: Location) {
            latitude = location.latitude
             longitude = location.longitude
+        viewModel.setLatitude(latitude)
+        viewModel.setLongitude(longitude)
 
     }
 
