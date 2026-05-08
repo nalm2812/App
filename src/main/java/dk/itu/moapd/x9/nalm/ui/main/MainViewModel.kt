@@ -8,10 +8,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dk.itu.moapd.x9.nalm.data.repository.TrafficReportRepository
 import dk.itu.moapd.x9.nalm.domain.model.TrafficReportModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 
 class MainViewModel : ViewModel(){
 
@@ -129,37 +125,19 @@ class MainViewModel : ViewModel(){
 
 
 
-    private val _uiState = MutableStateFlow(MainUiState())
 
-    /**
-     * A `StateFlow` which publicly exposes any update in the UI components.
-     */
-    val uiState: StateFlow<MainUiState> = _uiState.asStateFlow()
-
-
-    fun onReportTypeSelected(reportType: String) {
-        _uiState.update { it.copy(reportType = reportType) }
-    }
-    fun onSeveritySelected(severity: String) {
-        _uiState.update { it.copy(severity = severity) }
-    }
 
 
 
     fun updateReportList(){
         val userId = repository.currentUserId() ?: return
-        Log.v("testing2", "does this even run???")
         val query = repository.trafficReportQuery(userId)
         query.get()
             .addOnSuccessListener { list ->
-                Log.v("testing", "huhh: " + list.childrenCount)
                 for (idk in list.children) {
-                    Log.v("testing2", "do we get here?")
                     for (child in idk.children){
-                        Log.v("testing2", "do we get here?")
                         val report = child.getValue(TrafficReportModel::class.java)
                         if (report != null) {
-                            Log.v("testing2", "title: " + report.title)
                             addItem(report)
                         }
                     }
@@ -167,7 +145,7 @@ class MainViewModel : ViewModel(){
                 }
             }
             .addOnFailureListener { error ->
-                Log.e("testing2", "Error: ${error.message}")
+                Log.e("myTag", "Error: ${error.message}")
             }
 
 

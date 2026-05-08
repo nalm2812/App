@@ -25,7 +25,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import dk.itu.moapd.x9.nalm.DropdownMenu
 import dk.itu.moapd.x9.nalm.R
 import dk.itu.moapd.x9.nalm.core.preferences.LocationTrackingPreferences
 import dk.itu.moapd.x9.nalm.data.repository.TrafficReportRepository
@@ -33,7 +32,6 @@ import dk.itu.moapd.x9.nalm.databinding.FragmentTrafficBinding
 import dk.itu.moapd.x9.nalm.domain.model.TrafficReportModel
 import dk.itu.moapd.x9.nalm.service.LocationService
 import dk.itu.moapd.x9.nalm.ui.common.showToast
-import dk.itu.moapd.x9.nalm.ui.theme.X9Theme
 import dk.itu.moapd.x9.nalm.ui.utils.viewBinding
 import kotlinx.coroutines.launch
 
@@ -160,10 +158,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
             }
         }
         setupUI()
-        //setSeverity(view)
-        //setReportType(view)
-        //setUpReportType()
-        //setUpSeverity()
+
 
 
         Log.v("myTag", "onViewCreated Traffic was called")
@@ -387,7 +382,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
 
             buttonSend.setOnClickListener {
                 if (editableBoxesTrafficReport.editTextReportDate.text.toString()!="" && editableBoxesTrafficReport.editTextReportDesc.text.toString()!="" && editableBoxesTrafficReport.editTextReportTitle.text.toString()!="" && editableBoxesTrafficReport.severityTypes.text.toString()!="Select severity" && editableBoxesTrafficReport.reportTypeTypes.text.toString()!="Select report type"){
-                    Log.d("myTag", "Date: " + editableBoxesTrafficReport.editTextReportDate.text.toString() + "; Desc: " + editableBoxesTrafficReport.editTextReportDesc.text.toString() + "; Title: " + editableBoxesTrafficReport.editTextReportTitle.text.toString() + "; Type: " + viewModel.uiState.value.reportType + "; Severity: " + viewModel.uiState.value.severity)
+                    Log.d("myTag", "Date: " + editableBoxesTrafficReport.editTextReportDate.text.toString() + "; Desc: " + editableBoxesTrafficReport.editTextReportDesc.text.toString() + "; Title: " + editableBoxesTrafficReport.editTextReportTitle.text.toString() + "; Type: " + editableBoxesTrafficReport.reportTypeTypes.text.toString() + "; Severity: " + editableBoxesTrafficReport.severityTypes.text.toString())
                     viewModel.setTitle(editableBoxesTrafficReport.editTextReportTitle.text.toString())
                     val currentUserId = repository.currentUserId()
                     if (editableBoxesTrafficReport.editTextReportTitle.text.toString().trim().isNotEmpty() && currentUserId != null) {
