@@ -162,7 +162,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
         setupUI()
         //setSeverity(view)
         //setReportType(view)
-        setUpReportType()
+        //setUpReportType()
         //setUpSeverity()
 
 
@@ -260,10 +260,13 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
 
     override fun onResume() {
         super.onResume()
-        val fruits = resources.getStringArray(R.array.report_severity)
-        val adapter = context?.let { ArrayAdapter(it, R.layout.dropdown_list, fruits) }
-        Log.v("ui", "are we here")
+        val severity = resources.getStringArray(R.array.report_severity)
+        val adapter = context?.let { ArrayAdapter(it, R.layout.dropdown_list, severity) }
         binding.editableBoxesTrafficReport.severityTypes.setAdapter(adapter)
+        val reportType = resources.getStringArray(R.array.report_types)
+        val adapter2 = context?.let { ArrayAdapter(it, R.layout.dropdown_list, reportType) }
+        binding.editableBoxesTrafficReport.reportTypeTypes.setAdapter(adapter2)
+
         Log.v("myTag", "onResume Traffic was called")
     }
 
@@ -285,7 +288,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
 
 
 
-    private fun setUpReportType(){
+    /*private fun setUpReportType(){
         binding.editableBoxesTrafficReport.reportType.apply{
             setContent {
                 X9Theme {
@@ -300,7 +303,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
                 }
             }
         }
-    }
+    }*/
     /*private fun setUpSeverity(){
         binding.editableBoxesTrafficReport.severity.apply{
             setContent {
@@ -381,7 +384,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
             }
 
             buttonSend.setOnClickListener {
-                if (editableBoxesTrafficReport.editTextReportDate.text.toString()!="" && editableBoxesTrafficReport.editTextReportDesc.text.toString()!="" && editableBoxesTrafficReport.editTextReportTitle.text.toString()!="" &&  viewModel.uiState.value.reportType!="Select report type"){//TODO: add severity here
+                if (editableBoxesTrafficReport.editTextReportDate.text.toString()!="" && editableBoxesTrafficReport.editTextReportDesc.text.toString()!="" && editableBoxesTrafficReport.editTextReportTitle.text.toString()!="" ){//TODO: add severity and report type here
                     Log.d("myTag", "Date: " + editableBoxesTrafficReport.editTextReportDate.text.toString() + "; Desc: " + editableBoxesTrafficReport.editTextReportDesc.text.toString() + "; Title: " + editableBoxesTrafficReport.editTextReportTitle.text.toString() + "; Type: " + viewModel.uiState.value.reportType + "; Severity: " + viewModel.uiState.value.severity)
                     viewModel.setTitle(editableBoxesTrafficReport.editTextReportTitle.text.toString())
                     val currentUserId = repository.currentUserId()
@@ -389,7 +392,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
                         val model = TrafficReportModel(
                             title = editableBoxesTrafficReport.editTextReportTitle.text.toString(),
                             date = editableBoxesTrafficReport.editTextReportDate.text.toString(),
-                            reportType = viewModel.uiState.value.reportType,
+                            reportType = editableBoxesTrafficReport.reportTypeTypes.text.toString(),
                             severity = editableBoxesTrafficReport.severityTypes.text.toString(),
                             desc = editableBoxesTrafficReport.editTextReportDesc.text.toString(),
                             createdAt = System.currentTimeMillis(),
