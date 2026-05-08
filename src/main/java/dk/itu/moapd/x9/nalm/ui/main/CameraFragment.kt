@@ -163,7 +163,7 @@ class CameraFragment: Fragment(R.layout.fragment_camera) {
                 // Persist the captured Uri into the ViewModel so it survives rotation.
                 viewModel.onImageUriChanged(uri)
                 viewModel.onFilenameChanged(filename)
-                val landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE
+                val landscape = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
                 viewModel.onLandscapeChanged(landscape)
                 showSnackBar("Photo capture succeeded: $filename")
             },

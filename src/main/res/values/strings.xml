@@ -71,6 +71,7 @@
     <string name="air_quality_index_colon">Air Quality Index: </string>
     <string name="unknown">Unknown Value</string>
     <string name="air_quality_category_colon">Air Quality Category: </string>
+    <string name="text_view">Text View</string>
 
 
 

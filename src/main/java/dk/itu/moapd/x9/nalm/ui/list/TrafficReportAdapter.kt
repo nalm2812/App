@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.squareup.picasso.Picasso
-import dk.itu.moapd.x9.nalm.ui.list.TrafficReportModelLongClickListener
 import dk.itu.moapd.x9.nalm.core.tag
 import dk.itu.moapd.x9.nalm.databinding.ListItemTrafficReportBinding
 import dk.itu.moapd.x9.nalm.domain.model.TrafficReportModel

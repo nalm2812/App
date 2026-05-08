@@ -55,7 +55,7 @@ class UserInfoDialogFragment : DialogFragment() {
                 textViewName.text = user.displayName ?: getString(R.string.unknown_user)
                 textViewEmail.text = user.email ?: user.phoneNumber
                 user.photoUrl?.let { url ->
-                    imageViewPhoto?.let {
+                    imageViewPhoto.let {
                         it.imageTintMode = null
                         Picasso.get().load(url).into(it)
                     }

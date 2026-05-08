@@ -1,24 +1,18 @@
 package dk.itu.moapd.x9.nalm.data.repository
 
 import android.net.Uri
-import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.Query
-import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.storage
 import dk.itu.moapd.x9.nalm.core.BUCKET_URL
 import dk.itu.moapd.x9.nalm.domain.model.TrafficReportModel
 import dk.itu.moapd.x9.nalm.core.DATABASE_URL
-import kotlinx.coroutines.flow.StateFlow
-import java.util.UUID
-import kotlin.jvm.java
+
 
 class TrafficReportRepository(
     private val auth: FirebaseAuth = FirebaseAuth.getInstance(),
@@ -95,7 +89,5 @@ class TrafficReportRepository(
             ref.downloadUrl
         }
     }
-    fun deleteImage(remotePath: String): Task<Void> {
-        return storage.reference.child(remotePath).delete()
-    }
+
 }

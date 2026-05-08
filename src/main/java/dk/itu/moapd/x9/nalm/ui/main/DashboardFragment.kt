@@ -7,7 +7,6 @@ import android.content.ServiceConnection
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Location
-import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
@@ -151,7 +150,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var view = super.onCreateView(inflater, container, savedInstanceState)
+        val view = super.onCreateView(inflater, container, savedInstanceState)
 
         Log.v("myTag", "onCreateView Dashboard was called")
         return view
@@ -192,7 +191,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
             longClickListener = TrafficReportModelLongClickListener { trafficReport, position ->
                 val key =
                     adapter?.getRef(position)?.key ?: return@TrafficReportModelLongClickListener
-                UpdateDataDialogFragment.Companion
+                UpdateDataDialogFragment
                     .createInstance(
                         key = key,
                         currentName = trafficReport.title,
@@ -211,14 +210,12 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
             },
             options = options,
         )
-        //val adapter = TrafficReportAdapter(this, options)
 
         setupRecyclerView(requireNotNull(adapter))
 
 
 
 
-        //setUpList()
         Log.v("myTag", "onViewCreated Dashboard was called")
     }
 
@@ -250,11 +247,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
     private fun startLocationTracking() {
         pendingStartTracking = true
         val serviceIntent = Intent(requireContext(), LocationService::class.java)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            ContextCompat.startForegroundService(requireActivity(), serviceIntent)
-        } else {
-            requireActivity().startService(serviceIntent)
-        }
+        ContextCompat.startForegroundService(requireActivity(), serviceIntent)
         if (locationServiceBound) {
             locationService?.subscribeToLocationUpdates()
             pendingStartTracking = false
@@ -357,60 +350,10 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
             }
 
             ItemTouchHelper(swipeHandler).attachToRecyclerView(this)
-            //Log.v("myTag", "size of traffic: " + trafficReportList.size)
-            /*viewModel.items.observe(viewLifecycleOwner, Observer { list ->
-                trafficReportList = list
-                adapter = CustomAdapter(trafficReportList)
 
-                ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
-                    val navBarHeight = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
-                    view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                        bottomMargin = navBarHeight
-                    }
-                    insets
-                }
-            })*/
-            /*val swipeHandler = object : SwipeToDeleteCallback() {
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    super.onSwiped(viewHolder, direction)
-                    val userId = repository.currentUserId() ?: return
-                    val pos = viewHolder.bindingAdapterPosition
-                    val key = adapter.getRef(pos).key ?: return
-                    repository.deleteTrafficReport(userId = userId, key = key)
-                }
-            }
-
-            ItemTouchHelper(swipeHandler).attachToRecyclerView(this)*/
         }
 
 
-    /*private fun setUpList() {
-
-        binding.composeView.apply{
-            setContent {
-                X9Theme {
-                    ListScreen()
-                }
-            }
-        }
-    }
-    @Composable
-    fun ListScreen() {
-        val data by viewModel.items.observeAsState(emptyList())
-        Scaffold(
-        ) { innerPadding ->
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(innerPadding)
-
-            ) {
-                items(data) { item ->
-                    TrafficReportItem(item)
-                }
-            }
-        }
-    }*/
 
     private fun getAndUpdateAirQuality(){
         val url = "https://airquality.googleapis.com/v1/currentConditions:lookup?key=${API_KEY}"
@@ -437,6 +380,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
                     Log.v("testing", aqi)
                 } catch (e: Exception) {
                     Log.v("testing", "ERROR ERROR 2")
+                    e.printStackTrace()
                     binding.header.inputAirQualityIndex.text = unknown
                     binding.header.inputAirQualityCategory.text = unknown
                 }

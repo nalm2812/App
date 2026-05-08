@@ -9,7 +9,6 @@ import android.app.Service
 import android.content.Intent
 import android.location.Location
 import android.os.Binder
-import android.os.Build
 import android.os.IBinder
 import android.os.Looper
 import androidx.core.app.NotificationCompat
@@ -157,18 +156,16 @@ class LocationService : Service() {
      * Creates a notification channel for the foreground service.
      */
     private fun createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                NOTIFICATION_CHANNEL_ID,
-                getString(R.string.notification_channel_name),
-                NotificationManager.IMPORTANCE_LOW
-            ).apply {
-                description = getString(R.string.notification_channel_description)
-            }
-
-            val notificationManager = getSystemService(NotificationManager::class.java)
-            notificationManager.createNotificationChannel(channel)
+        val channel = NotificationChannel(
+            NOTIFICATION_CHANNEL_ID,
+            getString(R.string.notification_channel_name),
+            NotificationManager.IMPORTANCE_LOW
+        ).apply {
+            description = getString(R.string.notification_channel_description)
         }
+
+        val notificationManager = getSystemService(NotificationManager::class.java)
+        notificationManager.createNotificationChannel(channel)
     }
 
     /**
@@ -178,11 +175,8 @@ class LocationService : Service() {
      */
     private fun createNotification(): Notification {
         val notificationIntent = Intent(this, MainActivity::class.java)
-        val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        val flags =
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-        } else {
-            PendingIntent.FLAG_UPDATE_CURRENT
-        }
         val pendingIntent = PendingIntent.getActivity(
             this,
             0,
@@ -217,7 +211,7 @@ class LocationService : Service() {
                 locationCallback,
                 Looper.getMainLooper(),
             )
-        } catch (unlikely: SecurityException) {
+        } catch (_: SecurityException) {
             LocationTrackingPreferences.setTrackingEnabled(this, false)
         }
     }

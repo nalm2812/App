@@ -42,7 +42,7 @@ val API_KEY: String? = dotenv {
     filename = "env"
 }["API_KEY"]*/
 
-val DATABASE_URL: String = "https://moapd-2026-28589-default-rtdb.europe-west1.firebasedatabase.app/"
-val BUCKET_URL: String = "gs://moapd-2026-28589.firebasestorage.app"
-val API_KEY:String ="AIzaSyDO8_z33LmAEejifVFaZPuisKLhz3IImhg"
+const val DATABASE_URL: String = "https://moapd-2026-28589-default-rtdb.europe-west1.firebasedatabase.app/"
+const val BUCKET_URL: String = "gs://moapd-2026-28589.firebasestorage.app"
+const val API_KEY:String ="AIzaSyDO8_z33LmAEejifVFaZPuisKLhz3IImhg"
 

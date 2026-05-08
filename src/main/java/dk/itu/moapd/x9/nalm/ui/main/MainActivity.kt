@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -16,21 +15,14 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.android.volley.Response
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
 import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.x9.nalm.ui.auth.LoginActivity
-import dk.itu.moapd.x9.nalm.ui.main.MainViewModel
 import dk.itu.moapd.x9.nalm.R
-import dk.itu.moapd.x9.nalm.core.API_KEY
 import dk.itu.moapd.x9.nalm.ui.dialogs.UserInfoDialogFragment
 import dk.itu.moapd.x9.nalm.databinding.ActivityMainBinding
-import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
-    private val viewModel: MainViewModel by viewModels()
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var auth: FirebaseAuth
 
@@ -40,20 +32,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        /*ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }*/
 
-        //setupUI()
-        /*if (savedInstanceState==null){
-            val dashboard = DashboardFragment()
-            supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fragment_dashboard, dashboard)
-                commit()
-            }
-        }*/
         val navController =
             (
                     supportFragmentManager.findFragmentById(R.id.fragment_container_view)
@@ -69,9 +48,7 @@ class MainActivity : AppCompatActivity() {
         if (auth.currentUser!=null){
             setupNavigation(navController)
         }
-        //setupNavigation(navController)
 
-        // Setup the action bar only in the portrait mode.
 
         Log.v("myTag", "onCreate was called")
 
@@ -92,8 +69,7 @@ class MainActivity : AppCompatActivity() {
      */
     private fun setupNavigation(navController: NavController) {
         // Portrait: bottom navigation. Landscape: navigation rail.
-        binding.contentMain.bottomNavigation?.setupWithNavController(navController)
-        //binding.navigationRail?.setupWithNavController(navController)
+        binding.contentMain.bottomNavigation.setupWithNavController(navController)
     }
 
     /**
@@ -113,138 +89,6 @@ class MainActivity : AppCompatActivity() {
 
 
 
-    /*private fun setupUI() {
-        with(binding){
-            contentMain.autoCompleteTextViewReportType.setOnDismissListener {
-                Log.i("myTag", contentMain.autoCompleteTextViewReportType.text.toString())
-            }
-            contentMain.autoCompleteTextViewSeverity.setOnDismissListener {
-                Log.i("myTag", contentMain.autoCompleteTextViewSeverity.text.toString())
-            }
-            contentMain.editTextReportDate.setOnKeyListener { v, keyCode, event ->
-                when {
-
-                    //Check if it is the Enter-Key,      Check if the Enter Key was pressed down
-                    ((keyCode == KeyEvent.KEYCODE_ENTER) && (event.action == KeyEvent.ACTION_DOWN)) -> {
-
-
-                        //perform an action here e.g. a send message button click
-                        Log.v("myTag", contentMain.editTextReportDate.text.toString())
-
-                        //return true
-                        return@setOnKeyListener true
-                    }
-                    else -> false
-                }
-
-
-
-            }
-            var desc = intent.getStringExtra("trafficReportDesc")
-            if (desc!=null) {
-                contentMain.editTextReportDesc.setText(desc)
-            }
-
-            contentMain.editTextReportDesc.setOnKeyListener { v, keyCode, event ->
-                when {
-
-                    //Check if it is the Enter-Key,      Check if the Enter Key was pressed down
-                    ((keyCode == KeyEvent.KEYCODE_ENTER) && (event.action == KeyEvent.ACTION_DOWN)) -> {
-
-
-                        //perform an action here e.g. a send message button click
-                        Log.v("myTag", contentMain.editTextReportDesc.text.toString())
-
-                        //return true
-                        return@setOnKeyListener true
-                    }
-                    else -> false
-                }
-
-
-
-            }
-            contentMain.editTextReportTitle.setOnKeyListener { v, keyCode, event ->
-                when {
-
-                    //Check if it is the Enter-Key,      Check if the Enter Key was pressed down
-                    ((keyCode == KeyEvent.KEYCODE_ENTER) && (event.action == KeyEvent.ACTION_DOWN)) -> {
-
-
-                        //perform an action here e.g. a send message button click
-                        Log.v("myTag", contentMain.editTextReportTitle.text.toString())
-
-                        //return true
-                        return@setOnKeyListener true
-                    }
-                    else -> false
-                }
-
-
-
-            }
-            contentMain.editTextReportLocation.setOnKeyListener { v, keyCode, event ->
-                when {
-
-                    //Check if it is the Enter-Key,      Check if the Enter Key was pressed down
-                    ((keyCode == KeyEvent.KEYCODE_ENTER) && (event.action == KeyEvent.ACTION_DOWN)) -> {
-
-
-                        //perform an action here e.g. a send message button click
-                        Log.v("myTag", contentMain.editTextReportLocation.text.toString())
-
-                        //return true
-                        return@setOnKeyListener true
-                    }
-                    else -> false
-                }
-
-
-
-            }
-            contentMain.buttonSend.setOnClickListener {
-                if (contentMain.editTextReportDate.text.toString()!="" && contentMain.editTextReportDesc.text.toString()!="" && contentMain.editTextReportTitle.text.toString()!="" && contentMain.editTextReportLocation.text.toString()!="" && contentMain.autoCompleteTextViewReportType.text.toString()!="Select report type" && contentMain.autoCompleteTextViewSeverity.text.toString() !="Select severity"){
-                    Log.d("myTag", "Date: " + contentMain.editTextReportDate.text.toString() + "; Desc: " + contentMain.editTextReportDesc.text.toString() + "; Title: " + contentMain.editTextReportTitle.text.toString() + "; Location: " + contentMain.editTextReportLocation.text.toString() + "; Type: " + contentMain.autoCompleteTextViewReportType.text.toString() + "; Severity: " + contentMain.autoCompleteTextViewSeverity.text.toString())
-                }
-            }
-            contentMain.buttonTrafficReport.setOnClickListener {
-                val intent = Intent(this@MainActivity, TrafficReportActivity::class.java)
-                startActivity(intent)
-            }
-
-             fun setReportType(view: View?)  { //got the code from here: https://www.geeksforgeeks.org/kotlin/exposed-drop-down-menu-in-android/
-        val reportType = resources.getStringArray(R.array.report_types)
-        // create an array adapter and pass the required parameter
-        // in our case pass the context, drop down layout , and array.
-        val arrayAdapterReportType = ArrayAdapter(requireActivity(), R.layout.item_dropdown_type_report, reportType)
-        // get reference to the autocomplete text view
-        val autocompleteTVReportType = view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewReportType)
-        // set adapter to the autocomplete tv to the arrayAdapter
-        val trafficType = arguments?.getString("trafficType")
-        if (trafficType!=null){
-            autocompleteTVReportType?.setText(trafficType)
-        }
-        autocompleteTVReportType?.setAdapter(arrayAdapterReportType)
-
-    }
-    fun setSeverity(view: View?) { //got the code from here: https://www.geeksforgeeks.org/kotlin/exposed-drop-down-menu-in-android/
-        val severityTraffic = arguments?.getString("severity")
-        Log.v("myTag", "idk what im doing: " + severityTraffic)
-        val severity = resources.getStringArray(R.array.report_severity)
-        // create an array adapter and pass the required parameter
-        // in our case pass the context, drop down layout , and array.
-        val arrayAdapterSeverity = ArrayAdapter(requireActivity(), R.layout.item_dropdown_type_report, severity)
-        // get reference to the autocomplete text view
-        val autocompleteTVSeverity = view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewSeverity)
-        // set adapter to the autocomplete tv to the arrayAdapter
-        if (severityTraffic!=null){
-            autocompleteTVSeverity?.setText(severityTraffic)
-        }
-        autocompleteTVSeverity?.setAdapter(arrayAdapterSeverity)
-
-    }
-
-    }}*/
 
     override fun onStart(){
         super.onStart()
@@ -298,7 +142,6 @@ class MainActivity : AppCompatActivity() {
         R.id.action_logout -> {
             auth.signOut()
             startActivity(Intent(this@MainActivity, MainActivity::class.java))
-            //startLoginActivity()
             true
         }
         R.id.action_login -> {
@@ -311,39 +154,6 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.fragment_container_view)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
-    private fun getAirQuality(){
-        val url = "https://airquality.googleapis.com/v1/currentConditions:lookup?key=${API_KEY}"
-        val requestQueue = Volley.newRequestQueue(this)
 
-        val postdata2 = JSONObject()
-        postdata2.put("latitude", viewModel.latitude)
-        postdata2.put("longitude", viewModel.longitude)
-        val postdata = JSONObject()
-        postdata.put("location", postdata2)
-
-
-
-
-        val stringRequest = object : JsonObjectRequest(Method.POST, url,
-            postdata, Response.Listener { response ->
-                try {
-                    val indexes = response.getJSONArray("indexes")
-                    val item = indexes.getJSONObject(0)
-                    val aqi = item.getString("aqi")
-                    Log.v("testing", aqi)
-                } catch (e: Exception) {
-                    Log.v("testing", "ERROR ERROR 2")
-                }
-
-            },
-            Response.ErrorListener { error ->
-                Log.v("testing", "ERROR ERROR 1")
-                error.printStackTrace()
-            }) {
-
-        }
-
-        requestQueue.add(stringRequest)
-    }
 
 }

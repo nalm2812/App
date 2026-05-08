@@ -9,7 +9,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dk.itu.moapd.x9.nalm.R
 import dk.itu.moapd.x9.nalm.data.repository.TrafficReportRepository
 import dk.itu.moapd.x9.nalm.databinding.EditableBoxesTrafficReportBinding
-import dk.itu.moapd.x9.nalm.databinding.FragmentTrafficBinding
 
 class UpdateDataDialogFragment : DialogFragment() {
     companion object {
@@ -118,7 +117,7 @@ class UpdateDataDialogFragment : DialogFragment() {
 
 
         // Create a lambda for positive button click handling.
-        val onPositiveButtonClick: (DialogInterface, Int) -> Unit = { dialog, _ ->
+        val onPositiveButtonClick: (DialogInterface, Int) -> Unit = { _, _ ->
             val name = binding.editTextReportTitle.text.toString().trim()
             val userId = repository.currentUserId()
             val desc = binding.editTextReportDesc.text.toString().trim()
