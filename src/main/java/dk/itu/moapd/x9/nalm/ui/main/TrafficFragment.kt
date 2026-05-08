@@ -386,7 +386,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
             }
 
             buttonSend.setOnClickListener {
-                if (editableBoxesTrafficReport.editTextReportDate.text.toString()!="" && editableBoxesTrafficReport.editTextReportDesc.text.toString()!="" && editableBoxesTrafficReport.editTextReportTitle.text.toString()!="" ){//TODO: add severity and report type here
+                if (editableBoxesTrafficReport.editTextReportDate.text.toString()!="" && editableBoxesTrafficReport.editTextReportDesc.text.toString()!="" && editableBoxesTrafficReport.editTextReportTitle.text.toString()!="" && editableBoxesTrafficReport.severityTypes.text.toString()!="Select severity" && editableBoxesTrafficReport.reportTypeTypes.text.toString()!="Select report type"){
                     Log.d("myTag", "Date: " + editableBoxesTrafficReport.editTextReportDate.text.toString() + "; Desc: " + editableBoxesTrafficReport.editTextReportDesc.text.toString() + "; Title: " + editableBoxesTrafficReport.editTextReportTitle.text.toString() + "; Type: " + viewModel.uiState.value.reportType + "; Severity: " + viewModel.uiState.value.severity)
                     viewModel.setTitle(editableBoxesTrafficReport.editTextReportTitle.text.toString())
                     val currentUserId = repository.currentUserId()
