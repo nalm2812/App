@@ -7,7 +7,6 @@ import android.content.ServiceConnection
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Location
-import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
@@ -21,30 +20,21 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
 import dk.itu.moapd.x9.nalm.DropdownMenu
-import dk.itu.moapd.x9.nalm.ui.main.MainViewModel
 import dk.itu.moapd.x9.nalm.R
-import dk.itu.moapd.x9.nalm.camerax.CameraXController
 import dk.itu.moapd.x9.nalm.core.preferences.LocationTrackingPreferences
 import dk.itu.moapd.x9.nalm.data.repository.TrafficReportRepository
 import dk.itu.moapd.x9.nalm.databinding.FragmentTrafficBinding
 import dk.itu.moapd.x9.nalm.domain.model.TrafficReportModel
-import dk.itu.moapd.x9.nalm.permission.CameraPermissionHelper
 import dk.itu.moapd.x9.nalm.service.LocationService
 import dk.itu.moapd.x9.nalm.ui.common.showToast
 import dk.itu.moapd.x9.nalm.ui.theme.X9Theme
 import dk.itu.moapd.x9.nalm.ui.utils.viewBinding
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
-import java.util.jar.Manifest
 
 class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.OnSharedPreferenceChangeListener {
     private val binding by viewBinding(FragmentTrafficBinding::bind)
@@ -60,12 +50,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
         )
     }
 
-    /*private val requestPermissionLauncherCamera = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { granted ->
-        if (granted)                     Log.v("testing", "accepted permission")
-        else requireActivity().finish()
-    }*/
+
 
 
 
@@ -75,12 +60,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
     private var longitude: Double? = null
     private var latitude: Double? = null
 
-    companion object {
-        private const val REPORT_TITLE = "report_title"
-        private const val REPORT_LOCATION = "report_location"
-        private const val REPORT_DATE = "report_date"
-        private const val REPORT_DESC = "report_desc"
-    }
+
 
     private var pendingStartTracking: Boolean = false
 
@@ -152,15 +132,14 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
         Log.v("myTag", "onCreateView Traffic was called")
+        return super.onCreateView(inflater, container, savedInstanceState)
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //here!!!
         if (LocationTrackingPreferences.isTrackingEnabled(requireContext())) {
             locationService?.unsubscribeToLocationUpdates()
             pendingStartTracking = false
@@ -217,7 +196,6 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
         super.onCreate(savedInstanceState)
 
         Log.v("myTag", "onCreate Traffic was called")
-        //restoreState(savedInstanceState)
     }
 
 
@@ -243,11 +221,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
     private fun startLocationTracking() {
         pendingStartTracking = true
         val serviceIntent = Intent(requireContext(), LocationService::class.java)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            ContextCompat.startForegroundService(requireActivity(), serviceIntent)
-        } else {
-            requireActivity().startService(serviceIntent)
-        }
+        ContextCompat.startForegroundService(requireActivity(), serviceIntent)
         if (locationServiceBound) {
             locationService?.subscribeToLocationUpdates()
             pendingStartTracking = false
@@ -300,25 +274,6 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
     }
 
 
-    /*fun setReportType(view: View?)  {
-        Log.v("myTag", "reportType was called")
-        val reportType = resources.getStringArray(R.array.report_types)
-        val arrayAdapterReportType = ArrayAdapter(requireActivity(), R.layout.item_dropdown_type_report, reportType)
-        val autocompleteTVReportType = view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewReportType)
-        autocompleteTVReportType?.setAdapter(arrayAdapterReportType)
-
-    }
-    fun setSeverity(view: View?) {
-        val severity = resources.getStringArray(R.array.report_severity)
-        // create an array adapter and pass the required parameter
-        // in our case pass the context, drop down layout , and array.
-        val arrayAdapterSeverity = ArrayAdapter(requireActivity(), R.layout.item_dropdown_type_report, severity)
-        // get reference to the autocomplete text view
-        val autocompleteTVSeverity = view?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextViewSeverity)
-        // set adapter to the autocomplete tv to the arrayAdapter
-        autocompleteTVSeverity?.setAdapter(arrayAdapterSeverity)
-
-    }*/
 
     private fun setUpReportType(){
         binding.editableBoxesTrafficReport.reportType.apply{
@@ -354,13 +309,8 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
     }
     private fun setupUI() {
         with(binding){
-            /*autoCompleteTextViewReportType.setOnDismissListener {
-                Log.i("myTag", autoCompleteTextViewReportType.text.toString())
-            }
-            autoCompleteTextViewSeverity.setOnDismissListener {
-                Log.i("myTag", autoCompleteTextViewSeverity.text.toString())
-            }*/
-            editableBoxesTrafficReport.editTextReportDate.setOnKeyListener { v, keyCode, event ->
+
+            editableBoxesTrafficReport.editTextReportDate.setOnKeyListener { _, keyCode, event ->
                 when {
 
                     //Check if it is the Enter-Key,      Check if the Enter Key was pressed down
@@ -379,12 +329,9 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
 
 
             }
-            /*var desc = arguments?.getString("trafficReportDesc")
-            if (desc!=null) {
-                editTextReportDesc.setText(desc)
-            }*/
 
-            editableBoxesTrafficReport.editTextReportDesc.setOnKeyListener { v, keyCode, event ->
+
+            editableBoxesTrafficReport.editTextReportDesc.setOnKeyListener { _, keyCode, event ->
                 when {
 
                     //Check if it is the Enter-Key,      Check if the Enter Key was pressed down
@@ -403,7 +350,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
 
 
             }
-            editableBoxesTrafficReport.editTextReportTitle.setOnKeyListener { v, keyCode, event ->
+            editableBoxesTrafficReport.editTextReportTitle.setOnKeyListener { _, keyCode, event ->
                 when {
 
                     //Check if it is the Enter-Key,      Check if the Enter Key was pressed down
@@ -427,8 +374,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
                 if (editableBoxesTrafficReport.editTextReportDate.text.toString()!="" && editableBoxesTrafficReport.editTextReportDesc.text.toString()!="" && editableBoxesTrafficReport.editTextReportTitle.text.toString()!="" &&  viewModel.uiState.value.reportType!="Select report type" && viewModel.uiState.value.severity !="Select severity"){
                     Log.d("myTag", "Date: " + editableBoxesTrafficReport.editTextReportDate.text.toString() + "; Desc: " + editableBoxesTrafficReport.editTextReportDesc.text.toString() + "; Title: " + editableBoxesTrafficReport.editTextReportTitle.text.toString() + "; Type: " + viewModel.uiState.value.reportType + "; Severity: " + viewModel.uiState.value.severity)
                     viewModel.setTitle(editableBoxesTrafficReport.editTextReportTitle.text.toString())
-                    var currentUserId = repository.currentUserId()
-                    Log.v("myTag", "latitude: " + latitude)
+                    val currentUserId = repository.currentUserId()
                     if (editableBoxesTrafficReport.editTextReportTitle.text.toString().trim().isNotEmpty() && currentUserId != null) {
                         val model = TrafficReportModel(
                             title = editableBoxesTrafficReport.editTextReportTitle.text.toString(),
@@ -453,14 +399,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
                         viewModel.onFilenameChanged(null)
                     }
 
-                    /*viewModel.addItem(TrafficReportModel(
-                        title = editTextReportTitle.text.toString(),
-                        location = editTextReportLocation.text.toString(),
-                        date = editTextReportDate.text.toString(),
-                        reportType = viewModel.uiState.value.reportType,
-                        severity = viewModel.uiState.value.severity,
-                        desc = editTextReportDesc.text.toString()
-                    ))*/
+
                     showToast("Traffic Report Created!")
                 }else{
                     showToast("Please fill out the Traffic Report")

@@ -53,7 +53,7 @@ import org.json.JSONObject
 
 /**
  * A simple [androidx.fragment.app.Fragment] subclass.
- * Use the [DashboardFragment.newInstance] factory method to
+ * Use the [DashboardFragment] factory method to
  * create an instance of this fragment.
  */
 class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -432,21 +432,21 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
                     val item = indexes.getJSONObject(0)
                     val aqi = item.getString("aqi")
                     val category = item.getString("category")
-                    binding.inputAirQualityIndex.text = aqi
-                    binding.inputAirQualityCategory.text = category
+                    binding.header.inputAirQualityIndex.text = aqi
+                    binding.header.inputAirQualityCategory.text = category
                     Log.v("testing", aqi)
                 } catch (e: Exception) {
                     Log.v("testing", "ERROR ERROR 2")
-                    binding.inputAirQualityIndex.text = unknown
-                    binding.inputAirQualityCategory.text = unknown
+                    binding.header.inputAirQualityIndex.text = unknown
+                    binding.header.inputAirQualityCategory.text = unknown
                 }
 
             },
             Response.ErrorListener { error ->
                 Log.v("testing", "ERROR ERROR 1")
                 error.printStackTrace()
-                binding.inputAirQualityIndex.text = unknown
-                binding.inputAirQualityCategory.text = unknown
+                binding.header.inputAirQualityIndex.text = unknown
+                binding.header.inputAirQualityCategory.text = unknown
             }) {
 
         }

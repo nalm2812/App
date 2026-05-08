@@ -19,6 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 package dk.itu.moapd.x9.nalm.core
+import io.github.cdimascio.dotenv.dotenv
 
 
 /**
@@ -28,6 +29,19 @@ package dk.itu.moapd.x9.nalm.core
  * Create an `env` file in `/app/src/main/assets` with:
  * DATABASE_URL=https://xxxxxxxxxx-default-rtdb.europe-west1.firebasedatabase.app
  */
+/*val DATABASE_URL: String = dotenv {
+    directory = "/assets"
+    filename = "env"
+}["DATABASE_URL"]
+val BUCKET_URL: String? = dotenv {
+    directory = "/assets"
+    filename = "env"
+}["BUCKET_URL"]
+val API_KEY: String? = dotenv {
+    directory = "/assets"
+    filename = "env"
+}["API_KEY"]*/
+
 val DATABASE_URL: String = "https://moapd-2026-28589-default-rtdb.europe-west1.firebasedatabase.app/"
 val BUCKET_URL: String = "gs://moapd-2026-28589.firebasestorage.app"
 val API_KEY:String ="AIzaSyDO8_z33LmAEejifVFaZPuisKLhz3IImhg"

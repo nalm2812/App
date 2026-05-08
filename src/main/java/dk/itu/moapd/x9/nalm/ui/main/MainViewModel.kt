@@ -6,8 +6,6 @@ import androidx.camera.core.CameraSelector
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.database.ValueEventListener
-import dk.itu.moapd.x9.nalm.ui.main.MainUiState
 import dk.itu.moapd.x9.nalm.data.repository.TrafficReportRepository
 import dk.itu.moapd.x9.nalm.domain.model.TrafficReportModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -130,17 +128,7 @@ class MainViewModel : ViewModel(){
     }
 
 
-    private fun createTrafficReport() : List<TrafficReportModel> =
-        (1..3).map { index ->
-            TrafficReportModel(
-                title = "title",
-                date = "date",
-                reportType = "report type",
-                severity = "severity",
-                desc = "description"
-            )
 
-        }
     private val _uiState = MutableStateFlow(MainUiState())
 
     /**
@@ -148,11 +136,7 @@ class MainViewModel : ViewModel(){
      */
     val uiState: StateFlow<MainUiState> = _uiState.asStateFlow()
 
-    /**
-     * Updates the text to be displayed based on the selected text resource ID.
-     *
-     * @param textId The resource ID of the text to be displayed.
-     */
+
     fun onReportTypeSelected(reportType: String) {
         _uiState.update { it.copy(reportType = reportType) }
     }
