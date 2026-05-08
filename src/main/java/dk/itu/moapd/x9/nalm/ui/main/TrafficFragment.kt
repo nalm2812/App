@@ -14,6 +14,7 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -35,6 +36,7 @@ import dk.itu.moapd.x9.nalm.ui.common.showToast
 import dk.itu.moapd.x9.nalm.ui.theme.X9Theme
 import dk.itu.moapd.x9.nalm.ui.utils.viewBinding
 import kotlinx.coroutines.launch
+
 
 class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.OnSharedPreferenceChangeListener {
     private val binding by viewBinding(FragmentTrafficBinding::bind)
@@ -161,7 +163,9 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
         //setSeverity(view)
         //setReportType(view)
         setUpReportType()
-        setUpSeverity()
+        //setUpSeverity()
+
+
         Log.v("myTag", "onViewCreated Traffic was called")
 
     }
@@ -256,6 +260,10 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
 
     override fun onResume() {
         super.onResume()
+        val fruits = resources.getStringArray(R.array.report_severity)
+        val adapter = context?.let { ArrayAdapter(it, R.layout.dropdown_list, fruits) }
+        Log.v("ui", "are we here")
+        binding.editableBoxesTrafficReport.severityTypes.setAdapter(adapter)
         Log.v("myTag", "onResume Traffic was called")
     }
 
@@ -293,7 +301,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
             }
         }
     }
-    private fun setUpSeverity(){
+    /*private fun setUpSeverity(){
         binding.editableBoxesTrafficReport.severity.apply{
             setContent {
                 X9Theme {
@@ -302,7 +310,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
                 }
             }
         }
-    }
+    }*/
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
         if (key == LocationTrackingPreferences.KEY_TRACKING_ENABLED) {
             LocationTrackingPreferences.isTrackingEnabled(requireContext())
@@ -373,7 +381,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
             }
 
             buttonSend.setOnClickListener {
-                if (editableBoxesTrafficReport.editTextReportDate.text.toString()!="" && editableBoxesTrafficReport.editTextReportDesc.text.toString()!="" && editableBoxesTrafficReport.editTextReportTitle.text.toString()!="" &&  viewModel.uiState.value.reportType!="Select report type" && viewModel.uiState.value.severity !="Select severity"){
+                if (editableBoxesTrafficReport.editTextReportDate.text.toString()!="" && editableBoxesTrafficReport.editTextReportDesc.text.toString()!="" && editableBoxesTrafficReport.editTextReportTitle.text.toString()!="" &&  viewModel.uiState.value.reportType!="Select report type"){//TODO: add severity here
                     Log.d("myTag", "Date: " + editableBoxesTrafficReport.editTextReportDate.text.toString() + "; Desc: " + editableBoxesTrafficReport.editTextReportDesc.text.toString() + "; Title: " + editableBoxesTrafficReport.editTextReportTitle.text.toString() + "; Type: " + viewModel.uiState.value.reportType + "; Severity: " + viewModel.uiState.value.severity)
                     viewModel.setTitle(editableBoxesTrafficReport.editTextReportTitle.text.toString())
                     val currentUserId = repository.currentUserId()
@@ -382,7 +390,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
                             title = editableBoxesTrafficReport.editTextReportTitle.text.toString(),
                             date = editableBoxesTrafficReport.editTextReportDate.text.toString(),
                             reportType = viewModel.uiState.value.reportType,
-                            severity = viewModel.uiState.value.severity,
+                            severity = editableBoxesTrafficReport.severityTypes.text.toString(),
                             desc = editableBoxesTrafficReport.editTextReportDesc.text.toString(),
                             createdAt = System.currentTimeMillis(),
                             latitude = latitude,

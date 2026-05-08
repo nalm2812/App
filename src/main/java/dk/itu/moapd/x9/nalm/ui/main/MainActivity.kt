@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ArrayAdapter
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -47,6 +48,8 @@ class MainActivity : AppCompatActivity() {
         if (auth.currentUser!=null){
             setupNavigation(navController)
         }
+
+
 
 
         Log.v("myTag", "onCreate was called")
@@ -152,6 +155,7 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.fragment_container_view)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
+
 
 
 }
