@@ -307,6 +307,12 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
     override fun onDestroyView() {
         super.onDestroyView()
         adapter = null
+        if (locationServiceBound) {
+            requireActivity().unbindService(serviceConnection)
+            locationServiceBound = false
+        }
+
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
         Log.v("myTag", "onDestroyView Dashboard was called")
 
     }
@@ -330,6 +336,12 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
 
     override fun onDestroy() {
         super.onDestroy()
+        if (locationServiceBound) {
+            requireActivity().unbindService(serviceConnection)
+            locationServiceBound = false
+        }
+
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
         Log.v("myTag", "onDestroy Dashboard was called")
 
     }
@@ -382,14 +394,13 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
                     val item = indexes.getJSONObject(0)
                     val aqi = item.getString("aqi")
                     val category = item.getString("category")
+                    Log.v("testing", "is it here????")
+                    Log.v("testing", aqi)
                     binding.header.inputAirQualityIndex.text = aqi
                     binding.header.inputAirQualityCategory.text = category
-                    Log.v("testing", aqi)
                 } catch (e: Exception) {
                     Log.v("testing", "ERROR ERROR 2")
                     e.printStackTrace()
-                    binding.header.inputAirQualityIndex.text = unknown
-                    binding.header.inputAirQualityCategory.text = unknown
                 }
 
             },
