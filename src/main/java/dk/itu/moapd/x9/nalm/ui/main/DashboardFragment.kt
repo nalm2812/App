@@ -47,6 +47,9 @@ import dk.itu.moapd.x9.nalm.databinding.FragmentDashboardBinding
 import dk.itu.moapd.x9.nalm.service.LocationService
 import dk.itu.moapd.x9.nalm.core.tag
 import dk.itu.moapd.x9.nalm.ui.utils.viewBinding
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
@@ -119,6 +122,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
                     }
                 }
             }
+
         }
 
         /**
@@ -139,7 +143,6 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
         longitude = location.longitude.toString()
         viewModel.setLatitude(location.latitude)
         viewModel.setLongitude(location.longitude)
-        getAndUpdateAirQuality()
     }
 
 
@@ -280,7 +283,9 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
         if (alreadyEnabled) {
             startLocationTracking()
         }
+
         Log.v("myTag", "onStart Dashboard was called")
+
 
     }
 
@@ -293,6 +298,8 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
         }
 
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
+        viewModel.setLatitude(null)
+        viewModel.setLongitude(null)
 
         Log.v("myTag", "onStop Dashboard was called")
 
@@ -313,6 +320,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
         }
 
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
+        stopUpdates()
         Log.v("myTag", "onDestroyView Dashboard was called")
 
     }
@@ -325,6 +333,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
 
     override fun onResume() {
         super.onResume()
+        startUpdates()
         Log.v("myTag", "onResume Dashboard was called")
     }
 
@@ -394,8 +403,6 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
                     val item = indexes.getJSONObject(0)
                     val aqi = item.getString("aqi")
                     val category = item.getString("category")
-                    Log.v("testing", "is it here????")
-                    Log.v("testing", aqi)
                     binding.header.inputAirQualityIndex.text = aqi
                     binding.header.inputAirQualityCategory.text = category
                 } catch (e: Exception) {
@@ -414,6 +421,24 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
         }
 
         requestQueue.add(stringRequest)
+    }
+    //code from https://stackoverflow.com/questions/60672406/how-to-use-coroutine-in-kotlin-to-call-a-function-every-second
+    val scope = MainScope()
+    var job: Job? = null
+
+    fun startUpdates() {
+        stopUpdates()
+        job = scope.launch {
+            while(true) {
+                getAndUpdateAirQuality()
+                delay(1000)
+            }
+        }
+    }
+
+    fun stopUpdates() {
+        job?.cancel()
+        job = null
     }
 
 
