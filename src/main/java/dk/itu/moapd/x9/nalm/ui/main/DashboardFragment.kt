@@ -320,7 +320,6 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
         }
 
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
-        stopUpdates()
         Log.v("myTag", "onDestroyView Dashboard was called")
 
     }
@@ -333,7 +332,9 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
 
     override fun onResume() {
         super.onResume()
-        startUpdates()
+        if (hasLocationPermission()){
+            startUpdates()
+        }
         Log.v("myTag", "onResume Dashboard was called")
     }
 
@@ -345,6 +346,8 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
 
     override fun onDestroy() {
         super.onDestroy()
+        stopUpdates()
+
         if (locationServiceBound) {
             requireActivity().unbindService(serviceConnection)
             locationServiceBound = false
@@ -414,8 +417,6 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
             Response.ErrorListener { error ->
                 Log.v("testing", "ERROR ERROR 1")
                 error.printStackTrace()
-                binding.header.inputAirQualityIndex.text = unknown
-                binding.header.inputAirQualityCategory.text = unknown
             }) {
 
         }
