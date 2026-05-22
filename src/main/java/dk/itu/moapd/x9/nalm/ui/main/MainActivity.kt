@@ -1,13 +1,20 @@
 package dk.itu.moapd.x9.nalm.ui.main
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -16,10 +23,11 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.android.volley.DefaultRetryPolicy
-import com.android.volley.Request.Method
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.x9.nalm.ui.auth.LoginActivity
 import dk.itu.moapd.x9.nalm.R
@@ -32,12 +40,16 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var auth: FirebaseAuth
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var permissionLauncher: ActivityResultLauncher<String>
+    private var isPermitted: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
 
         val navController =
@@ -48,6 +60,9 @@ class MainActivity : AppCompatActivity() {
 
         // Define the AppBarConfiguration with the navController's graph.
         appBarConfiguration = AppBarConfiguration(navController.graph)
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
 
         // Setup the bottom navigation (portrait) and the navigation rail (landscape).
         setupActionBar(navController)
@@ -101,8 +116,36 @@ class MainActivity : AppCompatActivity() {
     override fun onStart(){
         super.onStart()
         getAndUpdateAirQuality()
+        locationPermission()
+        if (isPermitted){
+            getAndUpdateAirQuality()
+        }
         //auth.currentUser ?: startLoginActivity()
         Log.v("myTag", "onStart was called")
+    }
+    private fun locationPermission() {
+
+        isPermitted = hasLocationPermission()
+
+        permissionLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { granted ->
+            isPermitted = granted
+        }
+
+        if (!isPermitted) {
+           requestLocationPermission()
+        }
+    }
+
+    private fun requestLocationPermission() {
+        permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+    }
+    private fun hasLocationPermission(): Boolean {
+        return ActivityCompat.checkSelfPermission(
+            this,
+            android.Manifest.permission.ACCESS_FINE_LOCATION,
+        ) == PackageManager.PERMISSION_GRANTED
     }
 
     override fun onResume(){
@@ -164,51 +207,59 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
+    @SuppressLint("MissingPermission")
     private fun getAndUpdateAirQuality(){
+        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+            val url = "https://airquality.googleapis.com/v1/currentConditions:lookup?key=${API_KEY}"
+            val requestQueue = Volley.newRequestQueue(this)
 
-        val url = "https://airquality.googleapis.com/v1/currentConditions:lookup?key=${API_KEY}"
-        val requestQueue = Volley.newRequestQueue(this)
-
-        val postdata2 = JSONObject()
-        postdata2.put("latitude", 0)
-        postdata2.put("longitude", 1)
-        val postdata = JSONObject()
-        postdata.put("location", postdata2)
+            val postdata2 = JSONObject()
+            if (location!=null){
+                postdata2.put("latitude", location.latitude)
+                postdata2.put("longitude", location.longitude)
+                val postdata = JSONObject()
+                postdata.put("location", postdata2)
 
 
 
 
-        val stringRequest = object : JsonObjectRequest(Method.POST, url,
-            postdata, Response.Listener { response ->
-                try {
-                    val indexes = response.getJSONArray("indexes")
-                    val item = indexes.getJSONObject(0)
-                    val aqi = item.getString("aqi")
-                    val category = item.getString("category")
-                    //binding.contentMain.header?.inputAirQualityIndex?.text = aqi
-                    //binding.contentMain.header?.inputAirQualityCategory?.text = category
-                    //binding.contentMain.header?.inputAirQualityIndex?.text = "testing"
-                    //binding.contentMain.header?.inputAirQualityCategory?.text = "testing"
-                } catch (e: Exception) {
-                    Log.v("testing", "ERROR ERROR 2")
-                    e.printStackTrace()
+                val stringRequest = object : JsonObjectRequest(Method.POST, url,
+                    postdata, Response.Listener { response ->
+                        try {
+                            val indexes = response.getJSONArray("indexes")
+                            val item = indexes.getJSONObject(0)
+                            val aqi = item.getString("aqi")
+                            val category = item.getString("category")
+                            binding.contentMain.header?.inputAirQualityIndex?.text = aqi
+                            binding.contentMain.header?.inputAirQualityCategory?.text = category
+
+                        } catch (e: Exception) {
+                            Log.v("testing", "ERROR ERROR 2")
+                            e.printStackTrace()
+                        }
+
+                    },
+                    Response.ErrorListener { error ->
+                        Log.v("testing", "ERROR ERROR 1")
+                        error.printStackTrace()
+                    }) {
+
                 }
 
-            },
-            Response.ErrorListener { error ->
-                Log.v("testing", "ERROR ERROR 1")
-                error.printStackTrace()
-            }) {
+                stringRequest.retryPolicy = DefaultRetryPolicy(
+                    DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+                )
 
+                requestQueue.add(stringRequest)
+            }
+
+        }.addOnFailureListener {
+            Toast.makeText(this, "Cannot show air quality because location cannot be retrieved", Toast.LENGTH_SHORT).show()
         }
 
-        stringRequest.retryPolicy = DefaultRetryPolicy(
-            DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
-            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-        )
 
-        requestQueue.add(stringRequest)
 
 
     }
