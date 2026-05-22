@@ -142,21 +142,13 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (LocationTrackingPreferences.isTrackingEnabled(requireContext())) {
-            locationService?.unsubscribeToLocationUpdates()
-            pendingStartTracking = false
-            requireActivity().stopService(
-                Intent(
-                    requireContext(), LocationService::class.java
-                )
-            )
+
+        if (hasLocationPermission()) {
+            startLocationTracking()
         } else {
-            if (hasLocationPermission()) {
-                startLocationTracking()
-            } else {
-                requestLocationPermission()
-            }
+            requestLocationPermission()
         }
+
         setupUI()
 
 
@@ -237,6 +229,8 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
         }
 
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
+        latitude = null
+        longitude = null
         Log.v("myTag", "onStop Traffic was called")
 
     }
