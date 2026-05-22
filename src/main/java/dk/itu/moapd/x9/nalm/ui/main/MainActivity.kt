@@ -27,7 +27,11 @@ import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.tasks.CancellationToken
+import com.google.android.gms.tasks.CancellationTokenSource
+import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.x9.nalm.ui.auth.LoginActivity
 import dk.itu.moapd.x9.nalm.R
@@ -209,55 +213,60 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("MissingPermission")
     private fun getAndUpdateAirQuality(){
-        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
             val url = "https://airquality.googleapis.com/v1/currentConditions:lookup?key=${API_KEY}"
             val requestQueue = Volley.newRequestQueue(this)
+            fusedLocationClient.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, object : CancellationToken() {
+                override fun onCanceledRequested(p0: OnTokenCanceledListener) = CancellationTokenSource().token
 
-            val postdata2 = JSONObject()
-            if (location!=null){
-                postdata2.put("latitude", location.latitude)
-                postdata2.put("longitude", location.longitude)
-                val postdata = JSONObject()
-                postdata.put("location", postdata2)
+                override fun isCancellationRequested() = false
+            }).addOnSuccessListener { location: Location? ->
+                val postdata2 = JSONObject()
+                if (location!=null){
+                    postdata2.put("latitude", location.latitude)
+                    postdata2.put("longitude", location.longitude)
+                    val postdata = JSONObject()
+                    postdata.put("location", postdata2)
+                    Log.v("testing", "latitude: ${location.latitude} and longitude; ${location.longitude}")
 
 
 
 
-                val stringRequest = object : JsonObjectRequest(Method.POST, url,
-                    postdata, Response.Listener { response ->
-                        try {
-                            val indexes = response.getJSONArray("indexes")
-                            val item = indexes.getJSONObject(0)
-                            val aqi = item.getString("aqi")
-                            val category = item.getString("category")
-                            binding.contentMain.header?.inputAirQualityIndex?.text = aqi
-                            binding.contentMain.header?.inputAirQualityCategory?.text = category
+                    val stringRequest = object : JsonObjectRequest(Method.POST, url,
+                        postdata, Response.Listener { response ->
+                            try {
+                                val indexes = response.getJSONArray("indexes")
+                                val item = indexes.getJSONObject(0)
+                                val aqi = item.getString("aqi")
+                                val category = item.getString("category")
+                                binding.contentMain.header?.inputAirQualityIndex?.text = aqi
+                                binding.contentMain.header?.inputAirQualityCategory?.text = category
 
-                        } catch (e: Exception) {
-                            Log.v("testing", "ERROR ERROR 2")
-                            e.printStackTrace()
-                        }
+                            } catch (e: Exception) {
+                                Log.v("testing", "ERROR ERROR 2")
+                                e.printStackTrace()
+                            }
 
-                    },
-                    Response.ErrorListener { error ->
-                        Log.v("testing", "ERROR ERROR 1")
-                        error.printStackTrace()
-                    }) {
+                        },
+                        Response.ErrorListener { error ->
+                            Log.v("testing", "ERROR ERROR 1")
+                            error.printStackTrace()
+                        }) {
 
-                }
+                    }
 
-                stringRequest.retryPolicy = DefaultRetryPolicy(
-                    DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
-                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-                )
+                    stringRequest.retryPolicy = DefaultRetryPolicy(
+                        DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
+                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+                    )
 
-                requestQueue.add(stringRequest)
+                    requestQueue.add(stringRequest)
+
             }
 
-        }.addOnFailureListener {
-            Toast.makeText(this, "Cannot show air quality because location cannot be retrieved", Toast.LENGTH_SHORT).show()
-        }
+            }
+
+
 
 
 
