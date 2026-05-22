@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -50,6 +49,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
+    private val url = "https://airquality.googleapis.com/v1/currentConditions:lookup?key=${API_KEY}"
+
     private var isPermitted: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -153,7 +154,7 @@ class MainActivity : AppCompatActivity() {
     private fun hasLocationPermission(): Boolean {
         return ActivityCompat.checkSelfPermission(
             this,
-            android.Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
         ) == PackageManager.PERMISSION_GRANTED
     }
 
@@ -219,9 +220,9 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("MissingPermission")
     private fun getAndUpdateAirQuality(){
-            val url = "https://airquality.googleapis.com/v1/currentConditions:lookup?key=${API_KEY}"
-            val requestQueue = Volley.newRequestQueue(this)
-            fusedLocationClient.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, object : CancellationToken() {
+        val requestQueue = Volley.newRequestQueue(this)
+        //code from https://stackoverflow.com/questions/72159435/how-to-get-location-using-fusedlocationclient-getcurrentlocation-method-in-kot
+        fusedLocationClient.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, object : CancellationToken() {
                 override fun onCanceledRequested(p0: OnTokenCanceledListener) = CancellationTokenSource().token
 
                 override fun isCancellationRequested() = false
@@ -244,8 +245,8 @@ class MainActivity : AppCompatActivity() {
                                 val item = indexes.getJSONObject(0)
                                 val aqi = item.getString("aqi")
                                 val category = item.getString("category")
-                                binding.contentMain.header?.inputAirQualityIndex?.text = aqi
-                                binding.contentMain.header?.inputAirQualityCategory?.text = category
+                                binding.contentMain.header.inputAirQualityIndex.text = aqi
+                                binding.contentMain.header.inputAirQualityCategory.text = category
 
                             } catch (e: Exception) {
                                 Log.v("testing", "ERROR ERROR 2")
