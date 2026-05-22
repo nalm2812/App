@@ -12,8 +12,10 @@ import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -42,6 +44,7 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.json.JSONObject
+import kotlin.getValue
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
@@ -50,6 +53,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
     private val url = "https://airquality.googleapis.com/v1/currentConditions:lookup?key=${API_KEY}"
+    private val viewModel: MainViewModel by viewModels()
+
 
     private var isPermitted: Boolean = false
 
@@ -233,7 +238,8 @@ class MainActivity : AppCompatActivity() {
                     postdata2.put("longitude", location.longitude)
                     val postdata = JSONObject()
                     postdata.put("location", postdata2)
-                    Log.v("testing", "latitude: ${location.latitude} and longitude; ${location.longitude}")
+                    viewModel.setLatitude(location.latitude)
+                    viewModel.setLongitude(location.longitude)
 
 
 

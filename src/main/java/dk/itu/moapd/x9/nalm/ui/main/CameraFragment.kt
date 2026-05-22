@@ -175,7 +175,6 @@ class CameraFragment: Fragment(R.layout.fragment_camera) {
             },
             onError = { message, _ ->
                 showSnackBar("Photo capture failed: $message")
-                Log.v("testing3", "Photo capture failed: $message")
             },
         )
     }
