@@ -38,6 +38,10 @@ import dk.itu.moapd.x9.nalm.R
 import dk.itu.moapd.x9.nalm.core.API_KEY
 import dk.itu.moapd.x9.nalm.ui.dialogs.UserInfoDialogFragment
 import dk.itu.moapd.x9.nalm.databinding.ActivityMainBinding
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
@@ -125,6 +129,7 @@ class MainActivity : AppCompatActivity() {
             getAndUpdateAirQuality()
         }
         //auth.currentUser ?: startLoginActivity()
+        startUpdates()
         Log.v("myTag", "onStart was called")
     }
     private fun locationPermission() {
@@ -164,6 +169,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStop(){
         super.onStop()
+        onStop()
         Log.v("myTag", "onStop was called")
     }
 
@@ -271,6 +277,24 @@ class MainActivity : AppCompatActivity() {
 
 
 
+    }
+
+    val scope = MainScope()
+    var job: Job? = null
+
+    fun startUpdates() {
+        stopUpdates()
+        job = scope.launch {
+            while(true) {
+                getAndUpdateAirQuality()
+                delay(10000)
+            }
+        }
+    }
+
+    fun stopUpdates() {
+        job?.cancel()
+        job = null
     }
 
 
