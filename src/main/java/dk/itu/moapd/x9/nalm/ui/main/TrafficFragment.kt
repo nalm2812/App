@@ -386,6 +386,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
                     viewModel.setTitle(editableBoxesTrafficReport.editTextReportTitle.text.toString())
                     val currentUserId = repository.currentUserId()
                     if (editableBoxesTrafficReport.editTextReportTitle.text.toString().trim().isNotEmpty() && currentUserId != null) {
+                        var imageName = (if (viewModel.filename.value==null) null else "${repository.currentUserId()}/${viewModel.filename.value}")
                         val model = TrafficReportModel(
                             title = editableBoxesTrafficReport.editTextReportTitle.text.toString(),
                             date = editableBoxesTrafficReport.editTextReportDate.text.toString(),
@@ -395,7 +396,7 @@ class TrafficFragment : Fragment(R.layout.fragment_traffic), SharedPreferences.O
                             createdAt = System.currentTimeMillis(),
                             latitude = latitude,
                             longitude = longitude,
-                            image = "${repository.currentUserId()}/${viewModel.filename.value}",
+                            image = imageName,
                             landscape = viewModel.isLandscape.value
                         )
                         repository.addTrafficReport(
