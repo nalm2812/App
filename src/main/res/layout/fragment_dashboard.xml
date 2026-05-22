@@ -7,9 +7,7 @@
     tools:context="dk.itu.moapd.x9.nalm.ui.main.DashboardFragment"
     android:orientation="vertical">
 
-    <include
-        android:id="@+id/header"
-        layout="@layout/air_quality_header" />
+
 
 
     <androidx.recyclerview.widget.RecyclerView

@@ -407,8 +407,8 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
                         val item = indexes.getJSONObject(0)
                         val aqi = item.getString("aqi")
                         val category = item.getString("category")
-                        binding.header.inputAirQualityIndex.text = aqi
-                        binding.header.inputAirQualityCategory.text = category
+                        //binding.header.inputAirQualityIndex.text = aqi
+                        //binding.header.inputAirQualityCategory.text = category
                     } catch (e: Exception) {
                         Log.v("testing", "ERROR ERROR 2")
                         e.printStackTrace()

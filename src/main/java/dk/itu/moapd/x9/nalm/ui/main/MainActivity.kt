@@ -15,11 +15,18 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.android.volley.DefaultRetryPolicy
+import com.android.volley.Request.Method
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.x9.nalm.ui.auth.LoginActivity
 import dk.itu.moapd.x9.nalm.R
+import dk.itu.moapd.x9.nalm.core.API_KEY
 import dk.itu.moapd.x9.nalm.ui.dialogs.UserInfoDialogFragment
 import dk.itu.moapd.x9.nalm.databinding.ActivityMainBinding
+import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
@@ -93,6 +100,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart(){
         super.onStart()
+        getAndUpdateAirQuality()
         //auth.currentUser ?: startLoginActivity()
         Log.v("myTag", "onStart was called")
     }
@@ -156,6 +164,54 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
+    private fun getAndUpdateAirQuality(){
+
+        val url = "https://airquality.googleapis.com/v1/currentConditions:lookup?key=${API_KEY}"
+        val requestQueue = Volley.newRequestQueue(this)
+
+        val postdata2 = JSONObject()
+        postdata2.put("latitude", 0)
+        postdata2.put("longitude", 1)
+        val postdata = JSONObject()
+        postdata.put("location", postdata2)
+
+
+
+
+        val stringRequest = object : JsonObjectRequest(Method.POST, url,
+            postdata, Response.Listener { response ->
+                try {
+                    val indexes = response.getJSONArray("indexes")
+                    val item = indexes.getJSONObject(0)
+                    val aqi = item.getString("aqi")
+                    val category = item.getString("category")
+                    //binding.contentMain.header?.inputAirQualityIndex?.text = aqi
+                    //binding.contentMain.header?.inputAirQualityCategory?.text = category
+                    //binding.contentMain.header?.inputAirQualityIndex?.text = "testing"
+                    //binding.contentMain.header?.inputAirQualityCategory?.text = "testing"
+                } catch (e: Exception) {
+                    Log.v("testing", "ERROR ERROR 2")
+                    e.printStackTrace()
+                }
+
+            },
+            Response.ErrorListener { error ->
+                Log.v("testing", "ERROR ERROR 1")
+                error.printStackTrace()
+            }) {
+
+        }
+
+        stringRequest.retryPolicy = DefaultRetryPolicy(
+            DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
+            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
+
+        requestQueue.add(stringRequest)
+
+
+    }
 
 
 }
