@@ -169,7 +169,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStop(){
         super.onStop()
-        onStop()
+        stopUpdates()
         Log.v("myTag", "onStop was called")
     }
 
