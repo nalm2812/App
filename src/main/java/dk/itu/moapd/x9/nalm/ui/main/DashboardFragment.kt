@@ -85,11 +85,6 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
         )
     }
 
-    private val unknown: String = "Unknown Value"
-
-
-
-
 
     private val serviceConnection = object : ServiceConnection {
 
@@ -109,14 +104,14 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
             val binder = service as LocationService.LocalBinder
             locationService = binder.service
             locationServiceBound = true
-
+            Log.v("testing", "idk anymore1")
             if (pendingStartTracking) {
                 locationService?.subscribeToLocationUpdates()
                 pendingStartTracking = false
             }
-
             locationService?.let { svc ->
                 viewLifecycleOwner.lifecycleScope.launch {
+                    Log.v("testing", "idk anymore2")
                     viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                         svc.locationUpdates.collect(::updateLocationDetails)
 
@@ -140,10 +135,12 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
         }
     }
     private fun updateLocationDetails(location: Location) {
+        Log.v("testing", "does this run?????")
         latitude = location.latitude.toString()
         longitude = location.longitude.toString()
         viewModel.setLatitude(location.latitude)
         viewModel.setLongitude(location.longitude)
+
     }
 
 
@@ -293,6 +290,8 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
 
     override fun onStop() {
         super.onStop()
+        stopUpdates()
+        Log.v("testing", "stop")
         if (locationServiceBound) {
             requireActivity().unbindService(serviceConnection)
             locationServiceBound = false
@@ -301,6 +300,8 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
         viewModel.setLatitude(null)
         viewModel.setLongitude(null)
+        latitude = null
+        longitude = null
 
         Log.v("myTag", "onStop Dashboard was called")
 
@@ -315,6 +316,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
     override fun onDestroyView() {
         super.onDestroyView()
         adapter = null
+        stopUpdates()
         if (locationServiceBound) {
             requireActivity().unbindService(serviceConnection)
             locationServiceBound = false
@@ -348,12 +350,11 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
     override fun onDestroy() {
         super.onDestroy()
         stopUpdates()
-
+        Log.v("testing", "stop")
         if (locationServiceBound) {
             requireActivity().unbindService(serviceConnection)
             locationServiceBound = false
         }
-
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
         Log.v("myTag", "onDestroy Dashboard was called")
 
@@ -399,54 +400,61 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), SharedPreferenc
 
 
 
+            val stringRequest = object : JsonObjectRequest(Method.POST, url,
+                postdata, Response.Listener { response ->
+                    try {
+                        val indexes = response.getJSONArray("indexes")
+                        val item = indexes.getJSONObject(0)
+                        val aqi = item.getString("aqi")
+                        val category = item.getString("category")
+                        binding.header.inputAirQualityIndex.text = aqi
+                        binding.header.inputAirQualityCategory.text = category
+                    } catch (e: Exception) {
+                        Log.v("testing", "ERROR ERROR 2")
+                        e.printStackTrace()
+                    }
 
-        val stringRequest = object : JsonObjectRequest(Method.POST, url,
-            postdata, Response.Listener { response ->
-                try {
-                    val indexes = response.getJSONArray("indexes")
-                    val item = indexes.getJSONObject(0)
-                    val aqi = item.getString("aqi")
-                    val category = item.getString("category")
-                    binding.header.inputAirQualityIndex.text = aqi
-                    binding.header.inputAirQualityCategory.text = category
-                } catch (e: Exception) {
-                    Log.v("testing", "ERROR ERROR 2")
-                    e.printStackTrace()
-                }
+                },
+                Response.ErrorListener { error ->
+                    Log.v("testing", "ERROR ERROR 1")
+                    error.printStackTrace()
+                }) {
 
-            },
-            Response.ErrorListener { error ->
-                Log.v("testing", "ERROR ERROR 1")
-                error.printStackTrace()
-            }) {
+            }
 
-        }
+            stringRequest.retryPolicy = DefaultRetryPolicy(
+                DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            )
 
-        stringRequest.retryPolicy = DefaultRetryPolicy(
-            DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
-            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-        )
+            requestQueue.add(stringRequest)
 
-        requestQueue.add(stringRequest)
+
     }
     //code from https://stackoverflow.com/questions/60672406/how-to-use-coroutine-in-kotlin-to-call-a-function-every-second
     val scope = MainScope()
     var job: Job? = null
 
     fun startUpdates() {
+        Log.v("testing", "start")
         stopUpdates()
         job = scope.launch {
             while(true) {
-                getAndUpdateAirQuality()
+                if (latitude!=null && longitude!=null) {
+                    getAndUpdateAirQuality()
+                }
                 delay(1000)
             }
         }
     }
 
     fun stopUpdates() {
-        job?.cancel()
-        job = null
+        if (job!=null){
+            job?.cancel()
+            job = null
+        }
+
     }
 
 
